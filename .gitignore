@@ -1,0 +1,10 @@
+SoccerX.API/bin/
+SoccerX.API/obj/
+SoccerX.Application/bin/
+SoccerX.Application/obj/
+SoccerX.Domain/bin/
+SoccerX.Domain/obj/
+SoccerX.Infrastructure/bin/
+SoccerX.Infrastructure/obj/
+SoccerX.Tests/bin/
+SoccerX.Tests/obj/
