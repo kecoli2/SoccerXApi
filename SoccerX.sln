@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerX.Domain", "SoccerX.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerX.Tests", "SoccerX.Tests\SoccerX.Tests.csproj", "{51510EF7-136F-4A30-AC03-C82BDA913B4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerX.Infrastructure", "SoccerX.Infrastructure\SoccerX.Infrastructure.csproj", "{B1295805-E063-4349-9370-0C00BA127FFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{51510EF7-136F-4A30-AC03-C82BDA913B4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51510EF7-136F-4A30-AC03-C82BDA913B4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51510EF7-136F-4A30-AC03-C82BDA913B4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1295805-E063-4349-9370-0C00BA127FFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1295805-E063-4349-9370-0C00BA127FFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1295805-E063-4349-9370-0C00BA127FFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1295805-E063-4349-9370-0C00BA127FFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
