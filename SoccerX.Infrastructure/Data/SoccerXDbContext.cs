@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using SoccerX.Infrastructure;
+using SoccerX.Domain.Entities;
 
 namespace SoccerX.Infrastructure.Data;
 
@@ -12,9 +12,9 @@ public partial class SoccerXDbContext : DbContext
     {
     }
 
-    public virtual DbSet<Auditlog> Auditlog { get; set; }
+    public virtual DbSet<AuditLogs> AuditLogs { get; set; }
 
-    public virtual DbSet<Betslips> Betslips { get; set; }
+    public virtual DbSet<BetSlips> BetSlips { get; set; }
 
     public virtual DbSet<Comments> Comments { get; set; }
 
@@ -24,7 +24,7 @@ public partial class SoccerXDbContext : DbContext
 
     public virtual DbSet<Payments> Payments { get; set; }
 
-    public virtual DbSet<Referralrewards> Referralrewards { get; set; }
+    public virtual DbSet<ReferralRewards> ReferralRewards { get; set; }
 
     public virtual DbSet<Subscriptions> Subscriptions { get; set; }
 
@@ -38,81 +38,70 @@ public partial class SoccerXDbContext : DbContext
     {
         modelBuilder
             .HasPostgresEnum("auditaction", new[] { "Create", "Update", "Delete", "Restore" })
+            .HasPostgresEnum("betslip_status", new[] { "Pending", "Won", "Lost" })
             .HasPostgresEnum("betslipstatus", new[] { "Pending", "Won", "Lost" })
+            .HasPostgresEnum("payment_status", new[] { "Pending", "Completed", "Failed" })
             .HasPostgresEnum("paymentmethod", new[] { "CreditCard", "PayPal", "Crypto" })
             .HasPostgresEnum("paymentstatus", new[] { "Pending", "Completed", "Failed", "Refunded" })
             .HasPostgresEnum("referralstatus", new[] { "Pending", "Paid" })
+            .HasPostgresEnum("transactions_type", new[] { "Deposit", "Withdrawal", "Subscription" })
             .HasPostgresEnum("transactiontype", new[] { "Deposit", "Withdrawal", "Subscription", "BetSlipPurchase" })
-            .HasPostgresEnum("userrole", new[] { "User", "Editor", "Admin" })
+            .HasPostgresEnum("userrole", new[] { "Admin", "User", "Guest" })
             .HasPostgresEnum("userstatus", new[] { "Active", "Banned" });
 
-        modelBuilder.Entity<Auditlog>(entity =>
+        modelBuilder.Entity<AuditLogs>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("auditlog_pkey");
+            entity.HasKey(e => e.Id).HasName("audit_logs_pkey");
 
-            entity.ToTable("auditlog");
+            entity.ToTable("audit_logs");
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")
                 .HasColumnName("id");
-            entity.Property(e => e.Createdate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("createdate");
-            entity.Property(e => e.Details).HasColumnName("details");
-            entity.Property(e => e.Entityid).HasColumnName("entityid");
-            entity.Property(e => e.Entityname)
+            entity.Property(e => e.Action)
                 .HasMaxLength(50)
-                .HasColumnName("entityname");
-            entity.Property(e => e.Isdeleted)
-                .HasDefaultValue(false)
-                .HasColumnName("isdeleted");
-            entity.Property(e => e.Performedby).HasColumnName("performedby");
-            entity.Property(e => e.Timestamp)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnName("action");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("timestamp");
-            entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("updatedate");
-
-            entity.HasOne(d => d.PerformedbyNavigation).WithMany(p => p.Auditlog)
-                .HasForeignKey(d => d.Performedby)
-                .HasConstraintName("auditlog_performedby_fkey");
+                .HasColumnName("create_date");
+            entity.Property(e => e.EntityName)
+                .HasMaxLength(50)
+                .HasColumnName("entity_name");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
         });
 
-        modelBuilder.Entity<Betslips>(entity =>
+        modelBuilder.Entity<BetSlips>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("betslips_pkey");
+            entity.HasKey(e => e.Id).HasName("bet_slips_pkey");
 
-            entity.ToTable("betslips");
+            entity.ToTable("bet_slips");
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")
                 .HasColumnName("id");
-            entity.Property(e => e.Createdate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("createdate");
-            entity.Property(e => e.Isdeleted)
+                .HasColumnName("create_date");
+            entity.Property(e => e.IsDeleted)
                 .HasDefaultValue(false)
-                .HasColumnName("isdeleted");
-            entity.Property(e => e.Ispremium)
+                .HasColumnName("is_deleted");
+            entity.Property(e => e.IsPremium)
                 .HasDefaultValue(false)
-                .HasColumnName("ispremium");
-            entity.Property(e => e.Likecount)
+                .HasColumnName("is_premium");
+            entity.Property(e => e.LikeCount)
                 .HasDefaultValue(0)
-                .HasColumnName("likecount");
-            entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnName("like_count");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("updatedate");
-            entity.Property(e => e.Userid).HasColumnName("userid");
+                .HasColumnName("update_date");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Betslips)
-                .HasForeignKey(d => d.Userid)
-                .HasConstraintName("betslips_userid_fkey");
+            entity.HasOne(d => d.User).WithMany(p => p.BetSlips)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("bet_slips_user_id_fkey");
         });
 
         modelBuilder.Entity<Comments>(entity =>
@@ -124,28 +113,28 @@ public partial class SoccerXDbContext : DbContext
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")
                 .HasColumnName("id");
-            entity.Property(e => e.Betslipid).HasColumnName("betslipid");
+            entity.Property(e => e.BetSlipId).HasColumnName("bet_slip_id");
             entity.Property(e => e.Content).HasColumnName("content");
-            entity.Property(e => e.Createdate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("createdate");
-            entity.Property(e => e.Isdeleted)
+                .HasColumnName("create_date");
+            entity.Property(e => e.IsDeleted)
                 .HasDefaultValue(false)
-                .HasColumnName("isdeleted");
-            entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnName("is_deleted");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("updatedate");
-            entity.Property(e => e.Userid).HasColumnName("userid");
+                .HasColumnName("update_date");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
 
-            entity.HasOne(d => d.Betslip).WithMany(p => p.Comments)
-                .HasForeignKey(d => d.Betslipid)
-                .HasConstraintName("comments_betslipid_fkey");
+            entity.HasOne(d => d.BetSlip).WithMany(p => p.Comments)
+                .HasForeignKey(d => d.BetSlipId)
+                .HasConstraintName("comments_bet_slip_id_fkey");
 
             entity.HasOne(d => d.User).WithMany(p => p.Comments)
-                .HasForeignKey(d => d.Userid)
-                .HasConstraintName("comments_userid_fkey");
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("comments_user_id_fkey");
         });
 
         modelBuilder.Entity<Likes>(entity =>
@@ -157,27 +146,27 @@ public partial class SoccerXDbContext : DbContext
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")
                 .HasColumnName("id");
-            entity.Property(e => e.Betslipid).HasColumnName("betslipid");
-            entity.Property(e => e.Createdate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            entity.Property(e => e.BetSlipId).HasColumnName("bet_slip_id");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("createdate");
-            entity.Property(e => e.Isdeleted)
+                .HasColumnName("create_date");
+            entity.Property(e => e.IsDeleted)
                 .HasDefaultValue(false)
-                .HasColumnName("isdeleted");
-            entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnName("is_deleted");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("updatedate");
-            entity.Property(e => e.Userid).HasColumnName("userid");
+                .HasColumnName("update_date");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
 
-            entity.HasOne(d => d.Betslip).WithMany(p => p.Likes)
-                .HasForeignKey(d => d.Betslipid)
-                .HasConstraintName("likes_betslipid_fkey");
+            entity.HasOne(d => d.BetSlip).WithMany(p => p.Likes)
+                .HasForeignKey(d => d.BetSlipId)
+                .HasConstraintName("likes_bet_slip_id_fkey");
 
             entity.HasOne(d => d.User).WithMany(p => p.Likes)
-                .HasForeignKey(d => d.Userid)
-                .HasConstraintName("likes_userid_fkey");
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("likes_user_id_fkey");
         });
 
         modelBuilder.Entity<Notifications>(entity =>
@@ -189,26 +178,26 @@ public partial class SoccerXDbContext : DbContext
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")
                 .HasColumnName("id");
-            entity.Property(e => e.Createdate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("createdate");
-            entity.Property(e => e.Isdeleted)
+                .HasColumnName("create_date");
+            entity.Property(e => e.IsDeleted)
                 .HasDefaultValue(false)
-                .HasColumnName("isdeleted");
-            entity.Property(e => e.Isread)
+                .HasColumnName("is_deleted");
+            entity.Property(e => e.IsRead)
                 .HasDefaultValue(false)
-                .HasColumnName("isread");
+                .HasColumnName("is_read");
             entity.Property(e => e.Message).HasColumnName("message");
-            entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("updatedate");
-            entity.Property(e => e.Userid).HasColumnName("userid");
+                .HasColumnName("update_date");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.User).WithMany(p => p.Notifications)
-                .HasForeignKey(d => d.Userid)
-                .HasConstraintName("notifications_userid_fkey");
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("notifications_user_id_fkey");
         });
 
         modelBuilder.Entity<Payments>(entity =>
@@ -223,33 +212,33 @@ public partial class SoccerXDbContext : DbContext
             entity.Property(e => e.Amount)
                 .HasPrecision(10, 2)
                 .HasColumnName("amount");
-            entity.Property(e => e.Createdate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("createdate");
-            entity.Property(e => e.Isdeleted)
+                .HasColumnName("create_date");
+            entity.Property(e => e.IsDeleted)
                 .HasDefaultValue(false)
-                .HasColumnName("isdeleted");
-            entity.Property(e => e.Paymentdate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnName("is_deleted");
+            entity.Property(e => e.PaymentDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("paymentdate");
-            entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnName("payment_date");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("updatedate");
-            entity.Property(e => e.Userid).HasColumnName("userid");
+                .HasColumnName("update_date");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.User).WithMany(p => p.Payments)
-                .HasForeignKey(d => d.Userid)
-                .HasConstraintName("payments_userid_fkey");
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("payments_user_id_fkey");
         });
 
-        modelBuilder.Entity<Referralrewards>(entity =>
+        modelBuilder.Entity<ReferralRewards>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("referralrewards_pkey");
+            entity.HasKey(e => e.Id).HasName("referral_rewards_pkey");
 
-            entity.ToTable("referralrewards");
+            entity.ToTable("referral_rewards");
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")
@@ -257,27 +246,15 @@ public partial class SoccerXDbContext : DbContext
             entity.Property(e => e.Amount)
                 .HasPrecision(10, 2)
                 .HasColumnName("amount");
-            entity.Property(e => e.Createdate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("createdate");
-            entity.Property(e => e.Isdeleted)
-                .HasDefaultValue(false)
-                .HasColumnName("isdeleted");
-            entity.Property(e => e.Referrerid).HasColumnName("referrerid");
-            entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("updatedate");
-            entity.Property(e => e.Userid).HasColumnName("userid");
+                .HasColumnName("create_date");
+            entity.Property(e => e.ReferrerId).HasColumnName("referrer_id");
 
-            entity.HasOne(d => d.Referrer).WithMany(p => p.ReferralrewardsReferrer)
-                .HasForeignKey(d => d.Referrerid)
-                .HasConstraintName("referralrewards_referrerid_fkey");
-
-            entity.HasOne(d => d.User).WithMany(p => p.ReferralrewardsUser)
-                .HasForeignKey(d => d.Userid)
-                .HasConstraintName("referralrewards_userid_fkey");
+            entity.HasOne(d => d.Referrer).WithMany(p => p.ReferralRewards)
+                .HasForeignKey(d => d.ReferrerId)
+                .HasConstraintName("referral_rewards_referrer_id_fkey");
         });
 
         modelBuilder.Entity<Subscriptions>(entity =>
@@ -289,36 +266,37 @@ public partial class SoccerXDbContext : DbContext
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")
                 .HasColumnName("id");
-            entity.Property(e => e.Createdate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("createdate");
-            entity.Property(e => e.Editorid).HasColumnName("editorid");
-            entity.Property(e => e.Enddate)
+                .HasColumnName("create_date");
+            entity.Property(e => e.EditorId).HasColumnName("editor_id");
+            entity.Property(e => e.EndDate)
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("enddate");
-            entity.Property(e => e.Isactive)
+                .HasColumnName("end_date");
+            entity.Property(e => e.IsActive)
                 .HasDefaultValue(true)
-                .HasColumnName("isactive");
-            entity.Property(e => e.Isdeleted)
+                .HasColumnName("is_active");
+            entity.Property(e => e.IsDeleted)
                 .HasDefaultValue(false)
-                .HasColumnName("isdeleted");
-            entity.Property(e => e.Startdate)
+                .HasColumnName("is_deleted");
+            entity.Property(e => e.StartDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("startdate");
-            entity.Property(e => e.Subscriberid).HasColumnName("subscriberid");
-            entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnName("start_date");
+            entity.Property(e => e.SubscriberId).HasColumnName("subscriber_id");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("updatedate");
+                .HasColumnName("update_date");
 
             entity.HasOne(d => d.Editor).WithMany(p => p.SubscriptionsEditor)
-                .HasForeignKey(d => d.Editorid)
-                .HasConstraintName("subscriptions_editorid_fkey");
+                .HasForeignKey(d => d.EditorId)
+                .HasConstraintName("subscriptions_editor_id_fkey");
 
             entity.HasOne(d => d.Subscriber).WithMany(p => p.SubscriptionsSubscriber)
-                .HasForeignKey(d => d.Subscriberid)
-                .HasConstraintName("subscriptions_subscriberid_fkey");
+                .HasForeignKey(d => d.SubscriberId)
+                .HasConstraintName("subscriptions_subscriber_id_fkey");
         });
 
         modelBuilder.Entity<Teams>(entity =>
@@ -327,31 +305,30 @@ public partial class SoccerXDbContext : DbContext
 
             entity.ToTable("teams");
 
-            entity.HasIndex(e => e.Name, "teams_name_key").IsUnique();
-
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")
                 .HasColumnName("id");
             entity.Property(e => e.Country)
                 .HasMaxLength(50)
                 .HasColumnName("country");
-            entity.Property(e => e.Createdate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("createdate");
-            entity.Property(e => e.Isdeleted)
+                .HasColumnName("create_date");
+            entity.Property(e => e.IsDeleted)
                 .HasDefaultValue(false)
-                .HasColumnName("isdeleted");
+                .HasColumnName("is_deleted");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");
             entity.Property(e => e.Tags)
+                .HasDefaultValueSql("'{}'::jsonb")
                 .HasColumnType("jsonb")
                 .HasColumnName("tags");
-            entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("updatedate");
+                .HasColumnName("update_date");
         });
 
         modelBuilder.Entity<Transactions>(entity =>
@@ -366,23 +343,23 @@ public partial class SoccerXDbContext : DbContext
             entity.Property(e => e.Amount)
                 .HasPrecision(10, 2)
                 .HasColumnName("amount");
-            entity.Property(e => e.Createdate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("createdate");
-            entity.Property(e => e.Isdeleted)
+                .HasColumnName("create_date");
+            entity.Property(e => e.IsDeleted)
                 .HasDefaultValue(false)
-                .HasColumnName("isdeleted");
-            entity.Property(e => e.Referenceid).HasColumnName("referenceid");
-            entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnName("is_deleted");
+            entity.Property(e => e.ReferenceId).HasColumnName("reference_id");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("updatedate");
-            entity.Property(e => e.Userid).HasColumnName("userid");
+                .HasColumnName("update_date");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.User).WithMany(p => p.Transactions)
-                .HasForeignKey(d => d.Userid)
-                .HasConstraintName("transactions_userid_fkey");
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("transactions_user_id_fkey");
         });
 
         modelBuilder.Entity<Users>(entity =>
@@ -398,100 +375,100 @@ public partial class SoccerXDbContext : DbContext
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")
                 .HasColumnName("id");
-            entity.Property(e => e.Banenddate)
+            entity.Property(e => e.BanEndDate)
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("banenddate");
-            entity.Property(e => e.Createdate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnName("ban_end_date");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("createdate");
+                .HasColumnName("create_date");
             entity.Property(e => e.Email)
                 .HasMaxLength(100)
                 .HasColumnName("email");
-            entity.Property(e => e.Isdeleted)
+            entity.Property(e => e.IsDeleted)
                 .HasDefaultValue(false)
-                .HasColumnName("isdeleted");
-            entity.Property(e => e.Passwordhash).HasColumnName("passwordhash");
-            entity.Property(e => e.Referraluserid).HasColumnName("referraluserid");
-            entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnName("is_deleted");
+            entity.Property(e => e.PasswordHash).HasColumnName("password_hash");
+            entity.Property(e => e.ReferralUserId).HasColumnName("referral_user_id");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("updatedate");
+                .HasColumnName("update_date");
             entity.Property(e => e.Username)
                 .HasMaxLength(50)
                 .HasColumnName("username");
 
-            entity.HasOne(d => d.Referraluser).WithMany(p => p.InverseReferraluser)
-                .HasForeignKey(d => d.Referraluserid)
+            entity.HasOne(d => d.ReferralUser).WithMany(p => p.InverseReferralUser)
+                .HasForeignKey(d => d.ReferralUserId)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("users_referraluserid_fkey");
+                .HasConstraintName("fk_referral_user");
 
             entity.HasMany(d => d.Blocked).WithMany(p => p.Blocker)
                 .UsingEntity<Dictionary<string, object>>(
-                    "Blockedusers",
+                    "BlockedUsers",
                     r => r.HasOne<Users>().WithMany()
-                        .HasForeignKey("Blockedid")
-                        .HasConstraintName("blockedusers_blockedid_fkey"),
+                        .HasForeignKey("BlockedId")
+                        .HasConstraintName("blocked_users_blocked_id_fkey"),
                     l => l.HasOne<Users>().WithMany()
-                        .HasForeignKey("Blockerid")
-                        .HasConstraintName("blockedusers_blockerid_fkey"),
+                        .HasForeignKey("BlockerId")
+                        .HasConstraintName("blocked_users_blocker_id_fkey"),
                     j =>
                     {
-                        j.HasKey("Blockerid", "Blockedid").HasName("blockedusers_pkey");
-                        j.ToTable("blockedusers");
-                        j.IndexerProperty<Guid>("Blockerid").HasColumnName("blockerid");
-                        j.IndexerProperty<Guid>("Blockedid").HasColumnName("blockedid");
+                        j.HasKey("BlockerId", "BlockedId").HasName("blocked_users_pkey");
+                        j.ToTable("blocked_users");
+                        j.IndexerProperty<Guid>("BlockerId").HasColumnName("blocker_id");
+                        j.IndexerProperty<Guid>("BlockedId").HasColumnName("blocked_id");
                     });
 
             entity.HasMany(d => d.Blocker).WithMany(p => p.Blocked)
                 .UsingEntity<Dictionary<string, object>>(
-                    "Blockedusers",
+                    "BlockedUsers",
                     r => r.HasOne<Users>().WithMany()
-                        .HasForeignKey("Blockerid")
-                        .HasConstraintName("blockedusers_blockerid_fkey"),
+                        .HasForeignKey("BlockerId")
+                        .HasConstraintName("blocked_users_blocker_id_fkey"),
                     l => l.HasOne<Users>().WithMany()
-                        .HasForeignKey("Blockedid")
-                        .HasConstraintName("blockedusers_blockedid_fkey"),
+                        .HasForeignKey("BlockedId")
+                        .HasConstraintName("blocked_users_blocked_id_fkey"),
                     j =>
                     {
-                        j.HasKey("Blockerid", "Blockedid").HasName("blockedusers_pkey");
-                        j.ToTable("blockedusers");
-                        j.IndexerProperty<Guid>("Blockerid").HasColumnName("blockerid");
-                        j.IndexerProperty<Guid>("Blockedid").HasColumnName("blockedid");
+                        j.HasKey("BlockerId", "BlockedId").HasName("blocked_users_pkey");
+                        j.ToTable("blocked_users");
+                        j.IndexerProperty<Guid>("BlockerId").HasColumnName("blocker_id");
+                        j.IndexerProperty<Guid>("BlockedId").HasColumnName("blocked_id");
                     });
 
             entity.HasMany(d => d.Follower).WithMany(p => p.Following)
                 .UsingEntity<Dictionary<string, object>>(
                     "Followers",
                     r => r.HasOne<Users>().WithMany()
-                        .HasForeignKey("Followerid")
-                        .HasConstraintName("followers_followerid_fkey"),
+                        .HasForeignKey("FollowerId")
+                        .HasConstraintName("followers_follower_id_fkey"),
                     l => l.HasOne<Users>().WithMany()
-                        .HasForeignKey("Followingid")
-                        .HasConstraintName("followers_followingid_fkey"),
+                        .HasForeignKey("FollowingId")
+                        .HasConstraintName("followers_following_id_fkey"),
                     j =>
                     {
-                        j.HasKey("Followerid", "Followingid").HasName("followers_pkey");
+                        j.HasKey("FollowerId", "FollowingId").HasName("followers_pkey");
                         j.ToTable("followers");
-                        j.IndexerProperty<Guid>("Followerid").HasColumnName("followerid");
-                        j.IndexerProperty<Guid>("Followingid").HasColumnName("followingid");
+                        j.IndexerProperty<Guid>("FollowerId").HasColumnName("follower_id");
+                        j.IndexerProperty<Guid>("FollowingId").HasColumnName("following_id");
                     });
 
             entity.HasMany(d => d.Following).WithMany(p => p.Follower)
                 .UsingEntity<Dictionary<string, object>>(
                     "Followers",
                     r => r.HasOne<Users>().WithMany()
-                        .HasForeignKey("Followingid")
-                        .HasConstraintName("followers_followingid_fkey"),
+                        .HasForeignKey("FollowingId")
+                        .HasConstraintName("followers_following_id_fkey"),
                     l => l.HasOne<Users>().WithMany()
-                        .HasForeignKey("Followerid")
-                        .HasConstraintName("followers_followerid_fkey"),
+                        .HasForeignKey("FollowerId")
+                        .HasConstraintName("followers_follower_id_fkey"),
                     j =>
                     {
-                        j.HasKey("Followerid", "Followingid").HasName("followers_pkey");
+                        j.HasKey("FollowerId", "FollowingId").HasName("followers_pkey");
                         j.ToTable("followers");
-                        j.IndexerProperty<Guid>("Followerid").HasColumnName("followerid");
-                        j.IndexerProperty<Guid>("Followingid").HasColumnName("followingid");
+                        j.IndexerProperty<Guid>("FollowerId").HasColumnName("follower_id");
+                        j.IndexerProperty<Guid>("FollowingId").HasColumnName("following_id");
                     });
         });
 

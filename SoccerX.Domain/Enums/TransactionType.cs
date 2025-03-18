@@ -6,7 +6,7 @@ namespace SoccerX.Domain.Enums;
 
 public enum TransactionType
 {
-    Deposit = 0,
-    Withdrawal = 1,
-    Subscription = 2
+    Deposit,
+    Withdrawal,
+    Subscription
 }

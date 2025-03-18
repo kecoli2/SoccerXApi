@@ -9,3 +9,5 @@ SoccerX.Infrastructure/obj/
 SoccerX.Tests/bin/
 SoccerX.Tests/obj/
 .vs/
+Test.Console/obj/
+Test.Console/bin/
