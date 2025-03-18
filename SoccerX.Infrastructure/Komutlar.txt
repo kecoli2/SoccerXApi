@@ -1,0 +1,1 @@
+﻿dotnet ef dbcontext scaffold "Host=localhost;Port=5432;Database=SoccerXDB;Username=postgres;Password=kecoli2;" Npgsql.EntityFrameworkCore.PostgreSQL --context SoccerXDbContext --force --no-onconfiguring --no-pluralize --output-dir ../SoccerX.Domain/Entities --context-dir Data
