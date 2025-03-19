@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Npgsql.NameTranslation;
 using SoccerX.Domain.Entities;
 using SoccerX.Domain.Enums;
 using System;
@@ -12,13 +13,13 @@ namespace SoccerX.Infrastructure.Data
     public partial class SoccerXDbContext
     {
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
-        {
-            modelBuilder.HasPostgresEnum<UserRole>("userrole");
+        {      
+            modelBuilder.HasPostgresEnum<UserStatus>(name: "userstatus");           
             modelBuilder.Entity<Users>(entity =>
             {
-                entity.Property(e => e.Role)
-                .HasColumnName("role")
-                .HasColumnType("userrole");
+                entity.Property(e => e.Status)
+                .HasColumnType("userstatus")                
+                .HasColumnName("status");
             });
         }
     }

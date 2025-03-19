@@ -2,14 +2,21 @@
 
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
+using Npgsql.NameTranslation;
 using SoccerX.Domain.Entities;
 using SoccerX.Domain.Enums;
+using SoccerX.Infrastructure;
 using SoccerX.Infrastructure.Data;
+using SoccerX.Infrastructure.Util;
+using SoccerX.Persistence.Util;
 using System;
 
 
+var dataSourceBuilder = new NpgsqlDataSourceBuilder("Host=localhost;Port=5432;Database=SoccerXDB;Username=postgres;Password=kecoli2");
+dataSourceBuilder.NpgsqlToEnumMapRegisterAll();
+var dataSource = dataSourceBuilder.Build();
 var optionsBuilder = new DbContextOptionsBuilder<SoccerXDbContext>();
-optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=SoccerXDB;Username=postgres;Password=kecoli2", o=> o.MapEnum<UserRole>());
+optionsBuilder.UseNpgsql(dataSource, o=> o.NpgsqlToEnumMapRegisterAll());
 
 using (var context = new SoccerXDbContext(optionsBuilder.Options))
 {
@@ -17,17 +24,16 @@ using (var context = new SoccerXDbContext(optionsBuilder.Options))
     {
         Id = Guid.NewGuid(),
         Username = "johndoe",
-        Email = "",
+        Email = "45646546",
         Passwordhash = "ddasdasdsada",
-        Role = UserRole.Admin,
+        Status = UserStatus.Banned
     };
 
 
     context.Users.Add(users);
     context.SaveChanges();
-
 }
 
 
 
-    Console.WriteLine("Hello, World!");
+Console.WriteLine("Hello, World!");

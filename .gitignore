@@ -11,3 +11,7 @@ SoccerX.Tests/obj/
 .vs/
 Test.Console/obj/
 Test.Console/bin/
+SoccerX.DTO/bin/
+SoccerX.DTO/obj/
+SoccerX.Persistence/bin/
+SoccerX.Persistence/obj/
