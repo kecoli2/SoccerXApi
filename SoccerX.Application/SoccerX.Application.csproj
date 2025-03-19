@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="11.11.0" />
-    <PackageReference Include="MediatR" Version="12.4.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SoccerX.Domain\SoccerX.Domain.csproj" />
     <ProjectReference Include="..\SoccerX.DTO\SoccerX.DTO.csproj" />
     <ProjectReference Include="..\SoccerX.Persistence\SoccerX.Persistence.csproj" />
@@ -23,6 +18,12 @@
     <Folder Include="Services\" />
     <Folder Include="Validators\" />
     <Folder Include="Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
   </ItemGroup>
 
 </Project>
