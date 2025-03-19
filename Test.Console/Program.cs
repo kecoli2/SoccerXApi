@@ -6,8 +6,8 @@ using Npgsql.NameTranslation;
 using SoccerX.Domain.Entities;
 using SoccerX.Domain.Enums;
 using SoccerX.Infrastructure;
-using SoccerX.Infrastructure.Data;
 using SoccerX.Infrastructure.Util;
+using SoccerX.Persistence.Context;
 using SoccerX.Persistence.Util;
 using System;
 
@@ -26,7 +26,8 @@ using (var context = new SoccerXDbContext(optionsBuilder.Options))
         Username = "johndoe",
         Email = "45646546",
         Passwordhash = "ddasdasdsada",
-        Status = UserStatus.Banned
+        Status = UserStatus.Banned,
+        Role = UserRole.Editor
     };
 
 

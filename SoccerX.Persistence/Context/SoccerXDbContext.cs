@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using SoccerX.Domain.Entities;
 
-namespace SoccerX.Infrastructure.Data;
+namespace SoccerX.Persistence.Context;
 
 public partial class SoccerXDbContext : DbContext
 {
@@ -44,7 +44,7 @@ public partial class SoccerXDbContext : DbContext
             .HasPostgresEnum("referralstatus", new[] { "Pending", "Paid" })
             .HasPostgresEnum("transactiontype", new[] { "Deposit", "Withdrawal", "Subscription", "BetSlipPurchase" })
             .HasPostgresEnum("userrole", new[] { "User", "Editor", "Admin" })
-            .HasPostgresEnum("userstatus", new[] { "Active", "Banned" });
+            .HasPostgresEnum("userstatus", new[] { "Active", "Banned", "active" });
 
         modelBuilder.Entity<Auditlog>(entity =>
         {

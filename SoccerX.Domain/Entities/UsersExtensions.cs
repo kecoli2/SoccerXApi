@@ -8,7 +8,7 @@ namespace SoccerX.Domain.Entities
 {
     public partial class Users
     {
-        //public UserRole Role { get; set; }
+        public UserRole Role { get; set; }
         public UserStatus Status { get; set; }
     }
 }
