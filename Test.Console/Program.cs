@@ -2,21 +2,63 @@
 
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
-using Npgsql.NameTranslation;
-using SoccerX.Domain.Entities;
-using SoccerX.Domain.Enums;
-using SoccerX.Infrastructure;
-using SoccerX.Infrastructure.Util;
+using SoccerX.Common.Configuration;
+using SoccerX.Common.Extensions;
+using SoccerX.Common.Helpers;
 using SoccerX.Persistence.Context;
 using SoccerX.Persistence.Util;
-using System;
 
+var applicationSettings = new ApplicationSettings
+{
 
-var dataSourceBuilder = new NpgsqlDataSourceBuilder("Host=localhost;Port=5432;Database=SoccerXDB;Username=postgres;Password=kecoli2");
+    Quartz = new QuartzSettings
+    {
+        Enabled = true,
+        JobStoreType = "Database",
+        MaxConcurrency = 5,
+        MisfireThreshold = 60000,
+        StartOnStartup = true,
+        TriggerCheckInterval = 10
+    },
+
+    RateLimit = new RateLimitSettings
+    {
+        Limit = 100,
+        Enabled = true,
+        BlockOnLimit = true,
+        GlobalLimit = false,
+        LimitExceededMessage = "Rate limit exceeded",
+        PeriodInSeconds = 60,
+    },
+
+    Redis = new RedisSettings
+    {
+        Database = 0,
+        Host = "localhost",
+        MasterName = "mymaster",
+        Password = "",
+        Port = 6379,
+        SentinelHosts = Array.Empty<string>(),
+        UseSentinel = false,
+        UseSsl = false
+    }
+};
+
+var dataSourceBuilder = new NpgsqlDataSourceBuilder(applicationSettings.GetDatabaseConnectionString());
 dataSourceBuilder.NpgsqlToEnumMapRegisterAll();
 var dataSource = dataSourceBuilder.Build();
 var optionsBuilder = new DbContextOptionsBuilder<SoccerXDbContext>();
-optionsBuilder.UseNpgsql(dataSource, o=> o.NpgsqlToEnumMapRegisterAll());
+optionsBuilder.UseNpgsql(dataSource, o =>
+{
+    o.NpgsqlToEnumMapRegisterAll();    
+});
+
+
+var jsonStrimgs = applicationSettings.ToJson().MinifyJson();
+var jsonEncrypt = jsonStrimgs.Encrypt();
+
+var jsonDecrypt = jsonEncrypt.Decrypt();
+
 
 using (var context = new SoccerXDbContext(optionsBuilder.Options))
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,6 +35,23 @@ namespace SoccerX.Common.Configuration
         #endregion
 
         #region Public Methods
+        public string GetDatabaseConnectionString()
+        {
+            if (Database == null)
+                throw new ArgumentNullException(nameof(Database), "Database settings cannot be null.");
+
+            return $"Host={Database.Host};" +
+                   $"Port={Database.Port};" +
+                   $"Database={Database.DatabaseName};" +
+                   $"Username={Database.Username};" +
+                   $"Password={Database.Password};" +
+            $"Pooling=true;" +
+                   $"MinPoolSize={Database.MinPoolSize};" +
+                   $"MaxPoolSize={Database.MaxPoolSize};" +
+                   $"Timeout={Database.ConnectionTimeout};" +
+                   $"CommandTimeout={Database.CommandTimeout};" +
+                   $"SslMode={(Database.UseSsl ? "Require" : "Disable")};";
+        }
         #endregion
 
         #region Private Methods
@@ -43,3 +61,5 @@ namespace SoccerX.Common.Configuration
         #endregion
     }
 }
+
+

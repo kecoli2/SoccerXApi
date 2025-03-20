@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SoccerX.Common\SoccerX.Common.csproj" />
     <ProjectReference Include="..\SoccerX.Persistence\SoccerX.Persistence.csproj" />
   </ItemGroup>
 

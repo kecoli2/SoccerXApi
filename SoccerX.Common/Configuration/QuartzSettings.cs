@@ -24,12 +24,6 @@ namespace SoccerX.Common.Configuration
         public string JobStoreType { get; set; } = "Memory";
 
         /// <summary>
-        /// Connection string for Quartz when using a database job store.
-        /// Ignored if JobStoreType is "Memory".
-        /// </summary>
-        public string ConnectionString { get; set; } = "";
-
-        /// <summary>
         /// Determines whether Quartz should start jobs automatically on application startup.
         /// </summary>
         public bool StartOnStartup { get; set; } = true;
