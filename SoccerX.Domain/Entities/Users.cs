@@ -17,6 +17,8 @@ public partial class Users
 
     public Guid? Referraluserid { get; set; }
 
+    public int Followercount { get; set; }
+
     public DateTime? Createdate { get; set; }
 
     public DateTime? Updatedate { get; set; }

@@ -19,7 +19,9 @@ namespace SoccerX.Persistence.Util
         {
             builder
                 .MapEnum<UserRole>("userrole")
-                .MapEnum<UserStatus>("userstatus");
+                .MapEnum<UserStatus>("userstatus")
+                .MapEnum<BetSlipStatus>("betslipstatus")
+                .MapEnum<AuditAction>("auditaction");
         }
 
         public static void NpgsqlToEnumMapRegisterAll(this NpgsqlDataSourceBuilder builder)
@@ -27,7 +29,11 @@ namespace SoccerX.Persistence.Util
             builder
             .MapEnum<UserRole>("userrole", new NpgSqlEnumTranslater())
             .MapEnum<UserStatus>("userstatus", new NpgSqlEnumTranslater())
-            .MapComposite<Users>();
+            .MapEnum<AuditAction>("auditaction", new NpgSqlEnumTranslater())
+            .MapEnum<BetSlipStatus>("betslipstatus", new NpgSqlEnumTranslater())
+            .MapComposite<Users>()
+            .MapComposite<Betslips>()
+            .MapComposite<Auditlog>();
         }
         #endregion
 

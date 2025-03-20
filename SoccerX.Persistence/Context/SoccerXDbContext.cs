@@ -44,7 +44,7 @@ public partial class SoccerXDbContext : DbContext
             .HasPostgresEnum("referralstatus", new[] { "Pending", "Paid" })
             .HasPostgresEnum("transactiontype", new[] { "Deposit", "Withdrawal", "Subscription", "BetSlipPurchase" })
             .HasPostgresEnum("userrole", new[] { "User", "Editor", "Admin" })
-            .HasPostgresEnum("userstatus", new[] { "Active", "Banned", "active" });
+            .HasPostgresEnum("userstatus", new[] { "Active", "Banned" });
 
         modelBuilder.Entity<Auditlog>(entity =>
         {
@@ -91,6 +91,9 @@ public partial class SoccerXDbContext : DbContext
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")
                 .HasColumnName("id");
+            entity.Property(e => e.Commentcount)
+                .HasDefaultValue(0)
+                .HasColumnName("commentcount");
             entity.Property(e => e.Createdate)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
@@ -408,6 +411,9 @@ public partial class SoccerXDbContext : DbContext
             entity.Property(e => e.Email)
                 .HasMaxLength(100)
                 .HasColumnName("email");
+            entity.Property(e => e.Followercount)
+                .HasDefaultValue(0)
+                .HasColumnName("followercount");
             entity.Property(e => e.Isdeleted)
                 .HasDefaultValue(false)
                 .HasColumnName("isdeleted");

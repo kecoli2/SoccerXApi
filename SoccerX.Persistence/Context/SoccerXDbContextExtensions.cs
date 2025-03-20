@@ -20,6 +20,22 @@ namespace SoccerX.Persistence.Context
                 .HasColumnName("role")
                 .IsRequired();
             });
+
+            modelBuilder.Entity<Auditlog>(entity =>
+            {
+                entity.Property(e => e.Action)
+                .HasColumnType("auditaction")
+                .HasColumnName("action")
+                .IsRequired();
+            });
+
+            modelBuilder.Entity<Betslips>(entity =>
+            {
+                entity.Property(e => e.Status)
+                .HasColumnType("betslipstatus")
+                .HasColumnName("status")
+                .IsRequired();
+            });
         }
     }
 }

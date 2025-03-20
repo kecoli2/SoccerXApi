@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SoccerX.Domain.Enums;
+﻿namespace SoccerX.Domain.Enums;
 
 public enum TransactionType
 {
