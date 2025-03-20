@@ -7,11 +7,12 @@ namespace SoccerX.Persistence.Context
     public partial class SoccerXDbContext
     {
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
-        {            
+        {
+
             modelBuilder.Entity<Users>(entity =>
             {
                 entity.Property(e => e.Status)
-                .HasColumnType("userstatus")                
+                .HasColumnType("userstatus")
                 .HasColumnName("status")
                 .IsRequired();
 
