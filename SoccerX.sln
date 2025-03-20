@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerX.DTO", "SoccerX.DTO\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerX.Persistence", "SoccerX.Persistence\SoccerX.Persistence.csproj", "{80A4CC6B-08CB-42A8-B98E-E5491E9EB13E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerX.Common", "SoccerX.Common\SoccerX.Common.csproj", "{D2AE398A-4557-4488-A9AF-67E6E9E7642D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{80A4CC6B-08CB-42A8-B98E-E5491E9EB13E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80A4CC6B-08CB-42A8-B98E-E5491E9EB13E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80A4CC6B-08CB-42A8-B98E-E5491E9EB13E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2AE398A-4557-4488-A9AF-67E6E9E7642D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2AE398A-4557-4488-A9AF-67E6E9E7642D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2AE398A-4557-4488-A9AF-67E6E9E7642D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2AE398A-4557-4488-A9AF-67E6E9E7642D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

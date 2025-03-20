@@ -9,23 +9,7 @@ namespace SoccerX.Infrastructure.Util
 {
     public class NpgSqlEnumTranslater : INpgsqlNameTranslator
     {
-        public string TranslateMemberName(string clrName)
-        {
-            if (1 == 1) { 
-            
-            }
-
-            return clrName;
-        }
-
-        public string TranslateTypeName(string clrName)
-        {
-            if (1 == 1)
-            {
-
-            }
-
-            return clrName;
-        }
+        public string TranslateMemberName(string clrName) => clrName;
+        public string TranslateTypeName(string clrName) => clrName;        
     }
 }

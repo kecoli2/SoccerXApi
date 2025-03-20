@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SoccerX.Common\SoccerX.Common.csproj" />
     <ProjectReference Include="..\SoccerX.Domain\SoccerX.Domain.csproj" />
     <ProjectReference Include="..\SoccerX.DTO\SoccerX.DTO.csproj" />
     <ProjectReference Include="..\SoccerX.Persistence\SoccerX.Persistence.csproj" />

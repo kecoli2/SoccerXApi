@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SoccerX.Common\SoccerX.Common.csproj" />
     <ProjectReference Include="..\SoccerX.Domain\SoccerX.Domain.csproj" />
   </ItemGroup>
 
