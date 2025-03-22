@@ -1,1 +1,8 @@
 ﻿dotnet ef dbcontext scaffold "Host=localhost;Port=5432;Database=SoccerXDB;Username=postgres;Password=kecoli2;" Npgsql.EntityFrameworkCore.PostgreSQL --context TestSoccerXDbContext --force --no-onconfiguring --no-pluralize --output-dir ../SoccerX.Domain/Entities --context-dir Context\TestContext --namespace SoccerX.Domain.Entities --context-namespace SoccerX.Persistence.Context.TestContext
+
+//DB YEDEK ALIR
+
+set PGPASSWORD=kecoli2
+"C:\Program Files\PostgreSQL\17\bin\pg_dump.exe" -U postgres -s SoccerXDB > C:\yedekler\schema_dump.sql
+
+
