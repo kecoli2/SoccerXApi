@@ -5,6 +5,8 @@ using Npgsql;
 using SoccerX.Common.Configuration;
 using SoccerX.Common.Extensions;
 using SoccerX.Common.Helpers;
+using SoccerX.Domain.Entities;
+using SoccerX.Domain.Enums;
 using SoccerX.Persistence.Context;
 using SoccerX.Persistence.Util;
 
@@ -62,39 +64,50 @@ var jsonDecrypt = jsonEncrypt.Decrypt();
 
 using (var context = new SoccerXDbContext(optionsBuilder.Options))
 {
-    //var users = new List<Users>();
-    //var usersFirst = new Users
-    //{
-    //    Id = Guid.NewGuid(),
-    //    Username = "johndoe",
-    //    Email = "45646546",
-    //    Passwordhash = "ddasdasdsada",
-    //    Status = UserStatus.Active,
-    //    Role = UserRole.Editor
-    //};
+    var users = new List<Users>();
+    var country = context.Countries.Take(1).First();
+    var cities = context.Cities.Take(1).First();
+    var usersFirst = new Users
+    {
+        Id = Guid.NewGuid(),
+        Username = "johndoe",
+        Email = "45646546",
+        Passwordhash = "ddasdasdsada",
+        Status = UserStatus.Active,
+        Role = UserRole.Editor,
+        Address = "asdasdasd",
+        Phonenumber = "123123123123",
+        Countryid = country.Id,
+        Cityid = cities.Id
+    };
 
-    //var usersSecond = new Users
-    //{
-    //    Id = Guid.NewGuid(),
-    //    Username = "johndoeadsdsds",
-    //    Email = "45646546ddddddd",
-    //    Passwordhash = "ddasdasdsada",
-    //    Status = UserStatus.Active,
-    //    Role = UserRole.Editor
-    //};
-
-    //users.Add(usersFirst);
-    //users.Add(usersSecond);
-    //context.Users.AddRange(users);
-
-    var user = context.Users.Where(x => x.Username == "johndoe").First();
-
-    var user2 = context.Users.Where(x => x.Username == "johndoeadsdsds").First();
+    var usersSecond = new Users
+    {
+        Id = Guid.NewGuid(),
+        Username = "johndoeadsdsds",
+        Email = "45646546ddddddd",
+        Passwordhash = "ddasdasdsada",
+        Status = UserStatus.Active,
+        Role = UserRole.Editor,
+        Address = "asdasdasd",
+        Phonenumber = "123123178123",
+        Countryid = country.Id,
+        Cityid = cities.Id
+    };
 
 
-    user.Blocked.Add(user2);
+    users.Add(usersFirst);
+    users.Add(usersSecond);
+    context.Users.AddRange(users);
 
-    context.Users.Update(user!);
+    //var user = context.Users.Where(x => x.Username == "johndoe").FirstOrDefault();
+
+    //var user2 = context.Users.Where(x => x.Username == "johndoeadsdsds").FirstOrDefault();
+
+
+    //user.Blocked.Add(user2);
+
+    //context.Users.Update(user!);
 
     context.SaveChanges();
 }

@@ -18,22 +18,33 @@ namespace SoccerX.Persistence.Util
         public static void NpgsqlToEnumMapRegisterAll(this NpgsqlDbContextOptionsBuilder builder)
         {
             builder
-                .MapEnum<UserRole>("userrole")
-                .MapEnum<UserStatus>("userstatus")
+                .MapEnum<AuditAction>("auditaction")
                 .MapEnum<BetSlipStatus>("betslipstatus")
-                .MapEnum<AuditAction>("auditaction");
+                .MapEnum<PaymentMethod>("paymentmethod")
+                .MapEnum<PaymentStatus>("paymentstatus")
+                .MapEnum<ReferralStatus>("referralstatus")
+                .MapEnum<TransactionType>("transactiontype")
+                .MapEnum<UserRole>("userrole")
+                .MapEnum<UserStatus>("userstatus");
         }
 
         public static void NpgsqlToEnumMapRegisterAll(this NpgsqlDataSourceBuilder builder)
         {
             builder
-            .MapEnum<UserRole>("userrole", new NpgSqlEnumTranslater())
-            .MapEnum<UserStatus>("userstatus", new NpgSqlEnumTranslater())
             .MapEnum<AuditAction>("auditaction", new NpgSqlEnumTranslater())
             .MapEnum<BetSlipStatus>("betslipstatus", new NpgSqlEnumTranslater())
-            .MapComposite<Users>()
+            .MapEnum<PaymentMethod>("paymentmethod", new NpgSqlEnumTranslater())
+            .MapEnum<PaymentStatus>("paymentstatus", new NpgSqlEnumTranslater())
+            .MapEnum<ReferralStatus>("referralstatus", new NpgSqlEnumTranslater())
+            .MapEnum<TransactionType>("transactiontype", new NpgSqlEnumTranslater())
+            .MapEnum<UserRole>("userrole", new NpgSqlEnumTranslater())
+            .MapEnum<UserStatus>("userstatus", new NpgSqlEnumTranslater())
+            .MapComposite<Auditlog>()
             .MapComposite<Betslips>()
-            .MapComposite<Auditlog>();
+            .MapComposite<Payments>()
+            .MapComposite<Referralrewards>()
+            .MapComposite<Transactions>()
+            .MapComposite<Users>();
         }
         #endregion
 

@@ -1,0 +1,9 @@
+﻿-- Türkiye ülkesini ekle
+INSERT INTO public.countries (id, name, countrycode, createdate, updatedate)
+VALUES (
+    gen_random_uuid(),
+    'Türkiye',
+    '+90',
+    CURRENT_TIMESTAMP,
+    CURRENT_TIMESTAMP
+);

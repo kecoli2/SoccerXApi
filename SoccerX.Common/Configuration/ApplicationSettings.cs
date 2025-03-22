@@ -35,6 +35,11 @@ namespace SoccerX.Common.Configuration
         #endregion
 
         #region Public Methods
+        /// <summary>
+        /// Generates a PostgreSQL connection string based on provided settings.
+        /// </summary>        
+        /// <returns>Formatted PostgreSQL connection string.</returns>
+
         public string GetDatabaseConnectionString()
         {
             if (Database == null)

@@ -25,11 +25,27 @@ public partial class Users
 
     public bool? Isdeleted { get; set; }
 
+    public Guid Countryid { get; set; }
+
+    public Guid Cityid { get; set; }
+
+    public string? Postalcode { get; set; }
+
+    public string Address { get; set; } = null!;
+
+    public string Phonenumber { get; set; } = null!;
+
+    public string? Avatarurl { get; set; }
+
     public virtual ICollection<Auditlog> Auditlog { get; set; } = new List<Auditlog>();
 
     public virtual ICollection<Betslips> Betslips { get; set; } = new List<Betslips>();
 
+    public virtual Cities City { get; set; } = null!;
+
     public virtual ICollection<Comments> Comments { get; set; } = new List<Comments>();
+
+    public virtual Countries Country { get; set; } = null!;
 
     public virtual ICollection<Users> InverseReferraluser { get; set; } = new List<Users>();
 
