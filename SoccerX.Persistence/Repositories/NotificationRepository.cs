@@ -7,6 +7,13 @@ namespace SoccerX.Persistence.Repositories
 {
     public class NotificationRepository(SoccerXDbContext context) : GenericRepository<Notifications>(context), INotificationRepository
     {
+        #region Field
+        #endregion
+
+        #region Constructor
+        #endregion
+
+        #region Public Method
         public async Task<IEnumerable<Notifications>> GetUnreadNotificationsAsync(Guid userId)
         {
             return await _context.Notifications
@@ -26,5 +33,9 @@ namespace SoccerX.Persistence.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+        #endregion
+
+        #region Private Method
+        #endregion        
     }
 }

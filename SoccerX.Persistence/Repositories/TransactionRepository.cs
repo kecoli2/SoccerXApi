@@ -7,6 +7,14 @@ namespace SoccerX.Persistence.Repositories
 {
     public class TransactionRepository(SoccerXDbContext context) : GenericRepository<Transactions>(context), ITransactionRepository
     {
+
+        #region Field
+        #endregion
+
+        #region Constructor
+        #endregion
+
+        #region Public Method
         public async Task<IEnumerable<Transactions>> GetByUserIdAsync(Guid userId)
         {
             return await _context.Transactions
@@ -21,5 +29,9 @@ namespace SoccerX.Persistence.Repositories
                 .Where(t => t.Userid == userId)
                 .SumAsync(t => t.Amount);
         }
+        #endregion
+
+        #region Private Method
+        #endregion                   
     }
 }

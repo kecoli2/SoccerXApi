@@ -37,6 +37,8 @@ public partial class Users
 
     public bool? Isdeleted { get; set; }
 
+    public bool? Isemailconfirmed { get; set; }
+
     public virtual ICollection<Auditlog> Auditlog { get; set; } = new List<Auditlog>();
 
     public virtual ICollection<Betslips> Betslips { get; set; } = new List<Betslips>();
@@ -46,6 +48,8 @@ public partial class Users
     public virtual ICollection<Comments> Comments { get; set; } = new List<Comments>();
 
     public virtual Countries Country { get; set; } = null!;
+
+    public virtual ICollection<Emailverifications> Emailverifications { get; set; } = new List<Emailverifications>();
 
     public virtual ICollection<Users> InverseReferraluser { get; set; } = new List<Users>();
 

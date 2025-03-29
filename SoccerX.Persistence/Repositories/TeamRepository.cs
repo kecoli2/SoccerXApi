@@ -7,6 +7,14 @@ namespace SoccerX.Persistence.Repositories
 {
     public class TeamRepository(SoccerXDbContext context) : GenericRepository<Teams>(context), ITeamRepository
     {
+
+        #region Field
+        #endregion
+
+        #region Constructor
+        #endregion
+
+        #region Public Method
         public async Task<IEnumerable<Teams>> GetTeamsByTagAsync(string tagKey, string tagValue)
         {
             return await _context.Teams
@@ -14,5 +22,9 @@ namespace SoccerX.Persistence.Repositories
                             EF.Functions.JsonContains(t.Tags, $@"{{ ""{tagKey}"": ""{tagValue}"" }}"))
                 .ToListAsync();
         }
+        #endregion
+
+        #region Private Method
+        #endregion                   
     }
 }

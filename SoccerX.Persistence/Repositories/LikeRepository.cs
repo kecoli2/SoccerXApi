@@ -7,7 +7,18 @@ namespace SoccerX.Persistence.Repositories
 {
     public class LikeRepository(SoccerXDbContext context) : GenericRepository<Likes>(context), ILikeRepository
     {
-        public async Task<int> CountLikesByBetSlipIdAsync(Guid betSlipId) =>
-            await _context.Likes.CountAsync(l => l.Betslipid == betSlipId);
+
+        #region Field
+        #endregion
+
+        #region Constructor
+        #endregion
+
+        #region Public Method
+        public async Task<int> CountLikesByBetSlipIdAsync(Guid betSlipId) => await _context.Likes.CountAsync(l => l.Betslipid == betSlipId);
+        #endregion
+
+        #region Private Method
+        #endregion                    
     }
-}
+}    

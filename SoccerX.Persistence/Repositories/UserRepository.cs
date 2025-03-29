@@ -5,14 +5,21 @@ using SoccerX.Persistence.Interfaces;
 
 namespace SoccerX.Persistence.Repositories
 {
-    public class UserRepository : GenericRepository<Users>, IUserRepository
+    public class UserRepository(SoccerXDbContext context) : GenericRepository<Users>(context), IUserRepository
     {
-        public UserRepository(SoccerXDbContext context) : base(context) { }
 
+        #region Constructor
+        #endregion
+
+        #region Public Method
         public async Task<Users?> GetByEmailAsync(string email) =>
             await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
 
         public async Task<Users?> GetByUsernameAsync(string username) =>
             await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+        #endregion
+
+        #region Private Method
+        #endregion
     }
 }

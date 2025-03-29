@@ -22,11 +22,35 @@ public partial class TestSoccerXDbContext : DbContext
 
     public virtual DbSet<Countries> Countries { get; set; }
 
+    public virtual DbSet<Emailverifications> Emailverifications { get; set; }
+
     public virtual DbSet<Likes> Likes { get; set; }
 
     public virtual DbSet<Notifications> Notifications { get; set; }
 
     public virtual DbSet<Payments> Payments { get; set; }
+
+    public virtual DbSet<QrtzBlobTriggers> QrtzBlobTriggers { get; set; }
+
+    public virtual DbSet<QrtzCalendars> QrtzCalendars { get; set; }
+
+    public virtual DbSet<QrtzCronTriggers> QrtzCronTriggers { get; set; }
+
+    public virtual DbSet<QrtzFiredTriggers> QrtzFiredTriggers { get; set; }
+
+    public virtual DbSet<QrtzJobDetails> QrtzJobDetails { get; set; }
+
+    public virtual DbSet<QrtzLocks> QrtzLocks { get; set; }
+
+    public virtual DbSet<QrtzPausedTriggerGrps> QrtzPausedTriggerGrps { get; set; }
+
+    public virtual DbSet<QrtzSchedulerState> QrtzSchedulerState { get; set; }
+
+    public virtual DbSet<QrtzSimpleTriggers> QrtzSimpleTriggers { get; set; }
+
+    public virtual DbSet<QrtzSimpropTriggers> QrtzSimpropTriggers { get; set; }
+
+    public virtual DbSet<QrtzTriggers> QrtzTriggers { get; set; }
 
     public virtual DbSet<Referralrewards> Referralrewards { get; set; }
 
@@ -210,6 +234,35 @@ public partial class TestSoccerXDbContext : DbContext
                 .HasColumnName("updatedate");
         });
 
+        modelBuilder.Entity<Emailverifications>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("emailverifications_pkey");
+
+            entity.ToTable("emailverifications");
+
+            entity.Property(e => e.Id)
+                .HasDefaultValueSql("gen_random_uuid()")
+                .HasColumnName("id");
+            entity.Property(e => e.Createdate)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("createdate");
+            entity.Property(e => e.Expiresat)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("expiresat");
+            entity.Property(e => e.Isused)
+                .HasDefaultValue(false)
+                .HasColumnName("isused");
+            entity.Property(e => e.Token)
+                .HasMaxLength(255)
+                .HasColumnName("token");
+            entity.Property(e => e.Userid).HasColumnName("userid");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Emailverifications)
+                .HasForeignKey(d => d.Userid)
+                .HasConstraintName("fk_user_emailverification");
+        });
+
         modelBuilder.Entity<Likes>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("likes_pkey");
@@ -302,6 +355,217 @@ public partial class TestSoccerXDbContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.Userid)
                 .HasConstraintName("payments_userid_fkey");
+        });
+
+        modelBuilder.Entity<QrtzBlobTriggers>(entity =>
+        {
+            entity.HasKey(e => new { e.SchedName, e.TriggerName, e.TriggerGroup }).HasName("qrtz_blob_triggers_pkey");
+
+            entity.ToTable("qrtz_blob_triggers");
+
+            entity.Property(e => e.SchedName).HasColumnName("sched_name");
+            entity.Property(e => e.TriggerName).HasColumnName("trigger_name");
+            entity.Property(e => e.TriggerGroup).HasColumnName("trigger_group");
+            entity.Property(e => e.BlobData).HasColumnName("blob_data");
+
+            entity.HasOne(d => d.QrtzTriggers).WithOne(p => p.QrtzBlobTriggers)
+                .HasForeignKey<QrtzBlobTriggers>(d => new { d.SchedName, d.TriggerName, d.TriggerGroup })
+                .HasConstraintName("qrtz_blob_triggers_sched_name_trigger_name_trigger_group_fkey");
+        });
+
+        modelBuilder.Entity<QrtzCalendars>(entity =>
+        {
+            entity.HasKey(e => new { e.SchedName, e.CalendarName }).HasName("qrtz_calendars_pkey");
+
+            entity.ToTable("qrtz_calendars");
+
+            entity.Property(e => e.SchedName).HasColumnName("sched_name");
+            entity.Property(e => e.CalendarName).HasColumnName("calendar_name");
+            entity.Property(e => e.Calendar).HasColumnName("calendar");
+        });
+
+        modelBuilder.Entity<QrtzCronTriggers>(entity =>
+        {
+            entity.HasKey(e => new { e.SchedName, e.TriggerName, e.TriggerGroup }).HasName("qrtz_cron_triggers_pkey");
+
+            entity.ToTable("qrtz_cron_triggers");
+
+            entity.Property(e => e.SchedName).HasColumnName("sched_name");
+            entity.Property(e => e.TriggerName).HasColumnName("trigger_name");
+            entity.Property(e => e.TriggerGroup).HasColumnName("trigger_group");
+            entity.Property(e => e.CronExpression).HasColumnName("cron_expression");
+            entity.Property(e => e.TimeZoneId).HasColumnName("time_zone_id");
+
+            entity.HasOne(d => d.QrtzTriggers).WithOne(p => p.QrtzCronTriggers)
+                .HasForeignKey<QrtzCronTriggers>(d => new { d.SchedName, d.TriggerName, d.TriggerGroup })
+                .HasConstraintName("qrtz_cron_triggers_sched_name_trigger_name_trigger_group_fkey");
+        });
+
+        modelBuilder.Entity<QrtzFiredTriggers>(entity =>
+        {
+            entity.HasKey(e => new { e.SchedName, e.EntryId }).HasName("qrtz_fired_triggers_pkey");
+
+            entity.ToTable("qrtz_fired_triggers");
+
+            entity.HasIndex(e => e.JobGroup, "idx_qrtz_ft_job_group");
+
+            entity.HasIndex(e => e.JobName, "idx_qrtz_ft_job_name");
+
+            entity.HasIndex(e => e.RequestsRecovery, "idx_qrtz_ft_job_req_recovery");
+
+            entity.HasIndex(e => e.TriggerGroup, "idx_qrtz_ft_trig_group");
+
+            entity.HasIndex(e => e.InstanceName, "idx_qrtz_ft_trig_inst_name");
+
+            entity.HasIndex(e => e.TriggerName, "idx_qrtz_ft_trig_name");
+
+            entity.HasIndex(e => new { e.SchedName, e.TriggerName, e.TriggerGroup }, "idx_qrtz_ft_trig_nm_gp");
+
+            entity.Property(e => e.SchedName).HasColumnName("sched_name");
+            entity.Property(e => e.EntryId).HasColumnName("entry_id");
+            entity.Property(e => e.FiredTime).HasColumnName("fired_time");
+            entity.Property(e => e.InstanceName).HasColumnName("instance_name");
+            entity.Property(e => e.IsNonconcurrent).HasColumnName("is_nonconcurrent");
+            entity.Property(e => e.JobGroup).HasColumnName("job_group");
+            entity.Property(e => e.JobName).HasColumnName("job_name");
+            entity.Property(e => e.Priority).HasColumnName("priority");
+            entity.Property(e => e.RequestsRecovery).HasColumnName("requests_recovery");
+            entity.Property(e => e.SchedTime).HasColumnName("sched_time");
+            entity.Property(e => e.State).HasColumnName("state");
+            entity.Property(e => e.TriggerGroup).HasColumnName("trigger_group");
+            entity.Property(e => e.TriggerName).HasColumnName("trigger_name");
+        });
+
+        modelBuilder.Entity<QrtzJobDetails>(entity =>
+        {
+            entity.HasKey(e => new { e.SchedName, e.JobName, e.JobGroup }).HasName("qrtz_job_details_pkey");
+
+            entity.ToTable("qrtz_job_details");
+
+            entity.HasIndex(e => e.RequestsRecovery, "idx_qrtz_j_req_recovery");
+
+            entity.Property(e => e.SchedName).HasColumnName("sched_name");
+            entity.Property(e => e.JobName).HasColumnName("job_name");
+            entity.Property(e => e.JobGroup).HasColumnName("job_group");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.IsDurable).HasColumnName("is_durable");
+            entity.Property(e => e.IsNonconcurrent).HasColumnName("is_nonconcurrent");
+            entity.Property(e => e.IsUpdateData).HasColumnName("is_update_data");
+            entity.Property(e => e.JobClassName).HasColumnName("job_class_name");
+            entity.Property(e => e.JobData).HasColumnName("job_data");
+            entity.Property(e => e.RequestsRecovery).HasColumnName("requests_recovery");
+        });
+
+        modelBuilder.Entity<QrtzLocks>(entity =>
+        {
+            entity.HasKey(e => new { e.SchedName, e.LockName }).HasName("qrtz_locks_pkey");
+
+            entity.ToTable("qrtz_locks");
+
+            entity.Property(e => e.SchedName).HasColumnName("sched_name");
+            entity.Property(e => e.LockName).HasColumnName("lock_name");
+        });
+
+        modelBuilder.Entity<QrtzPausedTriggerGrps>(entity =>
+        {
+            entity.HasKey(e => new { e.SchedName, e.TriggerGroup }).HasName("qrtz_paused_trigger_grps_pkey");
+
+            entity.ToTable("qrtz_paused_trigger_grps");
+
+            entity.Property(e => e.SchedName).HasColumnName("sched_name");
+            entity.Property(e => e.TriggerGroup).HasColumnName("trigger_group");
+        });
+
+        modelBuilder.Entity<QrtzSchedulerState>(entity =>
+        {
+            entity.HasKey(e => new { e.SchedName, e.InstanceName }).HasName("qrtz_scheduler_state_pkey");
+
+            entity.ToTable("qrtz_scheduler_state");
+
+            entity.Property(e => e.SchedName).HasColumnName("sched_name");
+            entity.Property(e => e.InstanceName).HasColumnName("instance_name");
+            entity.Property(e => e.CheckinInterval).HasColumnName("checkin_interval");
+            entity.Property(e => e.LastCheckinTime).HasColumnName("last_checkin_time");
+        });
+
+        modelBuilder.Entity<QrtzSimpleTriggers>(entity =>
+        {
+            entity.HasKey(e => new { e.SchedName, e.TriggerName, e.TriggerGroup }).HasName("qrtz_simple_triggers_pkey");
+
+            entity.ToTable("qrtz_simple_triggers");
+
+            entity.Property(e => e.SchedName).HasColumnName("sched_name");
+            entity.Property(e => e.TriggerName).HasColumnName("trigger_name");
+            entity.Property(e => e.TriggerGroup).HasColumnName("trigger_group");
+            entity.Property(e => e.RepeatCount).HasColumnName("repeat_count");
+            entity.Property(e => e.RepeatInterval).HasColumnName("repeat_interval");
+            entity.Property(e => e.TimesTriggered).HasColumnName("times_triggered");
+
+            entity.HasOne(d => d.QrtzTriggers).WithOne(p => p.QrtzSimpleTriggers)
+                .HasForeignKey<QrtzSimpleTriggers>(d => new { d.SchedName, d.TriggerName, d.TriggerGroup })
+                .HasConstraintName("qrtz_simple_triggers_sched_name_trigger_name_trigger_group_fkey");
+        });
+
+        modelBuilder.Entity<QrtzSimpropTriggers>(entity =>
+        {
+            entity.HasKey(e => new { e.SchedName, e.TriggerName, e.TriggerGroup }).HasName("qrtz_simprop_triggers_pkey");
+
+            entity.ToTable("qrtz_simprop_triggers");
+
+            entity.Property(e => e.SchedName).HasColumnName("sched_name");
+            entity.Property(e => e.TriggerName).HasColumnName("trigger_name");
+            entity.Property(e => e.TriggerGroup).HasColumnName("trigger_group");
+            entity.Property(e => e.BoolProp1).HasColumnName("bool_prop_1");
+            entity.Property(e => e.BoolProp2).HasColumnName("bool_prop_2");
+            entity.Property(e => e.DecProp1).HasColumnName("dec_prop_1");
+            entity.Property(e => e.DecProp2).HasColumnName("dec_prop_2");
+            entity.Property(e => e.IntProp1).HasColumnName("int_prop_1");
+            entity.Property(e => e.IntProp2).HasColumnName("int_prop_2");
+            entity.Property(e => e.LongProp1).HasColumnName("long_prop_1");
+            entity.Property(e => e.LongProp2).HasColumnName("long_prop_2");
+            entity.Property(e => e.StrProp1).HasColumnName("str_prop_1");
+            entity.Property(e => e.StrProp2).HasColumnName("str_prop_2");
+            entity.Property(e => e.StrProp3).HasColumnName("str_prop_3");
+            entity.Property(e => e.TimeZoneId).HasColumnName("time_zone_id");
+
+            entity.HasOne(d => d.QrtzTriggers).WithOne(p => p.QrtzSimpropTriggers)
+                .HasForeignKey<QrtzSimpropTriggers>(d => new { d.SchedName, d.TriggerName, d.TriggerGroup })
+                .HasConstraintName("qrtz_simprop_triggers_sched_name_trigger_name_trigger_grou_fkey");
+        });
+
+        modelBuilder.Entity<QrtzTriggers>(entity =>
+        {
+            entity.HasKey(e => new { e.SchedName, e.TriggerName, e.TriggerGroup }).HasName("qrtz_triggers_pkey");
+
+            entity.ToTable("qrtz_triggers");
+
+            entity.HasIndex(e => e.NextFireTime, "idx_qrtz_t_next_fire_time");
+
+            entity.HasIndex(e => new { e.NextFireTime, e.TriggerState }, "idx_qrtz_t_nft_st");
+
+            entity.HasIndex(e => e.TriggerState, "idx_qrtz_t_state");
+
+            entity.Property(e => e.SchedName).HasColumnName("sched_name");
+            entity.Property(e => e.TriggerName).HasColumnName("trigger_name");
+            entity.Property(e => e.TriggerGroup).HasColumnName("trigger_group");
+            entity.Property(e => e.CalendarName).HasColumnName("calendar_name");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.EndTime).HasColumnName("end_time");
+            entity.Property(e => e.JobData).HasColumnName("job_data");
+            entity.Property(e => e.JobGroup).HasColumnName("job_group");
+            entity.Property(e => e.JobName).HasColumnName("job_name");
+            entity.Property(e => e.MisfireInstr).HasColumnName("misfire_instr");
+            entity.Property(e => e.NextFireTime).HasColumnName("next_fire_time");
+            entity.Property(e => e.PrevFireTime).HasColumnName("prev_fire_time");
+            entity.Property(e => e.Priority).HasColumnName("priority");
+            entity.Property(e => e.StartTime).HasColumnName("start_time");
+            entity.Property(e => e.TriggerState).HasColumnName("trigger_state");
+            entity.Property(e => e.TriggerType).HasColumnName("trigger_type");
+
+            entity.HasOne(d => d.QrtzJobDetails).WithMany(p => p.QrtzTriggers)
+                .HasForeignKey(d => new { d.SchedName, d.JobName, d.JobGroup })
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("qrtz_triggers_sched_name_job_name_job_group_fkey");
         });
 
         modelBuilder.Entity<Referralrewards>(entity =>
@@ -490,6 +754,9 @@ public partial class TestSoccerXDbContext : DbContext
             entity.Property(e => e.Isdeleted)
                 .HasDefaultValue(false)
                 .HasColumnName("isdeleted");
+            entity.Property(e => e.Isemailconfirmed)
+                .HasDefaultValue(false)
+                .HasColumnName("isemailconfirmed");
             entity.Property(e => e.Passwordhash).HasColumnName("passwordhash");
             entity.Property(e => e.Phonenumber)
                 .HasMaxLength(20)

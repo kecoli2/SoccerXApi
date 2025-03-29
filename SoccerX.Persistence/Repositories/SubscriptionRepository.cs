@@ -7,6 +7,14 @@ namespace SoccerX.Persistence.Repositories
 {
     public class SubscriptionRepository(SoccerXDbContext context) : GenericRepository<Subscriptions>(context), ISubscriptionRepository
     {
+
+        #region Field
+        #endregion
+
+        #region Constructor
+        #endregion
+
+        #region Public Method
         public async Task<IEnumerable<Subscriptions>> GetActiveSubscriptionsBySubscriberAsync(Guid subscriberId)
         {
             return await _context.Subscriptions
@@ -19,5 +27,9 @@ namespace SoccerX.Persistence.Repositories
             return await _context.Subscriptions
                 .AnyAsync(s => s.Subscriberid == subscriberId && s.Editorid == editorId && s.Isactive);
         }
+        #endregion
+
+        #region Private Method
+        #endregion                   
     }
 }

@@ -7,6 +7,13 @@ namespace SoccerX.Persistence.Repositories
 {
     public class AuditLogRepository(SoccerXDbContext context) : GenericRepository<Auditlog>(context), IAuditLogRepository
     {
+        #region Field
+        #endregion
+
+        #region Constructor
+        #endregion
+
+        #region Public Method
         public async Task<IEnumerable<Auditlog>> GetLogsByEntityNameAsync(string entityName)
         {
             return await _context.Auditlog
@@ -20,5 +27,10 @@ namespace SoccerX.Persistence.Repositories
                 .Where(a => a.Performedby == userId)
                 .ToListAsync();
         }
+        #endregion
+
+        #region Private Method
+        #endregion
+
     }
 }

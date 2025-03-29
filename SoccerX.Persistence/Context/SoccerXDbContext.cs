@@ -38,6 +38,7 @@ public partial class SoccerXDbContext : DbContext
     public virtual DbSet<Transactions> Transactions { get; set; }
 
     public virtual DbSet<Users> Users { get; set; }
+    public virtual DbSet<Emailverifications> Emailverifications { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -54,6 +55,7 @@ public partial class SoccerXDbContext : DbContext
         modelBuilder.ApplyConfiguration(new CityConfiguration());
         modelBuilder.ApplyConfiguration(new NotificationConfiguration());
         modelBuilder.ApplyConfiguration(new BetSlipConfiguration());
+        modelBuilder.ApplyConfiguration(new EmailVerificationConfiguration());
 
         OnModelCreatingPartial(modelBuilder);
     }

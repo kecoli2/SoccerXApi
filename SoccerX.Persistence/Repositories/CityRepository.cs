@@ -7,6 +7,13 @@ namespace SoccerX.Persistence.Repositories
 {
     public class CityRepository(SoccerXDbContext context) : GenericRepository<Cities>(context), ICityRepository
     {
+        #region Field
+        #endregion
+
+        #region Constructor
+        #endregion
+
+        #region Public Method
         public async Task<IEnumerable<Cities>> GetCitiesByCountryIdAsync(Guid countryId)
         {
             return await _context.Cities
@@ -18,5 +25,9 @@ namespace SoccerX.Persistence.Repositories
         {
             return await _context.Cities.FirstOrDefaultAsync(c => c.Name == name);
         }
+        #endregion
+
+        #region Private Method
+        #endregion
     }
 }

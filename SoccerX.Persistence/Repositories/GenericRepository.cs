@@ -7,15 +7,21 @@ namespace SoccerX.Persistence.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
+        #region Field
         protected readonly SoccerXDbContext _context;
         private readonly DbSet<T> _dbSet;
+        #endregion
 
+        #region Constructor
         public GenericRepository(SoccerXDbContext context)
         {
             _context = context;
             _dbSet = _context.Set<T>();
         }
 
+        #endregion
+
+        #region Public Method
         public async Task<T?> GetByIdAsync(Guid id)
         {
             return await _dbSet.FindAsync(id);
@@ -67,5 +73,9 @@ namespace SoccerX.Persistence.Repositories
                 ? await _dbSet.CountAsync()
                 : await _dbSet.CountAsync(predicate);
         }
+        #endregion
+
+        #region Private Method
+        #endregion        
     }
 }

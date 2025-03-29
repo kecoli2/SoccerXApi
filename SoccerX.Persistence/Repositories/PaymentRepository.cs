@@ -7,6 +7,13 @@ namespace SoccerX.Persistence.Repositories
 {
     public class PaymentRepository(SoccerXDbContext context) : GenericRepository<Payments>(context), IPaymentRepository
     {
+        #region Field
+        #endregion
+
+        #region Constructor
+        #endregion
+
+        #region Public Method
         public async Task<IEnumerable<Payments>> GetPaymentsByUserIdAsync(Guid userId)
         {
             return await _context.Payments
@@ -21,5 +28,9 @@ namespace SoccerX.Persistence.Repositories
                 .OrderByDescending(p => p.Paymentdate)
                 .FirstOrDefaultAsync();
         }
+        #endregion
+
+        #region Private Method
+        #endregion                    
     }
 }
