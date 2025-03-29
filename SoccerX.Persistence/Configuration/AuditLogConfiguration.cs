@@ -18,6 +18,7 @@ namespace SoccerX.Persistence.Configuration
             entity.Property(e => e.Performedby).HasColumnName("performedby").IsRequired();
             entity.Property(e => e.Createdate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("createdate");            
             entity.Property(e => e.Timestamp).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("timestamp");
+            entity.Property(e => e.Updatedate).HasColumnType("timestamp without time zone").HasColumnName("updatedate");
             entity.Property(e => e.Isdeleted).HasDefaultValue(false).HasColumnName("isdeleted");
             //MANUEL ADDS
             entity.Property(e => e.Action).HasColumnType("auditaction").HasColumnName("action").IsRequired();

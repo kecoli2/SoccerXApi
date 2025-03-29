@@ -19,6 +19,7 @@ namespace SoccerX.Persistence.Configuration
             entity.Property(e => e.Tags).HasColumnType("jsonb").HasColumnName("tags");
             entity.Property(e => e.Createdate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("createdate");            
             entity.Property(e => e.Isdeleted).HasDefaultValue(false).HasColumnName("isdeleted");
+            entity.Property(e => e.Updatedate).HasColumnType("timestamp without time zone").HasColumnName("updatedate");
         }
     }
 

@@ -18,6 +18,7 @@ namespace SoccerX.Persistence.Configuration
             entity.Property(e => e.Createdate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("createdate");            
             entity.Property(e => e.Isdeleted).HasDefaultValue(false).HasColumnName("isdeleted");
             entity.Property(e => e.Status).HasColumnName("status").HasColumnType("referralstatus");
+            entity.Property(e => e.Updatedate).HasColumnType("timestamp without time zone").HasColumnName("updatedate");
 
             entity.HasOne(e => e.User).WithMany(u => u.ReferralrewardsUser).HasForeignKey(e => e.Userid).HasConstraintName("referralrewards_userid_fkey");
             entity.HasOne(e => e.Referrer).WithMany(u => u.ReferralrewardsReferrer).HasForeignKey(e => e.Referrerid).HasConstraintName("referralrewards_referrerid_fkey");

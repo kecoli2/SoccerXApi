@@ -23,7 +23,8 @@ namespace SoccerX.Persistence.Configuration
             entity.Property(e => e.Commentcount).HasDefaultValue(0).HasColumnName("commentcount");
             entity.Property(e => e.Ispremium).HasDefaultValue(false).HasColumnName("ispremium");
             entity.Property(e => e.Isdeleted).HasDefaultValue(false).HasColumnName("isdeleted");
-            entity.Property(e => e.Createdate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("createdate");            
+            entity.Property(e => e.Createdate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("createdate");
+            entity.Property(e => e.Updatedate).HasColumnType("timestamp without time zone").HasColumnName("updatedate");
             //MANUEL ADDS
             entity.Property(e => e.Status).HasColumnType("betslipstatus").HasColumnName("status").IsRequired();
 

@@ -18,6 +18,7 @@ namespace SoccerX.Persistence.Configuration
             entity.Property(e => e.Isdeleted).HasDefaultValue(false).HasColumnName("isdeleted");
             entity.Property(e => e.PaymentStatus).HasColumnName("paymentstatus").HasColumnType("paymentstatus");
             entity.Property(e => e.PaymentMethod).HasColumnName("paymentmethod").HasColumnType("paymentmethod");
+            entity.Property(e => e.Updatedate).HasColumnType("timestamp without time zone").HasColumnName("updatedate");
 
             entity.HasOne(e => e.User)
                 .WithMany(u => u.Payments)
