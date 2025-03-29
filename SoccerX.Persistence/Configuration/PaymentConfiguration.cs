@@ -14,8 +14,7 @@ namespace SoccerX.Persistence.Configuration
             entity.Property(e => e.Id).HasDefaultValueSql("gen_random_uuid()").HasColumnName("id");
             entity.Property(e => e.Amount).HasPrecision(10, 2).HasColumnName("amount");
             entity.Property(e => e.Paymentdate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("paymentdate");
-            entity.Property(e => e.Createdate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("createdate");
-            entity.Property(e => e.Updatedate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("updatedate");
+            entity.Property(e => e.Createdate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("createdate");            
             entity.Property(e => e.Isdeleted).HasDefaultValue(false).HasColumnName("isdeleted");
             entity.Property(e => e.PaymentStatus).HasColumnName("paymentstatus").HasColumnType("paymentstatus");
             entity.Property(e => e.PaymentMethod).HasColumnName("paymentmethod").HasColumnType("paymentmethod");

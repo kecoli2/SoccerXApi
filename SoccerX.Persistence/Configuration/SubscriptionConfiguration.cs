@@ -22,8 +22,7 @@ namespace SoccerX.Persistence.Configuration
             entity.Property(e => e.Startdate).HasColumnType("timestamp without time zone").HasColumnName("startdate");
             entity.Property(e => e.Enddate).HasColumnType("timestamp without time zone").HasColumnName("enddate");
             entity.Property(e => e.Isactive).HasDefaultValue(true).HasColumnName("isactive");
-            entity.Property(e => e.Createdate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("createdate");
-            entity.Property(e => e.Updatedate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("updatedate");
+            entity.Property(e => e.Createdate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("createdate");            
             entity.Property(e => e.Isdeleted).HasDefaultValue(false).HasColumnName("isdeleted");
 
             entity.HasOne(e => e.Editor).WithMany(u => u.SubscriptionsEditor).HasForeignKey(e => e.Editorid).HasConstraintName("subscriptions_editorid_fkey");

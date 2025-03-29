@@ -30,6 +30,8 @@ public partial class TestSoccerXDbContext : DbContext
 
     public virtual DbSet<Referralrewards> Referralrewards { get; set; }
 
+    public virtual DbSet<Schemaversions> Schemaversions { get; set; }
+
     public virtual DbSet<Subscriptions> Subscriptions { get; set; }
 
     public virtual DbSet<Teams> Teams { get; set; }
@@ -77,7 +79,6 @@ public partial class TestSoccerXDbContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("timestamp");
             entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updatedate");
 
@@ -112,7 +113,6 @@ public partial class TestSoccerXDbContext : DbContext
                 .HasDefaultValue(0)
                 .HasColumnName("likecount");
             entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updatedate");
             entity.Property(e => e.Userid).HasColumnName("userid");
@@ -142,7 +142,6 @@ public partial class TestSoccerXDbContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("name");
             entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updatedate");
 
@@ -170,7 +169,6 @@ public partial class TestSoccerXDbContext : DbContext
                 .HasDefaultValue(false)
                 .HasColumnName("isdeleted");
             entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updatedate");
             entity.Property(e => e.Userid).HasColumnName("userid");
@@ -208,7 +206,6 @@ public partial class TestSoccerXDbContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("name");
             entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updatedate");
         });
@@ -231,7 +228,6 @@ public partial class TestSoccerXDbContext : DbContext
                 .HasDefaultValue(false)
                 .HasColumnName("isdeleted");
             entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updatedate");
             entity.Property(e => e.Userid).HasColumnName("userid");
@@ -266,7 +262,6 @@ public partial class TestSoccerXDbContext : DbContext
                 .HasColumnName("isread");
             entity.Property(e => e.Message).HasColumnName("message");
             entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updatedate");
             entity.Property(e => e.Userid).HasColumnName("userid");
@@ -300,7 +295,6 @@ public partial class TestSoccerXDbContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("paymentdate");
             entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updatedate");
             entity.Property(e => e.Userid).HasColumnName("userid");
@@ -331,7 +325,6 @@ public partial class TestSoccerXDbContext : DbContext
                 .HasColumnName("isdeleted");
             entity.Property(e => e.Referrerid).HasColumnName("referrerid");
             entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updatedate");
             entity.Property(e => e.Userid).HasColumnName("userid");
@@ -343,6 +336,21 @@ public partial class TestSoccerXDbContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.ReferralrewardsUser)
                 .HasForeignKey(d => d.Userid)
                 .HasConstraintName("referralrewards_userid_fkey");
+        });
+
+        modelBuilder.Entity<Schemaversions>(entity =>
+        {
+            entity.HasKey(e => e.Schemaversionsid).HasName("PK_schemaversions_Id");
+
+            entity.ToTable("schemaversions");
+
+            entity.Property(e => e.Schemaversionsid).HasColumnName("schemaversionsid");
+            entity.Property(e => e.Applied)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("applied");
+            entity.Property(e => e.Scriptname)
+                .HasMaxLength(255)
+                .HasColumnName("scriptname");
         });
 
         modelBuilder.Entity<Subscriptions>(entity =>
@@ -373,7 +381,6 @@ public partial class TestSoccerXDbContext : DbContext
                 .HasColumnName("startdate");
             entity.Property(e => e.Subscriberid).HasColumnName("subscriberid");
             entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updatedate");
 
@@ -414,7 +421,6 @@ public partial class TestSoccerXDbContext : DbContext
                 .HasColumnType("jsonb")
                 .HasColumnName("tags");
             entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updatedate");
         });
@@ -440,7 +446,6 @@ public partial class TestSoccerXDbContext : DbContext
                 .HasColumnName("isdeleted");
             entity.Property(e => e.Referenceid).HasColumnName("referenceid");
             entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updatedate");
             entity.Property(e => e.Userid).HasColumnName("userid");
@@ -462,12 +467,14 @@ public partial class TestSoccerXDbContext : DbContext
 
             entity.HasIndex(e => e.Username, "users_username_key").IsUnique();
 
-            entity.Property(e => e.Id).HasDefaultValueSql("gen_random_uuid()").HasColumnName("id");
-            entity.Property(e => e.Status).HasColumnType("userstatus").HasColumnName("status").IsRequired();
-            entity.Property(e => e.Role).HasColumnType("userrole").HasColumnName("role").IsRequired();
+            entity.Property(e => e.Id)
+                .HasDefaultValueSql("gen_random_uuid()")
+                .HasColumnName("id");
             entity.Property(e => e.Address).HasColumnName("address");
             entity.Property(e => e.Avatarurl).HasColumnName("avatarurl");
-            entity.Property(e => e.Banenddate).HasColumnType("timestamp without time zone").HasColumnName("banenddate");
+            entity.Property(e => e.Banenddate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("banenddate");
             entity.Property(e => e.Cityid).HasColumnName("cityid");
             entity.Property(e => e.Countryid).HasColumnName("countryid");
             entity.Property(e => e.Createdate)
@@ -492,7 +499,6 @@ public partial class TestSoccerXDbContext : DbContext
                 .HasColumnName("postalcode");
             entity.Property(e => e.Referraluserid).HasColumnName("referraluserid");
             entity.Property(e => e.Updatedate)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updatedate");
             entity.Property(e => e.Username)

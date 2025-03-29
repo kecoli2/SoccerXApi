@@ -22,7 +22,6 @@ namespace SoccerX.Persistence.Configuration
             entity.Property(e => e.Name).HasMaxLength(100).HasColumnName("name");
             entity.Property(e => e.Countryid).HasColumnName("countryid");
             entity.Property(e => e.Createdate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("createdate");
-            entity.Property(e => e.Updatedate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("updatedate");
 
             entity.HasOne(d => d.Country).WithMany(p => p.Cities)
                 .HasForeignKey(d => d.Countryid)

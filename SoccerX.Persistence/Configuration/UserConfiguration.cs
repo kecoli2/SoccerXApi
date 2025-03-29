@@ -31,8 +31,7 @@ namespace SoccerX.Persistence.Configuration
             entity.Property(e => e.Passwordhash).HasColumnName("passwordhash");
             entity.Property(e => e.Phonenumber).HasMaxLength(20).HasColumnName("phonenumber");
             entity.Property(e => e.Postalcode).HasMaxLength(20).HasColumnName("postalcode");
-            entity.Property(e => e.Referraluserid).HasColumnName("referraluserid");
-            entity.Property(e => e.Updatedate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("updatedate");
+            entity.Property(e => e.Referraluserid).HasColumnName("referraluserid");            
             entity.Property(e => e.Username).HasMaxLength(50).HasColumnName("username");
 
             entity.HasOne(d => d.City).WithMany(p => p.Users)

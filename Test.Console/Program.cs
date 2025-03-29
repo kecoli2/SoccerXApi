@@ -8,6 +8,7 @@ using SoccerX.Common.Helpers;
 using SoccerX.Domain.Entities;
 using SoccerX.Domain.Enums;
 using SoccerX.Persistence.Context;
+using SoccerX.Persistence.Migration;
 using SoccerX.Persistence.Util;
 
 var applicationSettings = new ApplicationSettings
@@ -46,6 +47,8 @@ var applicationSettings = new ApplicationSettings
     }
 };
 
+DatabaseMigration.EnsureDatabaseIsUpToDate(applicationSettings.GetDatabaseConnectionString());
+
 var dataSourceBuilder = new NpgsqlDataSourceBuilder(applicationSettings.GetDatabaseConnectionString());
 dataSourceBuilder.NpgsqlToEnumMapRegisterAll();
 var dataSource = dataSourceBuilder.Build();
@@ -64,41 +67,46 @@ var jsonDecrypt = jsonEncrypt.Decrypt();
 
 using (var context = new SoccerXDbContext(optionsBuilder.Options))
 {
-    var users = new List<Users>();
-    var country = context.Countries.Take(1).First();
-    var cities = context.Cities.Take(1).First();
-    var usersFirst = new Users
-    {
-        Id = Guid.NewGuid(),
-        Username = "johndoe",
-        Email = "45646546",
-        Passwordhash = "ddasdasdsada",
-        Status = UserStatus.Active,
-        Role = UserRole.Editor,
-        Address = "asdasdasd",
-        Phonenumber = "123123123123",
-        Countryid = country.Id,
-        Cityid = cities.Id
-    };
 
-    var usersSecond = new Users
-    {
-        Id = Guid.NewGuid(),
-        Username = "johndoeadsdsds",
-        Email = "45646546ddddddd",
-        Passwordhash = "ddasdasdsada",
-        Status = UserStatus.Active,
-        Role = UserRole.Editor,
-        Address = "asdasdasd",
-        Phonenumber = "123123178123",
-        Countryid = country.Id,
-        Cityid = cities.Id
-    };
+    var country = context.Countries.FirstOrDefault();
+    country.Name = "Türkiyes";
 
 
-    users.Add(usersFirst);
-    users.Add(usersSecond);
-    context.Users.AddRange(users);
+    //var users = new List<Users>();
+    //var country = context.Countries.Take(1).First();
+    //var cities = context.Cities.Take(1).First();
+    //var usersFirst = new Users
+    //{
+    //    Id = Guid.NewGuid(),
+    //    Username = "johndoe",
+    //    Email = "45646546",
+    //    Passwordhash = "ddasdasdsada",
+    //    Status = UserStatus.Active,
+    //    Role = UserRole.Editor,
+    //    Address = "asdasdasd",
+    //    Phonenumber = "123123123123",
+    //    Countryid = country.Id,
+    //    Cityid = cities.Id
+    //};
+
+    //var usersSecond = new Users
+    //{
+    //    Id = Guid.NewGuid(),
+    //    Username = "johndoeadsdsds",
+    //    Email = "45646546ddddddd",
+    //    Passwordhash = "ddasdasdsada",
+    //    Status = UserStatus.Active,
+    //    Role = UserRole.Editor,
+    //    Address = "asdasdasd",
+    //    Phonenumber = "123123178123",
+    //    Countryid = country.Id,
+    //    Cityid = cities.Id
+    //};
+
+
+    //users.Add(usersFirst);
+    //users.Add(usersSecond);
+    //context.Users.AddRange(users);
 
     //var user = context.Users.Where(x => x.Username == "johndoe").FirstOrDefault();
 

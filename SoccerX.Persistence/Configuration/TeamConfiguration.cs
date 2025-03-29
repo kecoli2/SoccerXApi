@@ -17,8 +17,7 @@ namespace SoccerX.Persistence.Configuration
             entity.Property(e => e.Name).HasMaxLength(50).HasColumnName("name");
             entity.Property(e => e.Country).HasMaxLength(50).HasColumnName("country");
             entity.Property(e => e.Tags).HasColumnType("jsonb").HasColumnName("tags");
-            entity.Property(e => e.Createdate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("createdate");
-            entity.Property(e => e.Updatedate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("updatedate");
+            entity.Property(e => e.Createdate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("createdate");            
             entity.Property(e => e.Isdeleted).HasDefaultValue(false).HasColumnName("isdeleted");
         }
     }

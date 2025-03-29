@@ -16,8 +16,7 @@ namespace SoccerX.Persistence.Configuration
             entity.Property(e => e.Message).HasColumnName("message");
             entity.Property(e => e.Isread).HasDefaultValue(false).HasColumnName("isread");
             entity.Property(e => e.Isdeleted).HasDefaultValue(false).HasColumnName("isdeleted");
-            entity.Property(e => e.Createdate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("createdate");
-            entity.Property(e => e.Updatedate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("updatedate");
+            entity.Property(e => e.Createdate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("createdate");            
 
             entity.HasOne(d => d.User).WithMany(p => p.Notifications)
                 .HasForeignKey(d => d.Userid)

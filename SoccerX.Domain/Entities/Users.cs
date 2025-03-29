@@ -19,12 +19,6 @@ public partial class Users
 
     public int Followercount { get; set; }
 
-    public DateTime? Createdate { get; set; }
-
-    public DateTime? Updatedate { get; set; }
-
-    public bool? Isdeleted { get; set; }
-
     public Guid Countryid { get; set; }
 
     public Guid Cityid { get; set; }
@@ -36,6 +30,12 @@ public partial class Users
     public string Phonenumber { get; set; } = null!;
 
     public string? Avatarurl { get; set; }
+
+    public DateTime? Createdate { get; set; }
+
+    public DateTime? Updatedate { get; set; }
+
+    public bool? Isdeleted { get; set; }
 
     public virtual ICollection<Auditlog> Auditlog { get; set; } = new List<Auditlog>();
 
