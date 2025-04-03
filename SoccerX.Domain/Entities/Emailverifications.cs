@@ -9,13 +9,13 @@ public partial class Emailverifications
 
     public Guid Userid { get; set; }
 
-    public string Token { get; set; } = null!;
-
     public DateTime Expiresat { get; set; }
 
     public bool? Isused { get; set; }
 
     public DateTime? Createdate { get; set; }
+
+    public string Code { get; set; } = null!;
 
     public virtual Users User { get; set; } = null!;
 }

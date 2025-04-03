@@ -4,6 +4,7 @@ namespace SoccerX.Persistence.Interfaces;
 
 public interface IEmailVerificationRepository
 {
-    Task<Emailverifications?> GetByTokenAsync(string token);
-    Task<bool> IsTokenValidAsync(string token);    
+    Task<Emailverifications?> GetByCodeAsync(string code);
+    Task<bool> IsCodeValidAsync(string code);
+
 }

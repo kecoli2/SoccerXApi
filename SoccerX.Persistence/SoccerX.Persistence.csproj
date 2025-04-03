@@ -12,6 +12,7 @@
 		<None Remove="Scripts\002-update_date_function.sql" />
 		<None Remove="Scripts\003-quartznet-postgresql-tables.sql" />
 		<None Remove="Scripts\004-user-verifications.sql" />
+		<None Remove="Scripts\005-user-verification-update.sql" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -19,6 +20,7 @@
 		<EmbeddedResource Include="Scripts\002-update_date_function.sql" />
 		<EmbeddedResource Include="Scripts\003-quartznet-postgresql-tables.sql" />
 		<EmbeddedResource Include="Scripts\004-user-verifications.sql" />
+		<EmbeddedResource Include="Scripts\005-user-verification-update.sql" />
 	</ItemGroup>
 
 	<ItemGroup>

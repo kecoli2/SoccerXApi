@@ -14,14 +14,16 @@ public class EmailVerificationRepository(SoccerXDbContext context) : GenericRepo
     #endregion
 
     #region Public Method
-    public async Task<Emailverifications?> GetByTokenAsync(string token)
+    public async Task<Emailverifications?> GetByCodeAsync(string code)
     {
-        return await _context.Emailverifications.FirstOrDefaultAsync(e => e.Token == token && e.Isused == false && e.Expiresat > DateTime.UtcNow);
+        return await _context.Emailverifications
+            .FirstOrDefaultAsync(e => e.Code == code && e.Isused == false && e.Expiresat > DateTime.UtcNow);
     }
 
-    public async Task<bool> IsTokenValidAsync(string token)
+    public async Task<bool> IsCodeValidAsync(string code)
     {
-        return await _context.Emailverifications.AnyAsync(e => e.Token == token && e.Isused == false && e.Expiresat > DateTime.UtcNow);
+        return await _context.Emailverifications
+            .AnyAsync(e => e.Code == code && e.Isused == false && e.Expiresat > DateTime.UtcNow);
     }
     #endregion
 

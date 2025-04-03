@@ -243,6 +243,9 @@ public partial class TestSoccerXDbContext : DbContext
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")
                 .HasColumnName("id");
+            entity.Property(e => e.Code)
+                .HasMaxLength(6)
+                .HasColumnName("code");
             entity.Property(e => e.Createdate)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
@@ -253,9 +256,6 @@ public partial class TestSoccerXDbContext : DbContext
             entity.Property(e => e.Isused)
                 .HasDefaultValue(false)
                 .HasColumnName("isused");
-            entity.Property(e => e.Token)
-                .HasMaxLength(255)
-                .HasColumnName("token");
             entity.Property(e => e.Userid).HasColumnName("userid");
 
             entity.HasOne(d => d.User).WithMany(p => p.Emailverifications)
