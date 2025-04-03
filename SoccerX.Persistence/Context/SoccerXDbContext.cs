@@ -34,7 +34,7 @@ public partial class SoccerXDbContext : DbContext
     public virtual DbSet<Payment> Payments { get; set; }
 
     public virtual DbSet<Referralreward> Referralrewards { get; set; }
-    
+
     public virtual DbSet<Subscription> Subscriptions { get; set; }
 
     public virtual DbSet<Team> Teams { get; set; }

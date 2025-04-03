@@ -63,10 +63,6 @@
          "ObjectType": 0
       },
       {
-         "Name": "public.schemaversions",
-         "ObjectType": 0
-      },
-      {
          "Name": "public.subscriptions",
          "ObjectType": 0
       },
