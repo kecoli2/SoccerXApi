@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SoccerX.Persistence.Context;
-using SoccerX.Persistence.Interfaces;
 using System.Linq.Expressions;
+using SoccerX.Application.Interfaces.Repository;
 
 namespace SoccerX.Persistence.Repositories
 {

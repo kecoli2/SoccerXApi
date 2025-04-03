@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SoccerX.Application.Interfaces.Repository;
 using SoccerX.Domain.Entities;
 using SoccerX.Persistence.Context;
-using SoccerX.Persistence.Interfaces;
 
 namespace SoccerX.Persistence.Repositories;
 

@@ -43,6 +43,11 @@ namespace SoccerX.Common.Configuration
         /// Maximum number of concurrent jobs allowed.
         /// </summary>
         public int MaxConcurrency { get; set; } = 5;
+        
+        /// <summary>
+        /// Database ConnectionString
+        /// </summary>
+        public string ConnectionString { get; set; } = string.Empty;
         #endregion
 
         #region Constructors

@@ -13,18 +13,15 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.3" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Quartz" Version="3.14.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.8.31" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SoccerX.Application\SoccerX.Application.csproj" />
     <ProjectReference Include="..\SoccerX.Common\SoccerX.Common.csproj" />
     <ProjectReference Include="..\SoccerX.Domain\SoccerX.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Caching\" />
-    <Folder Include="Jobs\" />
   </ItemGroup>
 
 </Project>

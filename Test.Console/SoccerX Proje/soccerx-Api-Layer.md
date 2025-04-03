@@ -33,7 +33,7 @@
 │
 ├── 📂 SoccerX.Persistence             # EF Core Katmanı
 │   ├── 📂 Context                       # DbContext, Migration ayarları
-│   ├── 📂 Configuration                 # Fluent API konfigurasyonları
+|   |   ├──📂 Configuration              # Fluent API konfigurasyonları
 │   ├── 📂 Repositories                  # Repository implementasyonları
 │   ├── 📂 Interfaces                    # Entity’lere özel repository interface’leri
 │
@@ -61,4 +61,5 @@
         Fluent API konfigürasyonları Persistence/Configuration içindedir.
         Tüm dış sistemler (Redis, Quartz, vs.) Infrastructure içinde konumlandırılır.
         Ortak kullanılan sınıflar (helpers, config) Common klasöründedir.
+
 
