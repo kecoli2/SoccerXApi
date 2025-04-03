@@ -2,9 +2,9 @@
 
 namespace SoccerX.Persistence.Interfaces
 {
-    public interface IPaymentRepository : IGenericRepository<Payments>
+    public interface IPaymentRepository : IGenericRepository<Payment>
     {
-        Task<IEnumerable<Payments>> GetPaymentsByUserIdAsync(Guid userId);
-        Task<Payments?> GetLastSuccessfulPaymentAsync(Guid userId);
+        Task<IEnumerable<Payment>> GetPaymentsByUserIdAsync(Guid userId);
+        Task<Payment?> GetLastSuccessfulPaymentAsync(Guid userId);
     }
 }

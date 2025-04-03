@@ -5,7 +5,7 @@ using SoccerX.Persistence.Interfaces;
 
 namespace SoccerX.Persistence.Repositories
 {
-    public class CommentRepository(SoccerXDbContext context) : GenericRepository<Comments>(context), ICommentRepository
+    public class CommentRepository(SoccerXDbContext context) : GenericRepository<Comment>(context), ICommentRepository
     {
         #region Field
         #endregion
@@ -14,7 +14,7 @@ namespace SoccerX.Persistence.Repositories
         #endregion
 
         #region Public Method
-        public async Task<IEnumerable<Comments>> GetCommentsByBetSlipIdAsync(Guid betSlipId) =>
+        public async Task<IEnumerable<Comment>> GetCommentsByBetSlipIdAsync(Guid betSlipId) =>
             await _context.Comments.Where(c => c.Betslipid == betSlipId).ToListAsync();
         #endregion
 

@@ -5,7 +5,7 @@ using SoccerX.Persistence.Interfaces;
 
 namespace SoccerX.Persistence.Repositories
 {
-    public class TransactionRepository(SoccerXDbContext context) : GenericRepository<Transactions>(context), ITransactionRepository
+    public class TransactionRepository(SoccerXDbContext context) : GenericRepository<Transaction>(context), ITransactionRepository
     {
 
         #region Field
@@ -15,7 +15,7 @@ namespace SoccerX.Persistence.Repositories
         #endregion
 
         #region Public Method
-        public async Task<IEnumerable<Transactions>> GetByUserIdAsync(Guid userId)
+        public async Task<IEnumerable<Transaction>> GetByUserIdAsync(Guid userId)
         {
             return await _context.Transactions
                 .Where(t => t.Userid == userId)

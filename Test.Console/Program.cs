@@ -69,7 +69,7 @@ using (var context = new SoccerXDbContext(optionsBuilder.Options))
 {
 
     var country = context.Countries.FirstOrDefault();
-    country.Name = "Türkiyes";
+    country!.Name = "Türkiyes";
 
 
     //var users = new List<Users>();

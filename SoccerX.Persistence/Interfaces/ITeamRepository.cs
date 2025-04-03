@@ -2,8 +2,8 @@
 
 namespace SoccerX.Persistence.Interfaces
 {
-    public interface ITeamRepository : IGenericRepository<Teams>
+    public interface ITeamRepository : IGenericRepository<Team>
     {
-        Task<IEnumerable<Teams>> GetTeamsByTagAsync(string tagKey, string tagValue);
+        Task<IEnumerable<Team>> GetTeamsByTagAsync(string tagKey, string tagValue);
     }
 }

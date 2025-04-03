@@ -2,8 +2,8 @@
 
 namespace SoccerX.Persistence.Interfaces
 {
-    public interface IReferralRewardRepository : IGenericRepository<Referralrewards>
+    public interface IReferralRewardRepository : IGenericRepository<Referralreward>
     {
-        Task<IEnumerable<Referralrewards>> GetRewardsByReferrerAsync(Guid referrerId);
+        Task<IEnumerable<Referralreward>> GetRewardsByReferrerAsync(Guid referrerId);
     }
 }

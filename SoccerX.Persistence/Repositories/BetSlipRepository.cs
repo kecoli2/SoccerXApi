@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace SoccerX.Persistence.Repositories
 {
-    public class BetSlipRepository(SoccerXDbContext context) : GenericRepository<Betslips>(context), IBetSlipRepository
+    public class BetSlipRepository(SoccerXDbContext context) : GenericRepository<Betslip>(context), IBetSlipRepository
     {
         #region Field
         #endregion
@@ -15,7 +15,7 @@ namespace SoccerX.Persistence.Repositories
         #endregion
 
         #region Public Method
-        public async Task<IEnumerable<Betslips>> GetPremiumBetSlipsAsync() => await _context.Betslips.Where(b => b.Ispremium).ToListAsync();
+        public async Task<IEnumerable<Betslip>> GetPremiumBetSlipsAsync() => await _context.Betslips.Where(b => b.Ispremium).ToListAsync();
         #endregion
 
         #region Private Method

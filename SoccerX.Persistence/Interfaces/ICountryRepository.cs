@@ -2,8 +2,8 @@
 
 namespace SoccerX.Persistence.Interfaces
 {
-    public interface ICountryRepository : IGenericRepository<Countries>
+    public interface ICountryRepository : IGenericRepository<Country>
     {
-        Task<Countries?> GetByCodeAsync(string countryCode);
+        Task<Country?> GetByCodeAsync(string countryCode);
     }
 }

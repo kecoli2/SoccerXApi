@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SoccerX.Persistence.Repositories
 {
-    public class ReferralRewardRepository(SoccerXDbContext context) : GenericRepository<Referralrewards>(context), IReferralRewardRepository
+    public class ReferralRewardRepository(SoccerXDbContext context) : GenericRepository<Referralreward>(context), IReferralRewardRepository
     {
         #region Field
         #endregion
@@ -14,7 +14,7 @@ namespace SoccerX.Persistence.Repositories
         #endregion
 
         #region Public Method
-        public async Task<IEnumerable<Referralrewards>> GetRewardsByReferrerAsync(Guid referrerId)
+        public async Task<IEnumerable<Referralreward>> GetRewardsByReferrerAsync(Guid referrerId)
         {
             return await _context.Referralrewards
                 .Where(r => r.Referrerid == referrerId)

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SoccerX.Persistence.Repositories
 {
-    public class PaymentRepository(SoccerXDbContext context) : GenericRepository<Payments>(context), IPaymentRepository
+    public class PaymentRepository(SoccerXDbContext context) : GenericRepository<Payment>(context), IPaymentRepository
     {
         #region Field
         #endregion
@@ -14,14 +14,14 @@ namespace SoccerX.Persistence.Repositories
         #endregion
 
         #region Public Method
-        public async Task<IEnumerable<Payments>> GetPaymentsByUserIdAsync(Guid userId)
+        public async Task<IEnumerable<Payment>> GetPaymentsByUserIdAsync(Guid userId)
         {
             return await _context.Payments
                 .Where(p => p.Userid == userId)
                 .ToListAsync();
         }
 
-        public async Task<Payments?> GetLastSuccessfulPaymentAsync(Guid userId)
+        public async Task<Payment?> GetLastSuccessfulPaymentAsync(Guid userId)
         {
             return await _context.Payments
                 .Where(p => p.Userid == userId && p.PaymentStatus == Domain.Enums.PaymentStatus.Completed)

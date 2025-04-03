@@ -41,8 +41,4 @@
 		<ProjectReference Include="..\SoccerX.Domain\SoccerX.Domain.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Folder Include="Context\TestContext\" />
-	</ItemGroup>
-
 </Project>

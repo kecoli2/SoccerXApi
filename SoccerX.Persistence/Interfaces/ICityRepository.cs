@@ -2,8 +2,8 @@
 
 namespace SoccerX.Persistence.Interfaces
 {
-    public interface ICityRepository : IGenericRepository<Cities>
+    public interface ICityRepository : IGenericRepository<City>
     {
-        Task<IEnumerable<Cities>> GetCitiesByCountryIdAsync(Guid countryId);
+        Task<IEnumerable<City>> GetCitiesByCountryIdAsync(Guid countryId);
     }
 }

@@ -5,7 +5,7 @@ using SoccerX.Persistence.Interfaces;
 
 namespace SoccerX.Persistence.Repositories
 {
-    public class LikeRepository(SoccerXDbContext context) : GenericRepository<Likes>(context), ILikeRepository
+    public class LikeRepository(SoccerXDbContext context) : GenericRepository<Like>(context), ILikeRepository
     {
 
         #region Field

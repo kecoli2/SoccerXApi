@@ -2,9 +2,9 @@
 
 namespace SoccerX.Persistence.Interfaces
 {
-    public interface ISubscriptionRepository : IGenericRepository<Subscriptions>
+    public interface ISubscriptionRepository : IGenericRepository<Subscription>
     {
-        Task<IEnumerable<Subscriptions>> GetActiveSubscriptionsBySubscriberAsync(Guid subscriberId);
+        Task<IEnumerable<Subscription>> GetActiveSubscriptionsBySubscriberAsync(Guid subscriberId);
         Task<bool> HasActiveSubscriptionAsync(Guid subscriberId, Guid editorId);
     }
 }

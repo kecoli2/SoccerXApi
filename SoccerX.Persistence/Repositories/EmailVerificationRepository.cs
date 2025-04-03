@@ -5,7 +5,7 @@ using SoccerX.Persistence.Interfaces;
 
 namespace SoccerX.Persistence.Repositories;
 
-public class EmailVerificationRepository(SoccerXDbContext context) : GenericRepository<Emailverifications>(context), IEmailVerificationRepository
+public class EmailVerificationRepository(SoccerXDbContext context) : GenericRepository<Emailverification>(context), IEmailVerificationRepository
 {
     #region Field
     #endregion
@@ -14,7 +14,7 @@ public class EmailVerificationRepository(SoccerXDbContext context) : GenericRepo
     #endregion
 
     #region Public Method
-    public async Task<Emailverifications?> GetByCodeAsync(string code)
+    public async Task<Emailverification?> GetByCodeAsync(string code)
     {
         return await _context.Emailverifications
             .FirstOrDefaultAsync(e => e.Code == code && e.Isused == false && e.Expiresat > DateTime.UtcNow);

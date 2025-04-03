@@ -40,11 +40,11 @@ namespace SoccerX.Persistence.Util
             .MapEnum<UserRole>("userrole", new NpgSqlEnumTranslater())
             .MapEnum<UserStatus>("userstatus", new NpgSqlEnumTranslater())
             .MapComposite<Auditlog>()
-            .MapComposite<Betslips>()
-            .MapComposite<Payments>()
-            .MapComposite<Referralrewards>()
-            .MapComposite<Transactions>()
-            .MapComposite<Users>();
+            .MapComposite<Betslip>()
+            .MapComposite<Payment>()
+            .MapComposite<Referralreward>()
+            .MapComposite<Transaction>()
+            .MapComposite<User>();
         }
         #endregion
 

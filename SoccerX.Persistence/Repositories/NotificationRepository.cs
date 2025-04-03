@@ -5,7 +5,7 @@ using SoccerX.Persistence.Interfaces;
 
 namespace SoccerX.Persistence.Repositories
 {
-    public class NotificationRepository(SoccerXDbContext context) : GenericRepository<Notifications>(context), INotificationRepository
+    public class NotificationRepository(SoccerXDbContext context) : GenericRepository<Notification>(context), INotificationRepository
     {
         #region Field
         #endregion
@@ -14,7 +14,7 @@ namespace SoccerX.Persistence.Repositories
         #endregion
 
         #region Public Method
-        public async Task<IEnumerable<Notifications>> GetUnreadNotificationsAsync(Guid userId)
+        public async Task<IEnumerable<Notification>> GetUnreadNotificationsAsync(Guid userId)
         {
             return await _context.Notifications
                .Where(n => n.Userid == userId && !n.Isread && (n.Isdeleted == null || n.Isdeleted == false))

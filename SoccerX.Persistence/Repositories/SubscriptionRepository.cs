@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SoccerX.Persistence.Repositories
 {
-    public class SubscriptionRepository(SoccerXDbContext context) : GenericRepository<Subscriptions>(context), ISubscriptionRepository
+    public class SubscriptionRepository(SoccerXDbContext context) : GenericRepository<Subscription>(context), ISubscriptionRepository
     {
 
         #region Field
@@ -15,7 +15,7 @@ namespace SoccerX.Persistence.Repositories
         #endregion
 
         #region Public Method
-        public async Task<IEnumerable<Subscriptions>> GetActiveSubscriptionsBySubscriberAsync(Guid subscriberId)
+        public async Task<IEnumerable<Subscription>> GetActiveSubscriptionsBySubscriberAsync(Guid subscriberId)
         {
             return await _context.Subscriptions
                 .Where(s => s.Subscriberid == subscriberId && s.Isactive)

@@ -2,8 +2,8 @@
 
 namespace SoccerX.Persistence.Interfaces
 {
-    public interface INotificationRepository : IGenericRepository<Notifications>
+    public interface INotificationRepository : IGenericRepository<Notification>
     {
-        Task<IEnumerable<Notifications>> GetUnreadNotificationsAsync(Guid userId);
+        Task<IEnumerable<Notification>> GetUnreadNotificationsAsync(Guid userId);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace SoccerX.Persistence.Interfaces
 {
-    public interface ICommentRepository : IGenericRepository<Comments>
+    public interface ICommentRepository : IGenericRepository<Comment>
     {
-        Task<IEnumerable<Comments>> GetCommentsByBetSlipIdAsync(Guid betSlipId);
+        Task<IEnumerable<Comment>> GetCommentsByBetSlipIdAsync(Guid betSlipId);
     }
 }

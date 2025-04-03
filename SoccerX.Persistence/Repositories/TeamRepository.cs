@@ -5,7 +5,7 @@ using SoccerX.Persistence.Interfaces;
 
 namespace SoccerX.Persistence.Repositories
 {
-    public class TeamRepository(SoccerXDbContext context) : GenericRepository<Teams>(context), ITeamRepository
+    public class TeamRepository(SoccerXDbContext context) : GenericRepository<Team>(context), ITeamRepository
     {
 
         #region Field
@@ -15,7 +15,7 @@ namespace SoccerX.Persistence.Repositories
         #endregion
 
         #region Public Method
-        public async Task<IEnumerable<Teams>> GetTeamsByTagAsync(string tagKey, string tagValue)
+        public async Task<IEnumerable<Team>> GetTeamsByTagAsync(string tagKey, string tagValue)
         {
             return await _context.Teams
                 .Where(t => t.Tags != null &&

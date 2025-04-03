@@ -2,9 +2,9 @@
 
 namespace SoccerX.Persistence.Interfaces
 {
-    public interface ITransactionRepository : IGenericRepository<Transactions>
+    public interface ITransactionRepository : IGenericRepository<Transaction>
     {
-        Task<IEnumerable<Transactions>> GetByUserIdAsync(Guid userId);
+        Task<IEnumerable<Transaction>> GetByUserIdAsync(Guid userId);
         Task<decimal> GetUserBalanceAsync(Guid userId);
     }
 }

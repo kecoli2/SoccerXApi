@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SoccerX.Persistence.Repositories
 {
-    public class CityRepository(SoccerXDbContext context) : GenericRepository<Cities>(context), ICityRepository
+    public class CityRepository(SoccerXDbContext context) : GenericRepository<City>(context), ICityRepository
     {
         #region Field
         #endregion
@@ -14,14 +14,14 @@ namespace SoccerX.Persistence.Repositories
         #endregion
 
         #region Public Method
-        public async Task<IEnumerable<Cities>> GetCitiesByCountryIdAsync(Guid countryId)
+        public async Task<IEnumerable<City>> GetCitiesByCountryIdAsync(Guid countryId)
         {
             return await _context.Cities
                 .Where(c => c.Countryid == countryId)
                 .ToListAsync();
         }
 
-        public async Task<Cities?> GetByNameAsync(string name)
+        public async Task<City?> GetByNameAsync(string name)
         {
             return await _context.Cities.FirstOrDefaultAsync(c => c.Name == name);
         }

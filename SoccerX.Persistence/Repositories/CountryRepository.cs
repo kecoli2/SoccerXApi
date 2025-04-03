@@ -5,7 +5,7 @@ using SoccerX.Persistence.Interfaces;
 
 namespace SoccerX.Persistence.Repositories
 {
-    public class CountryRepository(SoccerXDbContext context) : GenericRepository<Countries>(context), ICountryRepository
+    public class CountryRepository(SoccerXDbContext context) : GenericRepository<Country>(context), ICountryRepository
     {
 
         #region Field
@@ -15,14 +15,14 @@ namespace SoccerX.Persistence.Repositories
         #endregion
 
         #region Public Method
-        public async Task<Countries?> GetByNameAsync(string name)
+        public async Task<Country?> GetByNameAsync(string name)
         {
-            return await _context.Countries.FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower());
+            return await _context.Countries.FirstOrDefaultAsync(c => string.Equals(c.Name, name, StringComparison.CurrentCultureIgnoreCase));
         }
 
-        public async Task<Countries?> GetByCodeAsync(string code)
+        public async Task<Country?> GetByCodeAsync(string code)
         {
-            return await _context.Countries.FirstOrDefaultAsync(c => c.Countrycode.ToLower() == code.ToLower());
+            return await _context.Countries.FirstOrDefaultAsync(c => string.Equals(c.Countrycode, code, StringComparison.CurrentCultureIgnoreCase));
         }
         #endregion
 

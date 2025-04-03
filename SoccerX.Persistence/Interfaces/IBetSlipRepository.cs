@@ -2,8 +2,8 @@
 
 namespace SoccerX.Persistence.Interfaces
 {
-    public interface IBetSlipRepository : IGenericRepository<Betslips>
+    public interface IBetSlipRepository : IGenericRepository<Betslip>
     {
-        Task<IEnumerable<Betslips>> GetPremiumBetSlipsAsync();
+        Task<IEnumerable<Betslip>> GetPremiumBetSlipsAsync();
     }
 }
