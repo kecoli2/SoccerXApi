@@ -1,45 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>preview</LangVersion>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Scripts\001-create-all-soccerX-db.sql" />
-    <None Remove="Scripts\002-update_date_function.sql" />
-    <None Remove="Scripts\003-quartznet-postgresql-tables.sql" />
-    <None Remove="Scripts\004-user-verifications.sql" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Scripts\001-create-all-soccerX-db.sql" />
+		<None Remove="Scripts\002-update_date_function.sql" />
+		<None Remove="Scripts\003-quartznet-postgresql-tables.sql" />
+		<None Remove="Scripts\004-user-verifications.sql" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Scripts\001-create-all-soccerX-db.sql" />
-    <EmbeddedResource Include="Scripts\002-update_date_function.sql" />
-    <EmbeddedResource Include="Scripts\003-quartznet-postgresql-tables.sql" />
-    <EmbeddedResource Include="Scripts\004-user-verifications.sql" />
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Scripts\001-create-all-soccerX-db.sql" />
+		<EmbeddedResource Include="Scripts\002-update_date_function.sql" />
+		<EmbeddedResource Include="Scripts\003-quartznet-postgresql-tables.sql" />
+		<EmbeddedResource Include="Scripts\004-user-verifications.sql" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="dbup-postgresql" Version="6.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.3" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="dbup-postgresql" Version="6.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.3" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.3" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SoccerX.Common\SoccerX.Common.csproj" />
-    <ProjectReference Include="..\SoccerX.Domain\SoccerX.Domain.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\SoccerX.Common\SoccerX.Common.csproj" />
+		<ProjectReference Include="..\SoccerX.Domain\SoccerX.Domain.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Context\TestContext\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Context\TestContext\" />
+	</ItemGroup>
 
 </Project>
