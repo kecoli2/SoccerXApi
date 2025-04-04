@@ -37,9 +37,9 @@ namespace SoccerX.Infrastructure.Jobs.Base
         {
             var jobAttribute = typeof(T).GetAttributeValue((JobAttributes dna) => dna);
             _jobBuilder = JobBuilder.Create(typeof(T));
-            var jobKey = new JobKey(Guid.NewGuid().ToString(), jobAttribute.JobCategory.GetHashCode().ToString());
+            var jobKey = new JobKey(Guid.NewGuid().ToString(), jobAttribute?.JobCategory.GetHashCode().ToString());
             _jobBuilder.WithIdentity(jobKey);
-            _jobBuilder.WithDescription(jobAttribute.JobDescription);
+            _jobBuilder.WithDescription(jobAttribute?.JobDescription);
             TriggerPriority = TriggerPriorityEnum.Middle;
             return this;
         }
@@ -48,9 +48,9 @@ namespace SoccerX.Infrastructure.Jobs.Base
         {
             var jobAttribute = jobType.GetAttributeValue((JobAttributes dna) => dna);
             _jobBuilder = JobBuilder.Create(jobType);
-            var jobKey = new JobKey(Guid.NewGuid().ToString(), jobAttribute.JobCategory.GetHashCode().ToString());
+            var jobKey = new JobKey(Guid.NewGuid().ToString(), jobAttribute?.JobCategory.GetHashCode().ToString());
             _jobBuilder.WithIdentity(jobKey);
-            _jobBuilder.WithDescription(jobAttribute.JobDescription);
+            _jobBuilder.WithDescription(jobAttribute?.JobDescription);
             TriggerPriority = TriggerPriorityEnum.Middle;
             return this;
         }
@@ -59,9 +59,9 @@ namespace SoccerX.Infrastructure.Jobs.Base
         {
             var jobAttribute = FindJob(jobKeyEnum).GetAttributeValue((JobAttributes dna) => dna);
             _jobBuilder = JobBuilder.Create(FindJob(jobKeyEnum));
-            var jobKey = new JobKey(Guid.NewGuid().ToString(), jobAttribute.JobCategory.GetHashCode().ToString());
+            var jobKey = new JobKey(Guid.NewGuid().ToString(), jobAttribute?.JobCategory.GetHashCode().ToString());
             _jobBuilder.WithIdentity(jobKey);
-            _jobBuilder.WithDescription(jobAttribute.JobDescription);
+            _jobBuilder.WithDescription(jobAttribute?.JobDescription);
             TriggerPriority = TriggerPriorityEnum.Middle;
             return this;
         }
@@ -192,55 +192,46 @@ namespace SoccerX.Infrastructure.Jobs.Base
 
         public async Task<JobDetailModel> Start()
         {
-            try
+            var jobDetail = _jobBuilder?.Build();
+            TriggerBuilder? triggerBuilder = null;
+            if (_userId != null)
+                jobDetail?.JobDataMap.Put(QuartzConstant.JobUserId, _userId?.ToString());
+            jobDetail?.JobDataMap.Put(QuartzConstant.JobCulture, _culture);
+
+            if (_cronExpression != null)
             {
-                var jobDetail = _jobBuilder?.Build();
-                TriggerBuilder? triggerBuilder = null;
-                if (_userId != null)
-                    jobDetail?.JobDataMap.Put(QuartzConstant.JobUserId, _userId?.ToString());
-                jobDetail?.JobDataMap.Put(QuartzConstant.JobCulture, _culture);
-
-                if (_cronExpression != null)
+                var startDate = _startDateTime ?? DateTime.Now;
+                if (_endDateTime == null || _endDateTime <= startDate)
                 {
-                    var startDate = _startDateTime ?? DateTime.Now;
-                    if (_endDateTime == null || _endDateTime <= startDate)
-                    {
-                        _endDateTime = new DateTimeOffset(startDate.Date.Year, startDate.Date.Month, startDate.Date.Day,
-                            23, 59, 59, TimeSpan.Zero);
-                    }
-                    else
-                    {
-                        _endDateTime = new DateTimeOffset(_endDateTime!.Value.Date.Year, _endDateTime!.Value.Date.Month,
-                            _endDateTime!.Value.Date.Day, 23, 59, 59, TimeSpan.Zero);
-                    }
-
-                    triggerBuilder = TriggerBuilder.Create()
-                        .StartAt(startDate)
-                        .WithIdentity(TriggerKeyName ?? new TriggerKey(Guid.NewGuid().ToString(),
-                            TriggerCategoryEnums.Default.GetHashCode().ToString()))
-                        .WithDescription(jobDetail?.Description + "-Trigger")
-                        .EndAt(_endDateTime)
-                        .WithPriority(TriggerPriority.GetHashCode())
-                        .WithSchedule(CronScheduleBuilder.CronSchedule(_cronExpression));
+                    _endDateTime = new DateTimeOffset(startDate.Date.Year, startDate.Date.Month, startDate.Date.Day,
+                        23, 59, 59, TimeSpan.Zero);
+                }
+                else
+                {
+                    _endDateTime = new DateTimeOffset(_endDateTime!.Value.Date.Year, _endDateTime!.Value.Date.Month,
+                        _endDateTime!.Value.Date.Day, 23, 59, 59, TimeSpan.Zero);
                 }
 
-                triggerBuilder ??= TriggerBuilder.Create()
-                    .WithIdentity(TriggerKeyName ??
-                                  new TriggerKey(Guid.NewGuid().ToString(),
-                                      TriggerCategoryEnums.Default.GetHashCode().ToString()))
+                triggerBuilder = TriggerBuilder.Create()
+                    .StartAt(startDate)
+                    .WithIdentity(TriggerKeyName ?? new TriggerKey(Guid.NewGuid().ToString(),
+                        TriggerCategoryEnums.Default.GetHashCode().ToString()))
                     .WithDescription(jobDetail?.Description + "-Trigger")
+                    .EndAt(_endDateTime)
                     .WithPriority(TriggerPriority.GetHashCode())
-                    .StartNow();
-
-                var detail = await _scheduler.GetScheduler().ScheduleJob(jobDetail!, triggerBuilder.Build());
-                return CastToJobDetailModel(jobDetail!, detail);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
+                    .WithSchedule(CronScheduleBuilder.CronSchedule(_cronExpression));
             }
 
-            return null;
+            triggerBuilder ??= TriggerBuilder.Create()
+                .WithIdentity(TriggerKeyName ??
+                              new TriggerKey(Guid.NewGuid().ToString(),
+                                  TriggerCategoryEnums.Default.GetHashCode().ToString()))
+                .WithDescription(jobDetail?.Description + "-Trigger")
+                .WithPriority(TriggerPriority.GetHashCode())
+                .StartNow();
+
+            var detail = await _scheduler.GetScheduler().ScheduleJob(jobDetail!, triggerBuilder.Build());
+            return CastToJobDetailModel(jobDetail!, detail);
         }
 
         #endregion

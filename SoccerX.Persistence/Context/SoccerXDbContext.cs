@@ -35,6 +35,8 @@ public partial class SoccerXDbContext : DbContext
 
     public virtual DbSet<Referralreward> Referralrewards { get; set; }
 
+    public virtual DbSet<Schedulerresult> Schedulerresults { get; set; }
+
     public virtual DbSet<Subscription> Subscriptions { get; set; }
 
     public virtual DbSet<Team> Teams { get; set; }
@@ -51,6 +53,7 @@ public partial class SoccerXDbContext : DbContext
             .HasPostgresEnum("paymentmethod", new[] { "CreditCard", "PayPal", "Crypto" })
             .HasPostgresEnum("paymentstatus", new[] { "Pending", "Completed", "Failed", "Refunded" })
             .HasPostgresEnum("referralstatus", new[] { "Pending", "Paid" })
+            .HasPostgresEnum("scheduler_result_enum", new[] { "Ok", "Error" })
             .HasPostgresEnum("transactiontype", new[] { "Deposit", "Withdrawal", "Subscription", "BetSlipPurchase" })
             .HasPostgresEnum("userrole", new[] { "User", "Editor", "Admin" })
             .HasPostgresEnum("userstatus", new[] { "Active", "Banned" });
@@ -65,6 +68,7 @@ public partial class SoccerXDbContext : DbContext
         modelBuilder.ApplyConfiguration(new Configurations.NotificationConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.PaymentConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.ReferralrewardConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.SchedulerresultConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.SubscriptionConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.TeamConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.TransactionConfiguration());

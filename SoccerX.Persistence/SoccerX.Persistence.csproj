@@ -13,6 +13,7 @@
 		<None Remove="Scripts\003-quartznet-postgresql-tables.sql" />
 		<None Remove="Scripts\004-user-verifications.sql" />
 		<None Remove="Scripts\005-user-verification-update.sql" />
+		<None Remove="Scripts\006-quartz-scheduler-result-create-table.sql" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -21,6 +22,7 @@
 		<EmbeddedResource Include="Scripts\003-quartznet-postgresql-tables.sql" />
 		<EmbeddedResource Include="Scripts\004-user-verifications.sql" />
 		<EmbeddedResource Include="Scripts\005-user-verification-update.sql" />
+		<EmbeddedResource Include="Scripts\006-quartz-scheduler-result-create-table.sql" />
 	</ItemGroup>
 
 	<ItemGroup>

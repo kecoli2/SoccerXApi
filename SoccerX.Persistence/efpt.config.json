@@ -63,6 +63,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "public.schedulerresult",
+         "ObjectType": 0
+      },
+      {
          "Name": "public.subscriptions",
          "ObjectType": 0
       },

@@ -25,7 +25,8 @@ namespace SoccerX.Persistence.Util
                 .MapEnum<ReferralStatus>("referralstatus")
                 .MapEnum<TransactionType>("transactiontype")
                 .MapEnum<UserRole>("userrole")
-                .MapEnum<UserStatus>("userstatus");
+                .MapEnum<UserStatus>("userstatus")
+                .MapEnum<SchedulerResultEnum>("scheduler_result_enum");
         }
 
         public static void NpgsqlToEnumMapRegisterAll(this NpgsqlDataSourceBuilder builder)
@@ -39,12 +40,14 @@ namespace SoccerX.Persistence.Util
             .MapEnum<TransactionType>("transactiontype", new NpgSqlEnumTranslater())
             .MapEnum<UserRole>("userrole", new NpgSqlEnumTranslater())
             .MapEnum<UserStatus>("userstatus", new NpgSqlEnumTranslater())
+            .MapEnum<SchedulerResultEnum>("scheduler_result_enum", new NpgSqlEnumTranslater())
             .MapComposite<Auditlog>()
             .MapComposite<Betslip>()
             .MapComposite<Payment>()
             .MapComposite<Referralreward>()
             .MapComposite<Transaction>()
-            .MapComposite<User>();
+            .MapComposite<User>()
+            .MapComposite<Schedulerresult>();
         }
         #endregion
 

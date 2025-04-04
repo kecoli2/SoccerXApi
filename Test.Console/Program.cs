@@ -71,6 +71,21 @@ using (var context = new SoccerXDbContext(optionsBuilder.Options))
     var country = context.Countries.FirstOrDefault();
     country!.Name = "Türkiyes";
 
+    var res = new Schedulerresult
+    {
+        Enddate = DateTime.Now,
+        Jobdescription = "dsdasda",
+        Jobgroup = "dsadsada",
+        Jobkey = "dsadsda",
+        Result = SchedulerResultEnum.Error,
+        Resultdetail = "fdfsdfsdfs",
+        Startdate = DateTime.Now,
+        Workingtime = TimeSpan.FromMinutes(4),
+        Userid = Guid.NewGuid()
+    };
+
+    context.Schedulerresults.Add(res);
+
 
     //var users = new List<Users>();
     //var country = context.Countries.Take(1).First();

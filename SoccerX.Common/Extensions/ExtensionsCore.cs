@@ -15,7 +15,7 @@ namespace SoccerX.Common.Extensions
         #endregion
 
         #region Public Method
-        public static TValue GetAttributeValue<TAttribute, TValue>(this Type type, Func<TAttribute, TValue> valueSelector) where TAttribute : Attribute
+        public static TValue? GetAttributeValue<TAttribute, TValue>(this Type type, Func<TAttribute, TValue> valueSelector) where TAttribute : Attribute
         {
             if (type.GetCustomAttributes(typeof(TAttribute), true).FirstOrDefault() is TAttribute att)
             {
