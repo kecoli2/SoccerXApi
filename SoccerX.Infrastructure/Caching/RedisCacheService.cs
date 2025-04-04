@@ -1,13 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
 using SoccerX.Common.Configuration;
 using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SoccerX.Common.Extensions;
 using Newtonsoft.Json;
+using SoccerX.Application.Interfaces.Redis;
 
 namespace SoccerX.Infrastructure.Caching
 {
@@ -19,9 +14,9 @@ namespace SoccerX.Infrastructure.Caching
         #endregion
 
         #region Constructor
-        public RedisCacheService(IOptions<RedisSettings> settings)
+        public RedisCacheService(ApplicationSettings settings)
         {
-            var redisSettings = settings.Value;
+            var redisSettings = settings.Redis;
             ConfigurationOptions config;
 
             if (redisSettings.UseSentinel)

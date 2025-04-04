@@ -1,11 +1,7 @@
-﻿using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
 
-namespace SoccerX.Infrastructure.Caching
+namespace SoccerX.Application.Interfaces.Redis
 {
     public interface IRedisCacheService
     {
@@ -13,7 +9,7 @@ namespace SoccerX.Infrastructure.Caching
         Task<T?> GetAsync<T>(string key);
         Task<bool> RemoveAsync(string key);
         Task<bool> ExistsAsync(string key);
-        Task SubscribeAsync(string channel, Action<RedisChannel, RedisValue> handler);
+        //Task SubscribeAsync(string channel, Action<RedisChannel, RedisValue> handler);
         Task PublishAsync(string channel, string message);
     }
 
