@@ -17,12 +17,12 @@ namespace SoccerX.Persistence.Repositories
         #region Public Method
         public async Task<Country?> GetByNameAsync(string name)
         {
-            return await _context.Countries.FirstOrDefaultAsync(c => string.Equals(c.Name, name, StringComparison.CurrentCultureIgnoreCase));
+            return await Context.Countries.FirstOrDefaultAsync(c => string.Equals(c.Name, name, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public async Task<Country?> GetByCodeAsync(string code)
         {
-            return await _context.Countries.FirstOrDefaultAsync(c => string.Equals(c.Countrycode, code, StringComparison.CurrentCultureIgnoreCase));
+            return await Context.Countries.FirstOrDefaultAsync(c => string.Equals(c.Countrycode, code, StringComparison.CurrentCultureIgnoreCase));
         }
         #endregion
 

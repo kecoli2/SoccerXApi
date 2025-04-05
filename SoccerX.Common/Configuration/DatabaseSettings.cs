@@ -20,7 +20,7 @@
         /// <summary>
         /// PostgreSQL database name.
         /// </summary>
-        public string DatabaseName { get; set; } = "SoccerXDB";
+        public string DatabaseName { get; set; } = "soccerxdb";
 
         /// <summary>
         /// PostgreSQL username.

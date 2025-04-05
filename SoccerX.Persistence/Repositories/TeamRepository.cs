@@ -17,7 +17,7 @@ namespace SoccerX.Persistence.Repositories
         #region Public Method
         public async Task<IEnumerable<Team>> GetTeamsByTagAsync(string tagKey, string tagValue)
         {
-            return await _context.Teams
+            return await Context.Teams
                 .Where(t => t.Tags != null &&
                             EF.Functions.JsonContains(t.Tags, $@"{{ ""{tagKey}"": ""{tagValue}"" }}"))
                 .ToListAsync();

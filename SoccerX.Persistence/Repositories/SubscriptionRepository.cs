@@ -17,14 +17,14 @@ namespace SoccerX.Persistence.Repositories
         #region Public Method
         public async Task<IEnumerable<Subscription>> GetActiveSubscriptionsBySubscriberAsync(Guid subscriberId)
         {
-            return await _context.Subscriptions
+            return await Context.Subscriptions
                 .Where(s => s.Subscriberid == subscriberId && s.Isactive)
                 .ToListAsync();
         }
 
         public async Task<bool> HasActiveSubscriptionAsync(Guid subscriberId, Guid editorId)
         {
-            return await _context.Subscriptions
+            return await Context.Subscriptions
                 .AnyAsync(s => s.Subscriberid == subscriberId && s.Editorid == editorId && s.Isactive);
         }
         #endregion

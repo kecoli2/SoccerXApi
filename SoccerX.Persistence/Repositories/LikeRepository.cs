@@ -15,7 +15,7 @@ namespace SoccerX.Persistence.Repositories
         #endregion
 
         #region Public Method
-        public async Task<int> CountLikesByBetSlipIdAsync(Guid betSlipId) => await _context.Likes.CountAsync(l => l.Betslipid == betSlipId);
+        public async Task<int> CountLikesByBetSlipIdAsync(Guid betSlipId) => await Context.Likes.CountAsync(l => l.Betslipid == betSlipId);
         #endregion
 
         #region Private Method

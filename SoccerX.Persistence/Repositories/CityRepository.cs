@@ -16,14 +16,14 @@ namespace SoccerX.Persistence.Repositories
         #region Public Method
         public async Task<IEnumerable<City>> GetCitiesByCountryIdAsync(Guid countryId)
         {
-            return await _context.Cities
+            return await Context.Cities
                 .Where(c => c.Countryid == countryId)
                 .ToListAsync();
         }
 
         public async Task<City?> GetByNameAsync(string name)
         {
-            return await _context.Cities.FirstOrDefaultAsync(c => c.Name == name);
+            return await Context.Cities.FirstOrDefaultAsync(c => c.Name == name);
         }
         #endregion
 

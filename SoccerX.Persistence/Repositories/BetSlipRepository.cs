@@ -14,7 +14,7 @@ namespace SoccerX.Persistence.Repositories
         #endregion
 
         #region Public Method
-        public async Task<IEnumerable<Betslip>> GetPremiumBetSlipsAsync() => await _context.Betslips.Where(b => b.Ispremium).ToListAsync();
+        public async Task<IEnumerable<Betslip>> GetPremiumBetSlipsAsync() => await Context.Betslips.Where(b => b.Ispremium).ToListAsync();
         #endregion
 
         #region Private Method

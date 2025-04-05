@@ -2,7 +2,6 @@ using Microsoft.IdentityModel.Tokens;
 using SoccerX.API.HostedService;
 using SoccerX.API.StartUp;
 using SoccerX.Common.Configuration;
-using SoccerX.Infrastructure.ServiceInstaller;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,10 +43,8 @@ var applicationSettings = new ApplicationSettings
 };
 
 //DI Tanimlamalari
-builder.Services.AddSingleton(applicationSettings);
 builder.Services.AddHostedService<QuartzHostedService>();
-builder.Services.InitiliazeInfrastructureServices();
-builder.Services.AddSwagger();
+builder.Services.AddDependcyCollectionWebApi(applicationSettings);
 // Add services to the container.
 
 builder.Services.AddControllers();

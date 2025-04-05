@@ -15,7 +15,7 @@ namespace SoccerX.Persistence.Repositories
 
         #region Public Method
         public async Task<IEnumerable<Comment>> GetCommentsByBetSlipIdAsync(Guid betSlipId) =>
-            await _context.Comments.Where(c => c.Betslipid == betSlipId).ToListAsync();
+            await Context.Comments.Where(c => c.Betslipid == betSlipId).ToListAsync();
         #endregion
 
         #region Private Method

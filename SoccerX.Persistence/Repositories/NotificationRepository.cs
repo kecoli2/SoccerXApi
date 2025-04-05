@@ -16,7 +16,7 @@ namespace SoccerX.Persistence.Repositories
         #region Public Method
         public async Task<IEnumerable<Notification>> GetUnreadNotificationsAsync(Guid userId)
         {
-            return await _context.Notifications
+            return await Context.Notifications
                .Where(n => n.Userid == userId && !n.Isread && (n.Isdeleted == null || n.Isdeleted == false))
                .OrderByDescending(n => n.Createdate)
                .ToListAsync();
@@ -24,13 +24,13 @@ namespace SoccerX.Persistence.Repositories
 
         public async Task MarkAsReadAsync(Guid notificationId)
         {
-            var notification = await _context.Notifications.FindAsync(notificationId);
+            var notification = await Context.Notifications.FindAsync(notificationId);
             if (notification != null)
             {
                 notification.Isread = true;
                 notification.Updatedate = DateTime.UtcNow;
-                _context.Notifications.Update(notification);
-                await _context.SaveChangesAsync();
+                Context.Notifications.Update(notification);
+                await Context.SaveChangesAsync();
             }
         }
         #endregion

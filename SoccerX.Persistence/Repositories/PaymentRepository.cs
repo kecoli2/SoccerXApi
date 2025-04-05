@@ -16,14 +16,14 @@ namespace SoccerX.Persistence.Repositories
         #region Public Method
         public async Task<IEnumerable<Payment>> GetPaymentsByUserIdAsync(Guid userId)
         {
-            return await _context.Payments
+            return await Context.Payments
                 .Where(p => p.Userid == userId)
                 .ToListAsync();
         }
 
         public async Task<Payment?> GetLastSuccessfulPaymentAsync(Guid userId)
         {
-            return await _context.Payments
+            return await Context.Payments
                 .Where(p => p.Userid == userId && p.PaymentStatus == Domain.Enums.PaymentStatus.Completed)
                 .OrderByDescending(p => p.Paymentdate)
                 .FirstOrDefaultAsync();

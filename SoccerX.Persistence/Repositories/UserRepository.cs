@@ -13,10 +13,10 @@ namespace SoccerX.Persistence.Repositories
 
         #region Public Method
         public async Task<User?> GetByEmailAsync(string email) =>
-            await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            await Context.Users.FirstOrDefaultAsync(u => u.Email == email);
 
         public async Task<User?> GetByUsernameAsync(string username) =>
-            await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            await Context.Users.FirstOrDefaultAsync(u => u.Username == username);
         #endregion
 
         #region Private Method

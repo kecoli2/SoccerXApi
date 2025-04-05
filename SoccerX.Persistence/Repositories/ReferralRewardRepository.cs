@@ -16,7 +16,7 @@ namespace SoccerX.Persistence.Repositories
         #region Public Method
         public async Task<IEnumerable<Referralreward>> GetRewardsByReferrerAsync(Guid referrerId)
         {
-            return await _context.Referralrewards
+            return await Context.Referralrewards
                 .Where(r => r.Referrerid == referrerId)
                 .ToListAsync();
         }

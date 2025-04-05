@@ -1,5 +1,7 @@
-﻿using System;
+﻿using SoccerX.Common.Shared.Model;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -17,4 +19,36 @@ public interface IGenericRepository<T> where T : class
     void RemoveRange(IEnumerable<T> entities);
     Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
     Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null);
+
+    /// <summary>
+    /// Offset-based paging metodu
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <param name="pageNumber"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="orderBy"></param>
+    /// <returns></returns>
+    Task<PagedResult<T>> GetPagedAsync(Expression<Func<T, bool>>? predicate, int pageNumber, int pageSize, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null);
+
+    /// <summary>
+    /// Cursor-based paging metodu
+    /// </summary>
+    /// <typeparam name="TCursor"></typeparam>
+    /// <param name="predicate"></param>
+    /// <param name="lastCursor"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="cursorSelector"></param>
+    /// <returns></returns>
+    Task<CursorPagedResult<T, TCursor>> GetPagedByCursorAsync<TCursor>(Expression<Func<T, bool>>? predicate, TCursor? lastCursor, int pageSize, Expression<Func<T, TCursor>> cursorSelector) where TCursor : IComparable;
+
+    /// <summary>
+    /// Cursor-based paging metodu CreateDate ve UUID
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <param name="lastCursor"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="createDateFieldName"></param>
+    /// <param name="idFieldName"></param>
+    /// <returns></returns>
+    public Task<CursorPagedResult<T, CompositeCursorGuid>> GetPagedByCompositeCursorAsync(Expression<Func<T, bool>>? predicate, CompositeCursorGuid? lastCursor, int pageSize, string createDateFieldName = "Createdate", string idFieldName = "Id");
 }

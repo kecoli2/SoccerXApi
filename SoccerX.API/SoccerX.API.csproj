@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="SoccerX.API.http" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
@@ -26,6 +30,7 @@
     <ProjectReference Include="..\SoccerX.Domain\SoccerX.Domain.csproj" />
     <ProjectReference Include="..\SoccerX.DTO\SoccerX.DTO.csproj" />
     <ProjectReference Include="..\SoccerX.Infrastructure\SoccerX.Infrastructure.csproj" />
+    <ProjectReference Include="..\SoccerX.Persistence\SoccerX.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

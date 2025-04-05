@@ -17,7 +17,7 @@ namespace SoccerX.Persistence.Repositories
         #region Public Method
         public async Task<IEnumerable<Transaction>> GetByUserIdAsync(Guid userId)
         {
-            return await _context.Transactions
+            return await Context.Transactions
                 .Where(t => t.Userid == userId)
                 .OrderByDescending(t => t.Createdate)
                 .ToListAsync();
@@ -25,7 +25,7 @@ namespace SoccerX.Persistence.Repositories
 
         public async Task<decimal> GetUserBalanceAsync(Guid userId)
         {
-            return await _context.Transactions
+            return await Context.Transactions
                 .Where(t => t.Userid == userId)
                 .SumAsync(t => t.Amount);
         }

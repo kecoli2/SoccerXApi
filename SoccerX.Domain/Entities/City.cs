@@ -13,7 +13,7 @@ public partial class City
 
     public Guid Countryid { get; set; }
 
-    public DateTime? Createdate { get; set; }
+    public DateTime Createdate { get; set; }
 
     public DateTime? Updatedate { get; set; }
 

@@ -16,14 +16,14 @@ namespace SoccerX.Persistence.Repositories
         #region Public Method
         public async Task<IEnumerable<Auditlog>> GetLogsByEntityNameAsync(string entityName)
         {
-            return await _context.Auditlogs
+            return await Context.Auditlogs
                 .Where(a => a.Entityname == entityName)
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<Auditlog>> GetLogsByUserIdAsync(Guid userId)
         {
-            return await _context.Auditlogs
+            return await Context.Auditlogs
                 .Where(a => a.Performedby == userId)
                 .ToListAsync();
         }
