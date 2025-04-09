@@ -13,7 +13,7 @@ public partial class Like
 
     public Guid Betslipid { get; set; }
 
-    public DateTime? Createdate { get; set; }
+    public DateTime Createdate { get; set; }
 
     public DateTime? Updatedate { get; set; }
 

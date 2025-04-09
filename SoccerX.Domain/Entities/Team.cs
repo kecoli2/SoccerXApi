@@ -15,7 +15,7 @@ public partial class Team
 
     public string Tags { get; set; }
 
-    public DateTime? Createdate { get; set; }
+    public DateTime Createdate { get; set; }
 
     public DateTime? Updatedate { get; set; }
 

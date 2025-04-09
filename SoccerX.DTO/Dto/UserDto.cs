@@ -13,6 +13,8 @@ namespace SoccerX.DTO.Dto
         public string UserName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public DateTime CreateDate { get; set; }
+        public string? Phonenumber { get; set; }
+        public string? Avatarurl { get; set; }
         #endregion
 
         #region Constructor

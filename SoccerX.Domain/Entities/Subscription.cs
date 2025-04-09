@@ -19,7 +19,7 @@ public partial class Subscription
 
     public bool Isactive { get; set; }
 
-    public DateTime? Createdate { get; set; }
+    public DateTime Createdate { get; set; }
 
     public DateTime? Updatedate { get; set; }
 

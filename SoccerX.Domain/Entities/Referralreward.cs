@@ -15,7 +15,7 @@ public partial class Referralreward
 
     public decimal Amount { get; set; }
 
-    public DateTime? Createdate { get; set; }
+    public DateTime Createdate { get; set; }
 
     public DateTime? Updatedate { get; set; }
 

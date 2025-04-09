@@ -15,7 +15,7 @@ public partial class Payment
 
     public DateTime? Paymentdate { get; set; }
 
-    public DateTime? Createdate { get; set; }
+    public DateTime Createdate { get; set; }
 
     public DateTime? Updatedate { get; set; }
 

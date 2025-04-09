@@ -15,7 +15,7 @@ public partial class Transaction
 
     public Guid? Referenceid { get; set; }
 
-    public DateTime? Createdate { get; set; }
+    public DateTime Createdate { get; set; }
 
     public DateTime? Updatedate { get; set; }
 

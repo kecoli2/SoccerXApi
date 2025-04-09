@@ -123,7 +123,9 @@ namespace SoccerX.Persistence.Repositories
         }
 
         // Yardımcı metot: Seçilen cursor alanının lastCursor değerinden büyük olup olmadığını kontrol eden Expression oluşturur.
+#pragma warning disable CS0693 // Type parameter has the same name as the type parameter from outer type
         private Expression<Func<T, bool>> BuildGreaterThanExpression<T, TCursor>(Expression<Func<T, TCursor>> selector, TCursor lastCursor) where TCursor : IComparable
+#pragma warning restore CS0693 // Type parameter has the same name as the type parameter from outer type
         {
             var parameter = selector.Parameters[0];
             var property = selector.Body;

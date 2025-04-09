@@ -13,9 +13,13 @@ public partial class Country
 
     public string Countrycode { get; set; }
 
-    public DateTime? Createdate { get; set; }
+    public DateTime Createdate { get; set; }
 
     public DateTime? Updatedate { get; set; }
+
+    public string Phoneregex { get; set; }
+
+    public string Phonemask { get; set; }
 
     public virtual ICollection<City> Cities { get; set; } = new List<City>();
 

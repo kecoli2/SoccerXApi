@@ -17,7 +17,7 @@ public partial class Betslip
 
     public int Commentcount { get; set; }
 
-    public DateTime? Createdate { get; set; }
+    public DateTime Createdate { get; set; }
 
     public DateTime? Updatedate { get; set; }
 

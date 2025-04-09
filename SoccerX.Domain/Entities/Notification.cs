@@ -15,7 +15,7 @@ public partial class Notification
 
     public bool Isread { get; set; }
 
-    public DateTime? Createdate { get; set; }
+    public DateTime Createdate { get; set; }
 
     public DateTime? Updatedate { get; set; }
 

@@ -48,15 +48,16 @@ public partial class SoccerXDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
-            .HasPostgresEnum("auditaction", new[] { "Create", "Update", "Delete", "Restore" })
+            .HasPostgresEnum("auditaction", new[] { "Create", "Update", "Delete" })
             .HasPostgresEnum("betslipstatus", new[] { "Pending", "Won", "Lost" })
-            .HasPostgresEnum("paymentmethod", new[] { "CreditCard", "PayPal", "Crypto" })
-            .HasPostgresEnum("paymentstatus", new[] { "Pending", "Completed", "Failed", "Refunded" })
-            .HasPostgresEnum("referralstatus", new[] { "Pending", "Paid" })
+            .HasPostgresEnum("paymentmethod", new[] { "CreditCard", "Crypto", "BankTransfer" })
+            .HasPostgresEnum("paymentstatus", new[] { "Pending", "Completed", "Failed" })
+            .HasPostgresEnum("referralstatus", new[] { "Pending", "Approved", "Rejected" })
             .HasPostgresEnum("scheduler_result_enum", new[] { "Ok", "Error" })
-            .HasPostgresEnum("transactiontype", new[] { "Deposit", "Withdrawal", "Subscription", "BetSlipPurchase" })
-            .HasPostgresEnum("userrole", new[] { "User", "Editor", "Admin" })
-            .HasPostgresEnum("userstatus", new[] { "Active", "Banned" });
+            .HasPostgresEnum("transactiontype", new[] { "Deposit", "Withdraw", "Bet", "Win" })
+            .HasPostgresEnum("userrole", new[] { "User", "Admin" })
+            .HasPostgresEnum("userstatus", new[] { "Active", "Banned" })
+            .HasPostgresExtension("pgcrypto");
 
         modelBuilder.ApplyConfiguration(new Configurations.AuditlogConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.BetslipConfiguration());

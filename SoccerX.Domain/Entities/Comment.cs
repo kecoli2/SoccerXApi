@@ -15,7 +15,7 @@ public partial class Comment
 
     public string Content { get; set; }
 
-    public DateTime? Createdate { get; set; }
+    public DateTime Createdate { get; set; }
 
     public DateTime? Updatedate { get; set; }
 

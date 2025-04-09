@@ -19,7 +19,7 @@ public partial class Auditlog
 
     public string Details { get; set; }
 
-    public DateTime? Createdate { get; set; }
+    public DateTime Createdate { get; set; }
 
     public DateTime? Updatedate { get; set; }
 

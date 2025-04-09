@@ -33,7 +33,7 @@ public partial class User
 
     public string Avatarurl { get; set; }
 
-    public DateTime? Createdate { get; set; }
+    public DateTime Createdate { get; set; }
 
     public DateTime? Updatedate { get; set; }
 

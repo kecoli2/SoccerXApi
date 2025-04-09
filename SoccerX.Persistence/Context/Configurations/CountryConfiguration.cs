@@ -35,6 +35,12 @@ namespace SoccerX.Persistence.Context.Configurations
                 .IsRequired()
                 .HasMaxLength(100)
                 .HasColumnName("name");
+            entity.Property(e => e.Phonemask)
+                .HasMaxLength(100)
+                .HasColumnName("phonemask");
+            entity.Property(e => e.Phoneregex)
+                .HasMaxLength(100)
+                .HasColumnName("phoneregex");
             entity.Property(e => e.Updatedate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updatedate");
