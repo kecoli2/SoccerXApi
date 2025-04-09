@@ -1,5 +1,6 @@
 using Microsoft.IdentityModel.Tokens;
 using SoccerX.API.HostedService;
+using SoccerX.API.Middleware;
 using SoccerX.API.StartUp;
 using SoccerX.Common.Configuration;
 
@@ -39,7 +40,13 @@ var applicationSettings = new ApplicationSettings
         SentinelHosts = Array.Empty<string>(),
         UseSentinel = false,
         UseSsl = false
+    },
+
+    JwtSettings = new JwtSettings
+    {
+        SecretKey = "6r7uF7QZyhivcEWnlweJ2m8YikxjS4Xx6BmUxBh/ax8q64tKgplooNKBppJc9ntM"
     }
+    
 };
 
 //DI Tanimlamalari
@@ -65,6 +72,10 @@ if (app.Environment.IsDevelopment())
     
     app.MapOpenApi();
 }
+
+//MiddleWare
+app.UseMiddleware<TokenRefreshMiddleware>();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

@@ -22,6 +22,11 @@
         /// IP rate limiting settings.
         /// </summary>
         public RateLimitSettings RateLimit { get; set; } = new RateLimitSettings();
+
+        /// <summary>
+        /// JWT Settings
+        /// </summary>
+        public JwtSettings JwtSettings { get; set; } = new JwtSettings();
         #endregion
 
         #region Constructors

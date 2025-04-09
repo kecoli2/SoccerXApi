@@ -23,6 +23,17 @@ namespace SoccerX.Common.Extensions
             }
             return default;
         }
+
+        /// <summary>
+        /// Tries to parse an enum value from a string, returns default if invalid or null.
+        /// </summary>
+        public static TEnum ToEnum<TEnum>(this string? value, TEnum defaultValue) where TEnum : struct, Enum
+        {
+            if (!string.IsNullOrWhiteSpace(value) && Enum.TryParse<TEnum>(value, ignoreCase: true, out var parsed))
+                return parsed;
+
+            return defaultValue;
+        }
         #endregion
 
         #region Private Method

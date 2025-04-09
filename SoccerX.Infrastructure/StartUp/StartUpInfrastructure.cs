@@ -1,8 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SoccerX.Application.Interfaces.Quartz;
 using SoccerX.Application.Interfaces.Redis;
+using SoccerX.Application.Interfaces.RestSharp;
+using SoccerX.Application.Interfaces.Security;
 using SoccerX.Infrastructure.Caching;
 using SoccerX.Infrastructure.Jobs.Base;
+using SoccerX.Infrastructure.RestSharp;
+using SoccerX.Infrastructure.Security;
 
 namespace SoccerX.Infrastructure.StartUp
 {
@@ -24,7 +28,9 @@ namespace SoccerX.Infrastructure.StartUp
         {
             return service
                 .AddSingleton<IQuartzManager, QuartzManager>()
-                .AddScoped<IQuartzJobCreater, QuartzJobCreater>();
+                .AddScoped<IQuartzJobCreater, QuartzJobCreater>()
+                .AddScoped<IJwtService, JwtService>()
+                .AddSingleton<IRestClientManager>(new RestClientManager("deneme", null));
         }
 
         private static IServiceCollection RegisterRedis(this IServiceCollection service)

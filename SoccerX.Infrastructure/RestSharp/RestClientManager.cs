@@ -16,13 +16,13 @@ namespace SoccerX.Infrastructure.RestSharp
     {
         #region Field
         private readonly RestClient _client;
-        private readonly ILogger<RestClientManager> _logger;
+        private readonly ILogger<RestClientManager>? _logger;
         private Dictionary<string, string>? _defaultHeaders;
         private readonly AsyncRetryPolicy _retryPolicy;
         #endregion
 
         #region Constructor
-        public RestClientManager(string baseUrl, ILogger<RestClientManager> logger, Dictionary<string, string>? defaultHeaders = null)
+        public RestClientManager(string baseUrl, ILogger<RestClientManager>? logger, Dictionary<string, string>? defaultHeaders = null)
         {
             var options = new RestClientOptions(baseUrl)
             {
@@ -136,7 +136,7 @@ namespace SoccerX.Infrastructure.RestSharp
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "RestSharp request failed");
+                _logger?.LogError(ex, "RestSharp request failed");
                 return new RestClientApiResponse<T>
                 {
                     IsSuccess = false,
