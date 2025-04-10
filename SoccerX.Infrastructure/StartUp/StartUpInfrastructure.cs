@@ -30,7 +30,7 @@ namespace SoccerX.Infrastructure.StartUp
                 .AddSingleton<IQuartzManager, QuartzManager>()
                 .AddScoped<IQuartzJobCreater, QuartzJobCreater>()
                 .AddScoped<IJwtService, JwtService>()
-                .AddSingleton<IRestClientManager>(new RestClientManager("deneme", null));
+                .AddSingleton<IRestClientManager>(new RestClientManager("http://google.com", null));
         }
 
         private static IServiceCollection RegisterRedis(this IServiceCollection service)

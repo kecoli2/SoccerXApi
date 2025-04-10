@@ -8,6 +8,8 @@ using SoccerX.Persistence.Repositories;
 using System.Linq.Expressions;
 using System.Net.NetworkInformation;
 using Microsoft.EntityFrameworkCore;
+using SoccerX.Application.Interfaces.Redis;
+using SoccerX.Common.Configuration;
 
 namespace SoccerX.API.Controllers;
 
@@ -23,19 +25,28 @@ public class WeatherForecastController : ControllerBase
     private readonly ILogger<WeatherForecastController> _logger;
     private readonly ICityRepository _cityRepository;
     private readonly IMapper _mapper;
+    private readonly IRedisCacheService _redisCacheService;
+    private readonly ApplicationSettings _settings;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger, ICityRepository cityRepository, IMapper mapper)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, ICityRepository cityRepository, IMapper mapper, IRedisCacheService redisCacheService, ApplicationSettings settings)
     {
         _logger = logger;
         _cityRepository = cityRepository;
         _mapper = mapper;
+        _redisCacheService = redisCacheService;
+        _settings = settings;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
     public async Task<IActionResult> Get(int pageNumber, int pageSize)
     {
         //var lst = await _cityRepository.GetAllAsync();
+        var addKey = _redisCacheService.SetAsync("test", _settings);
         var paging = await _cityRepository.GetPagedAsync(null, pageNumber, pageSize);
+
+        var se = await _redisCacheService.GetAsync<ApplicationSettings>("test");
+
+
 
         var dtoResult = _mapper.Map<PagedResultDto<CityDto>>(paging);
 

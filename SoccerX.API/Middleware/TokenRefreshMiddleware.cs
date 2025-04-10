@@ -14,27 +14,25 @@ public class TokenRefreshMiddleware
 {
     #region Field
     private readonly RequestDelegate _next;
-    private readonly IJwtService _jwtService;
     private readonly JwtSettings _jwtSettings;
     #endregion
 
     #region Constructor
-    public TokenRefreshMiddleware(RequestDelegate next, IJwtService jwtService, ApplicationSettings applicationSettings)
+    public TokenRefreshMiddleware(RequestDelegate next, ApplicationSettings applicationSettings)
     {
         _next = next;
-        _jwtService = jwtService;
         _jwtSettings = applicationSettings.JwtSettings;
     }
     #endregion
 
     #region Public Method
-    public async Task InvokeAsync(HttpContext context)
+    public async Task InvokeAsync(HttpContext context, IJwtService jwtService)
     {
         var encryptedToken = context.Request.Headers["Authorization"].FirstOrDefault()?.Replace("Bearer ", "");
 
         if (!string.IsNullOrEmpty(encryptedToken))
         {
-            var principal = _jwtService.DecryptAndValidateToken(encryptedToken);
+            var principal = jwtService.DecryptAndValidateToken(encryptedToken);
             if (principal == null)
             {
                 context.Response.StatusCode = 401;
@@ -55,7 +53,7 @@ public class TokenRefreshMiddleware
 
                     if (Guid.TryParse(userId, out var userGuid) && !string.IsNullOrEmpty(role))
                     {
-                        var newToken = _jwtService.GenerateEncryptedToken(userGuid, role, platform.ToEnum(PlatformType.Web));
+                        var newToken = jwtService.GenerateEncryptedToken(userGuid, role, platform.ToEnum(PlatformType.Web));
                         context.Response.Headers[SoccerXConstants.Header_XRefreshToken] = newToken;
                     }
                 }
