@@ -2,7 +2,18 @@
 {
     public class SoccerXConstants
     {
-        public const string Header_XRefreshToken = "X-Refresh-Token";
-        public const string Claim_Platform = "Platform";
+        #region Global
+        public const string HeaderXRefreshToken = "X-Refresh-Token";
+        public const string ClaimPlatform = "Platform";
+        public const string RoleAdmin = "Admin";
+        public const string RoleUser = "User";
+        public const string RoleEditor = "Editor";
+        public const string PolicySoccerX = "PolicySoccerX";
+        #endregion
+
+        #region Redis
+        public const string RedisCountries = "RedisCountries";
+        public const string RedisCountryKeyCties = "Redis_{0}_Cties";
+        #endregion
     }
 }

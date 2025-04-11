@@ -10,13 +10,13 @@ namespace SoccerX.Application.Interfaces.Repository;
 public interface IGenericRepository<T> where T : class
 {
     Task<T?> GetByIdAsync(Guid id);
-    Task<IEnumerable<T>> GetAllAsync();
-    Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
+    Task<List<T>> GetAllAsync();
+    Task<List<T>> FindAsync(Expression<Func<T, bool>> predicate);
     Task AddAsync(T entity);
-    Task AddRangeAsync(IEnumerable<T> entities);
+    Task AddRangeAsync(List<T> entities);
     void Update(T entity);
     void Remove(T entity);
-    void RemoveRange(IEnumerable<T> entities);
+    void RemoveRange(List<T> entities);
     Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
     Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null);
 
@@ -51,4 +51,10 @@ public interface IGenericRepository<T> where T : class
     /// <param name="idFieldName"></param>
     /// <returns></returns>
     public Task<CursorPagedResult<T, CompositeCursorGuid>> GetPagedByCompositeCursorAsync(Expression<Func<T, bool>>? predicate, CompositeCursorGuid? lastCursor, int pageSize, string createDateFieldName = "Createdate", string idFieldName = "Id");
+
+    /// <summary>
+    /// Db Insert,Update,Delete
+    /// </summary>
+    /// <returns></returns>
+    Task SaveChangesAsync();
 }

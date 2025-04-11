@@ -28,12 +28,12 @@ namespace SoccerX.Persistence.Repositories
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<List<T>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
+        public async Task<List<T>> FindAsync(Expression<Func<T, bool>> predicate)
         {
             return await _dbSet.Where(predicate).ToListAsync();
         }
@@ -43,7 +43,7 @@ namespace SoccerX.Persistence.Repositories
             await _dbSet.AddAsync(entity);
         }
 
-        public async Task AddRangeAsync(IEnumerable<T> entities)
+        public async Task AddRangeAsync(List<T> entities)
         {
             await _dbSet.AddRangeAsync(entities);
         }
@@ -58,7 +58,7 @@ namespace SoccerX.Persistence.Repositories
             _dbSet.Remove(entity);
         }
 
-        public void RemoveRange(IEnumerable<T> entities)
+        public void RemoveRange(List<T> entities)
         {
             _dbSet.RemoveRange(entities);
         }
@@ -168,7 +168,10 @@ namespace SoccerX.Persistence.Repositories
             return new CursorPagedResult<T, CompositeCursorGuid>(items, newCursor);
         }
 
-
+        public async Task SaveChangesAsync()
+        {
+            await Context.SaveChangesAsync();
+        }
 
         #endregion
 

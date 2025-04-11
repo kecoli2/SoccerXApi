@@ -13,10 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\" />
-    <Folder Include="Services\" />
-    <Folder Include="Validators\" />
-    <Folder Include="Queries\" />
+    <Folder Include="Commands\Customer\" />
+    <Folder Include="Queries\Customer\" />
+    <Folder Include="Validators\Customer\" />
   </ItemGroup>
 
   <ItemGroup>

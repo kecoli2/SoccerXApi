@@ -3,6 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using SoccerX.Common.Configuration;
+using SoccerX.Common.Constants;
 using SoccerX.Common.Extensions;
 using SoccerX.Common.Helpers;
 using SoccerX.Domain.Entities;
@@ -48,7 +49,7 @@ var applicationSettings = new ApplicationSettings
 };
 
 DatabaseMigration.EnsureDatabaseIsUpToDate(applicationSettings.GetDatabaseConnectionString());
-
+var ss = string.Format(SoccerXConstants.RedisCountryKeyCties, 24);
 var dataSourceBuilder = new NpgsqlDataSourceBuilder(applicationSettings.GetDatabaseConnectionString());
 dataSourceBuilder.NpgsqlToEnumMapRegisterAll();
 var dataSource = dataSourceBuilder.Build();

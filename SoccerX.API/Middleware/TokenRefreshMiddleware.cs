@@ -8,6 +8,7 @@ using SoccerX.Application.Exceptions;
 using SoccerX.Common.Constants;
 using SoccerX.Common.Enums;
 using SoccerX.Common.Extensions;
+using SoccerX.Domain.Enums;
 
 namespace SoccerX.API.Middleware;
 public class TokenRefreshMiddleware
@@ -49,12 +50,12 @@ public class TokenRefreshMiddleware
                 {
                     var userId = principal!.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                     var role = principal!.FindFirst(ClaimTypes.Role)?.Value;
-                    var platform = principal!.FindFirst(SoccerXConstants.Claim_Platform)?.Value;
+                    var platform = principal!.FindFirst(SoccerXConstants.ClaimPlatform)?.Value;
 
                     if (Guid.TryParse(userId, out var userGuid) && !string.IsNullOrEmpty(role))
                     {
-                        var newToken = jwtService.GenerateEncryptedToken(userGuid, role, platform.ToEnum(PlatformType.Web));
-                        context.Response.Headers[SoccerXConstants.Header_XRefreshToken] = newToken;
+                        var newToken = jwtService.GenerateEncryptedToken(userGuid, ChangeUserRole(role), platform.ToEnum(PlatformType.Web));
+                        context.Response.Headers[SoccerXConstants.HeaderXRefreshToken] = newToken;
                     }
                 }
             }
@@ -65,5 +66,16 @@ public class TokenRefreshMiddleware
     #endregion
 
     #region Private Method
+
+    private UserRole ChangeUserRole(string userRole = SoccerXConstants.RoleUser)
+    {
+        return userRole switch
+        {
+            SoccerXConstants.RoleUser => UserRole.User,
+            SoccerXConstants.RoleAdmin => UserRole.Admin,
+            SoccerXConstants.RoleEditor => UserRole.Editor,
+            _ => UserRole.User
+        };
+    }
     #endregion
 }

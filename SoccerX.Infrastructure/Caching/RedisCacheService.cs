@@ -68,7 +68,7 @@ namespace SoccerX.Infrastructure.Caching
         #region Public Method
         public async Task SetAsync<T>(string key, T value, TimeSpan? expiry = null)
         {
-            var json = JsonConvert.SerializeObject(value);
+            var json = ConvertToJson(value);
             await _database.StringSetAsync(key, json, expiry);
         }
 
@@ -97,9 +97,33 @@ namespace SoccerX.Infrastructure.Caching
         {
             await _subscriber.PublishAsync(new RedisChannel(channel, RedisChannel.PatternMode.Auto), message);
         }
+
+        public async Task AddToListAsync<T>(string key, T value)
+        {
+            var json = ConvertToJson(value);
+            await _database.ListRightPushAsync(key, json);
+        }
+
+        public async Task AddToFrontOfListAsync<T>(string key, T value)
+        {
+            var json = ConvertToJson(value);
+            await _database.ListLeftPushAsync(key, json);
+        }
+
+        public async Task PopFromListAsync<T>(string key)
+        {
+            await _database.ListLeftPopAsync(key);
+        }
+
         #endregion
 
         #region Private Method
+
+        private string ConvertToJson(object? value)
+        {
+            return JsonConvert.SerializeObject(value);
+        }
+
         #endregion
     }
 }

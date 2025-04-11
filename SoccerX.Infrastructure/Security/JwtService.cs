@@ -7,33 +7,30 @@ using SoccerX.Application.Interfaces.Security;
 using SoccerX.Common.Constants;
 using SoccerX.Common.Helpers;
 using SoccerX.Common.Enums;
-using SoccerX.Common.Extensions;
+using SoccerX.Domain.Enums;
 
 namespace SoccerX.Infrastructure.Security;
 
-public class JwtService: IJwtService
+public class JwtService(ApplicationSettings applicationSettings) : IJwtService
 {
     #region Field
-    private readonly JwtSettings _jwtSettings;
+    private readonly JwtSettings _jwtSettings = applicationSettings.JwtSettings;
     #endregion
 
     #region Constructor
-    public JwtService(ApplicationSettings applicationSettings)
-    {
-        _jwtSettings = applicationSettings.JwtSettings;
-    }
+
     #endregion
 
     #region Public Method
-    public string GenerateEncryptedToken(Guid userId, string role, PlatformType platform)
+    public string GenerateEncryptedToken(Guid userId, UserRole role, PlatformType platform)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var claims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-            new Claim(ClaimTypes.Role, role),
-            new Claim(SoccerXConstants.Claim_Platform, platform.ToString())
+            new Claim(ClaimTypes.Role, GetUserRole(role)),
+            new Claim(SoccerXConstants.ClaimPlatform, platform.ToString())
         };
 
         var tokenDescriptor = new SecurityTokenDescriptor
@@ -85,6 +82,17 @@ public class JwtService: IJwtService
     #endregion
 
     #region Private Method
+
+    private string GetUserRole(UserRole role)
+    {
+        return role switch
+        {
+            UserRole.User => SoccerXConstants.RoleUser,
+            UserRole.Editor => SoccerXConstants.RoleEditor,
+            UserRole.Admin => SoccerXConstants.RoleAdmin,
+            _ => throw new ArgumentOutOfRangeException(nameof(role), role, null)
+        };
+    }
     #endregion
 }
 
