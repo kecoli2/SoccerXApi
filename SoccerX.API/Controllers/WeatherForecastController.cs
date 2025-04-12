@@ -46,16 +46,16 @@ public class WeatherForecastController : ControllerBase
 
         var country = await _countriesService.GetCountries();
 
-        var city = await _countriesService.GetCities(country!.First().Id);
+        //var city = await _countriesService.GetCities(country!.First().Id);
 
-        foreach (var ci in city)
-        {
-            ci.Name = "S " + ci.Name;
-            await _countriesService.UpdateCity(ci);
-        }
+        //foreach (var ci in city)
+        //{
+        //    ci.Name = "S " + ci.Name;
+        //    await _countriesService.UpdateCity(ci);
+        //}
 
 
-        var newCity = new City { Name = "Adana", Countryid = country!.First().Id };
+        var newCity = new City { Name = Guid.NewGuid().ToString(), Countryid = country!.First().Id };
         await _countriesService.AddCity(newCity);
 
         //var lst = await _cityRepository.GetAllAsync();

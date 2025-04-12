@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SoccerX.Application.Interfaces.Repository;
 using SoccerX.Common.Configuration;
 using SoccerX.Persistence.Context;
+using SoccerX.Persistence.Interceptors;
 using SoccerX.Persistence.Repositories;
 
 namespace SoccerX.Persistence.StartUp
@@ -23,6 +24,7 @@ namespace SoccerX.Persistence.StartUp
                 .AddDbContext<SoccerXDbContext>(options =>
                 {
                     options.UseNpgsql(settings.GetDatabaseConnectionString());
+                    options.AddInterceptors(new AuditSaveChangesInterceptor());
                 })
                 .AddRepository();
         }
