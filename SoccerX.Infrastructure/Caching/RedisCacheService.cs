@@ -98,16 +98,18 @@ namespace SoccerX.Infrastructure.Caching
             await _subscriber.PublishAsync(new RedisChannel(channel, RedisChannel.PatternMode.Auto), message);
         }
 
-        public async Task AddToListAsync<T>(string key, T value)
+        public Task AddToListAsync<T>(string key, T value)
         {
-            var json = ConvertToJson(value);
-            await _database.ListRightPushAsync(key, json);
+            //var json = ConvertToJson(value);
+            //await _database.ListRightPushAsync(key, json);
+            return Task.CompletedTask;
         }
 
-        public async Task AddToFrontOfListAsync<T>(string key, T value)
+        public Task AddToFrontOfListAsync<T>(string key, T value)
         {
-            var json = ConvertToJson(value);
-            await _database.ListLeftPushAsync(key, json);
+            //var json = ConvertToJson(value);
+            //await _database.ListLeftPushAsync(key, json);
+            return Task.CompletedTask;
         }
 
         public async Task PopFromListAsync<T>(string key)

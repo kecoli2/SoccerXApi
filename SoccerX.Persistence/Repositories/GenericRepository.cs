@@ -28,14 +28,47 @@ namespace SoccerX.Persistence.Repositories
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task<List<T>> GetAllAsync()
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, string[]? includeProperties = null, bool tracking = false)
         {
-            return await _dbSet.ToListAsync();
+            var query = tracking ? _dbSet : _dbSet.AsNoTracking();
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (includeProperties != null)
+                query = includeProperties.Aggregate(query,
+                    (current, includeProperty) => current.Include(includeProperty));
+
+            if (orderBy != null)
+            {
+                return await orderBy(query).ToListAsync();
+            }
+
+            return await query.ToListAsync();
         }
 
-        public async Task<List<T>> FindAsync(Expression<Func<T, bool>> predicate)
+        public async Task<List<T>> FindAsync(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, string[]? includeProperties = null, bool tracking = false, CancellationToken cancellationToken = default)
         {
-            return await _dbSet.Where(predicate).ToListAsync();
+            var query = tracking ? _dbSet : _dbSet.AsNoTracking();
+
+            // Filtreleme
+            query = query.Where(predicate);
+
+            // Include işlemleri
+            if (includeProperties is { Length: > 0 })
+            {
+                query = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+            }
+
+            // Sıralama
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+            return await query.ToListAsync(cancellationToken);
         }
 
         public async Task AddAsync(T entity)
@@ -63,22 +96,31 @@ namespace SoccerX.Persistence.Repositories
             _dbSet.RemoveRange(entities);
         }
 
-        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate)
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate, bool tracking = false)
         {
+            if (!tracking)
+            {
+                _dbSet.AsNoTracking();
+            }
             return await _dbSet.AnyAsync(predicate);
         }
 
-        public async Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null)
+        public async Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null, bool tracking = false)
         {
+            if (!tracking)
+            {
+                _dbSet.AsNoTracking();
+            }
+
             return predicate == null
                 ? await _dbSet.CountAsync()
                 : await _dbSet.CountAsync(predicate);
         }
 
         // Offset-based paging metodu
-        public async Task<PagedResult<T>> GetPagedAsync(Expression<Func<T, bool>>? predicate, int pageNumber, int pageSize, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null)
+        public async Task<PagedResult<T>> GetPagedAsync(Expression<Func<T, bool>>? predicate, int pageNumber, int pageSize, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, bool tracking = false)
         {
-            IQueryable<T> query = _dbSet;
+            var query = tracking ? _dbSet : _dbSet.AsNoTracking();
 
             if (predicate != null)
                 query = query.Where(predicate);
@@ -95,9 +137,9 @@ namespace SoccerX.Persistence.Repositories
         }
 
         // Cursor-based paging metodu
-        public async Task<CursorPagedResult<T, TCursor>> GetPagedByCursorAsync<TCursor>(Expression<Func<T, bool>>? predicate, TCursor? lastCursor, int pageSize, Expression<Func<T, TCursor>> cursorSelector) where TCursor : IComparable
+        public async Task<CursorPagedResult<T, TCursor>> GetPagedByCursorAsync<TCursor>(Expression<Func<T, bool>>? predicate, TCursor? lastCursor, int pageSize, Expression<Func<T, TCursor>> cursorSelector, bool tracking = false) where TCursor : IComparable
         {
-            IQueryable<T> query = _dbSet;
+            var query = tracking ? _dbSet : _dbSet.AsNoTracking();
 
             // Filtre uygulanıyorsa ekleyelim
             if (predicate != null)
@@ -134,9 +176,9 @@ namespace SoccerX.Persistence.Repositories
             return Expression.Lambda<Func<T, bool>>(greaterThan, parameter);
         }
 
-        public async Task<CursorPagedResult<T, CompositeCursorGuid>> GetPagedByCompositeCursorAsync(Expression<Func<T, bool>>? predicate, CompositeCursorGuid? lastCursor, int pageSize, string createDateFieldName = "Createdate", string idFieldName = "Id")
+        public async Task<CursorPagedResult<T, CompositeCursorGuid>> GetPagedByCompositeCursorAsync(Expression<Func<T, bool>>? predicate, CompositeCursorGuid? lastCursor, int pageSize, string createDateFieldName = "Createdate", string idFieldName = "Id", bool tracking = false)
         {
-            IQueryable<T> query = _dbSet;
+            var query = tracking ? _dbSet : _dbSet.AsNoTracking();
             if (predicate != null)
             {
                 query = query.Where(predicate);

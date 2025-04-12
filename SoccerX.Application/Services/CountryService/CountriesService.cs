@@ -141,16 +141,17 @@ namespace SoccerX.Application.Services.CountryService
             return (int)index;
         }
 
-        private async Task<int> RemoveCityCache(Guid id, string cacheKey)
+        private Task<int> RemoveCityCache(Guid id, string cacheKey)
         {
-            var cityList = await _redisCacheService.GetAsync<List<City>>(cacheKey);
-            var index = cityList?.FindIndex(x => x.Id == id);
-            if (index is null or -1) return -1;
+            return Task.FromResult(-1);
+            //var cityList = await _redisCacheService.GetAsync<List<City>>(cacheKey);
+            //var index = cityList?.FindIndex(x => x.Id == id);
+            //if (index is null or -1) return -1;
 
-            cityList?.RemoveAt((int)index);
-            await _redisCacheService.RemoveAsync(cacheKey);
-            await _redisCacheService.SetAsync(cacheKey, cityList);
-            return (int)index;
+            //cityList?.RemoveAt((int)index);
+            //await _redisCacheService.RemoveAsync(cacheKey);
+            //await _redisCacheService.SetAsync(cacheKey, cityList);
+            //return (int)index;
         }
         #endregion
     }
