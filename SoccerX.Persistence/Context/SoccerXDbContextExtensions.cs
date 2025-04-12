@@ -1,5 +1,4 @@
 ﻿using System.Resources;
-using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using SoccerX.Application.Exceptions;

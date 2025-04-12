@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using SoccerX.Domain.Entities;
 
 namespace SoccerX.Application.Interfaces.Repository;

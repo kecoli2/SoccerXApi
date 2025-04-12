@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SoccerX.Common.Configuration
+﻿namespace SoccerX.Common.Configuration
 {
     /// <summary>
     /// Configuration settings for Quartz.NET job scheduling.

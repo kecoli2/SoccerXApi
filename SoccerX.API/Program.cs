@@ -1,4 +1,3 @@
-using Microsoft.IdentityModel.Tokens;
 using SoccerX.API.HostedService;
 using SoccerX.API.Middleware;
 using SoccerX.API.StartUp;

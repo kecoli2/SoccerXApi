@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using SoccerX.Common.Configuration;
+﻿using SoccerX.Common.Configuration;
 using StackExchange.Redis;
 using Newtonsoft.Json;
 using SoccerX.Application.Interfaces.Cache.Redis;

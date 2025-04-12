@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using SoccerX.Domain.Entities;
 using SoccerX.Common.Attributes;
 using SoccerX.Domain.Enums;
 

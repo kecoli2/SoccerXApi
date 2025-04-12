@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using Quartz;
+﻿using Quartz;
 using Quartz.Impl;
 using SoccerX.Common.Configuration;
 using System.Collections.Specialized;

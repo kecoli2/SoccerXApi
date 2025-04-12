@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
 using SoccerX.Common.Base.Quartz.Models;

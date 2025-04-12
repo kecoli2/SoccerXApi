@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using SoccerX.Application.Interfaces.Security;
-using Microsoft.Extensions.Options;
+﻿using SoccerX.Application.Interfaces.Security;
 using SoccerX.Common.Configuration;
 using System.Security.Claims;
 using Microsoft.IdentityModel.JsonWebTokens;
-using SoccerX.Application.Exceptions;
 using SoccerX.Common.Constants;
 using SoccerX.Common.Enums;
 using SoccerX.Common.Extensions;
