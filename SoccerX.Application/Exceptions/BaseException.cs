@@ -33,8 +33,12 @@ public class BaseException : Exception
         StatusCode = statusCode;
     }
 
-    public BaseException(Dictionary<string, string[]> propertyErrors)
-        : base("One or more validation errors occurred.")
+    public BaseException(Dictionary<string, string[]> propertyErrors) : base("One or more validation errors occurred.")
+    {
+        PropertyErrors = propertyErrors;
+    }
+
+    public BaseException(Dictionary<string, string[]> propertyErrors, string message) : base(message)
     {
         PropertyErrors = propertyErrors;
     }

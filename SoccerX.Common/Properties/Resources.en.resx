@@ -120,4 +120,7 @@
   <data name="User.Name" xml:space="preserve">
     <value>User Name</value>
   </data>
+  <data name="error_database_tableconstraint" xml:space="preserve">
+  <value>Constraint violation error in table {0}</value>
+</data>
 </root>

@@ -54,7 +54,7 @@ public class WeatherForecastController : ControllerBase
             await _countriesService.UpdateCity(ci);
         }
 
-        var newCity = new City { Name = "deneme", Countryid = country!.First().Id };
+        var newCity = new City { Name = "Adana", Countryid = country!.First().Id };
         await _countriesService.AddCity(newCity);
 
         //var lst = await _cityRepository.GetAllAsync();
