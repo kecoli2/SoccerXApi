@@ -14,12 +14,12 @@ namespace SoccerX.DTO.Dto
         public required string Surname { get; set; }
         public DateOnly Birthdate { get; set; }
         public required string Password { get; set; } // Note: Changed from Passwordhash to Password for frontend
-        public Guid? ReferralUserId { get; set; }
-        public Guid CountryId { get; set; }
-        public Guid CityId { get; set; }
-        public string? PostalCode { get; set; }
+        public Guid? Referraluserid { get; set; }
+        public Guid Countryid { get; set; }
+        public Guid Cityid { get; set; }
+        public string? Postalcode { get; set; }
         public required string Address { get; set; }
-        public required string PhoneNumber { get; set; }
+        public required string Phonenumber { get; set; }
     }
 
     public class UserUpdateDto
