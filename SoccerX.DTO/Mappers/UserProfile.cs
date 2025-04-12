@@ -28,6 +28,7 @@ namespace SoccerX.DTO.Mappers
                 .ForMember(dest => dest.Followercount, opt => opt.MapFrom(_ => 0));
 
             CreateMap<UserUpdateDto, User>();
+            CreateMap<UserUpdateAdminDto, User>();
 
             CreateMap<User, UserResponseDto>()
                 .ForMember(dest => dest.CountryName, opt => opt.MapFrom(src => src.Country.Name))
