@@ -55,6 +55,7 @@ public partial class SoccerXDbContext : DbContext
             .HasPostgresEnum("referralstatus", new[] { "Pending", "Approved", "Rejected" })
             .HasPostgresEnum("scheduler_result_enum", new[] { "Ok", "Error" })
             .HasPostgresEnum("transactiontype", new[] { "Deposit", "Withdraw", "Bet", "Win" })
+            .HasPostgresEnum("usergender", new[] { "Male", "Female", "Other" })
             .HasPostgresEnum("userrole", new[] { "User", "Admin" })
             .HasPostgresEnum("userstatus", new[] { "Active", "Banned" })
             .HasPostgresExtension("pgcrypto");

@@ -13,6 +13,12 @@ public partial class User
 
     public string Email { get; set; }
 
+    public string Name { get; set; }
+
+    public string Surname { get; set; }
+
+    public DateOnly Birthdate { get; set; }
+
     public string Passwordhash { get; set; }
 
     public DateTime? Banenddate { get; set; }
@@ -37,9 +43,9 @@ public partial class User
 
     public DateTime? Updatedate { get; set; }
 
-    public bool? Isdeleted { get; set; }
+    public bool Isdeleted { get; set; }
 
-    public bool? Isemailconfirmed { get; set; }
+    public bool Isemailconfirmed { get; set; }
 
     public virtual ICollection<Auditlog> Auditlogs { get; set; } = new List<Auditlog>();
 

@@ -1,5 +1,5 @@
-﻿using SoccerX.Application.Interfaces.Quartz;
-using SoccerX.Application.Interfaces.Redis;
+﻿using SoccerX.Application.Interfaces.Cache.Redis;
+using SoccerX.Application.Interfaces.Quartz;
 using SoccerX.Application.Interfaces.Repository;
 
 namespace SoccerX.Application.Services.CustomerService

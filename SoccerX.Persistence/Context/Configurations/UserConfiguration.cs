@@ -16,11 +16,13 @@ namespace SoccerX.Persistence.Context.Configurations
 
             entity.ToTable("users");
 
-            entity.HasIndex(e => e.Email, "users_email_key").IsUnique();
+            entity.HasIndex(e => e.Email, "uq_users_email").IsUnique();
 
-            entity.HasIndex(e => e.Phonenumber, "users_phonenumber_key").IsUnique();
+            entity.HasIndex(e => e.Phonenumber, "uq_users_phonenumber").IsUnique();
 
-            entity.HasIndex(e => e.Username, "users_username_key").IsUnique();
+            entity.HasIndex(e => e.Username, "uq_users_username").IsUnique();
+
+            entity.HasIndex(e => new { e.Username, e.Email, e.Phonenumber }, "uq_users_username_email_phonenumber").IsUnique();
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")
@@ -32,6 +34,7 @@ namespace SoccerX.Persistence.Context.Configurations
             entity.Property(e => e.Banenddate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("banenddate");
+            entity.Property(e => e.Birthdate).HasColumnName("birthdate");
             entity.Property(e => e.Cityid).HasColumnName("cityid");
             entity.Property(e => e.Countryid).HasColumnName("countryid");
             entity.Property(e => e.Createdate)
@@ -51,6 +54,10 @@ namespace SoccerX.Persistence.Context.Configurations
             entity.Property(e => e.Isemailconfirmed)
                 .HasDefaultValue(false)
                 .HasColumnName("isemailconfirmed");
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("name");
             entity.Property(e => e.Passwordhash)
                 .IsRequired()
                 .HasColumnName("passwordhash");
@@ -62,6 +69,10 @@ namespace SoccerX.Persistence.Context.Configurations
                 .HasMaxLength(20)
                 .HasColumnName("postalcode");
             entity.Property(e => e.Referraluserid).HasColumnName("referraluserid");
+            entity.Property(e => e.Surname)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("surname");
             entity.Property(e => e.Updatedate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updatedate");

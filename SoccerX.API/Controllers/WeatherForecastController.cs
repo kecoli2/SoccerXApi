@@ -8,8 +8,9 @@ using SoccerX.Persistence.Repositories;
 using System.Linq.Expressions;
 using System.Net.NetworkInformation;
 using Microsoft.EntityFrameworkCore;
-using SoccerX.Application.Interfaces.Redis;
 using SoccerX.Common.Configuration;
+using SoccerX.Application.Interfaces.Cache.Redis;
+using SoccerX.Application.Services.CountryService;
 
 namespace SoccerX.API.Controllers;
 
@@ -27,19 +28,35 @@ public class WeatherForecastController : ControllerBase
     private readonly IMapper _mapper;
     private readonly IRedisCacheService _redisCacheService;
     private readonly ApplicationSettings _settings;
+    private readonly ICountriesService _countriesService;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger, ICityRepository cityRepository, IMapper mapper, IRedisCacheService redisCacheService, ApplicationSettings settings)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, ICityRepository cityRepository, IMapper mapper, IRedisCacheService redisCacheService, ApplicationSettings settings, ICountriesService countriesService)
     {
         _logger = logger;
         _cityRepository = cityRepository;
         _mapper = mapper;
         _redisCacheService = redisCacheService;
         _settings = settings;
+        _countriesService = countriesService;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
     public async Task<IActionResult> Get(int pageNumber, int pageSize)
     {
+
+        var country = await _countriesService.GetCountries();
+
+        var city = await _countriesService.GetCities(country!.First().Id);
+
+        foreach (var ci in city)
+        {
+            ci.Name = "S " + ci.Name;
+            await _countriesService.UpdateCity(ci);
+        }
+
+        var newCity = new City { Name = "deneme", Countryid = country!.First().Id };
+        await _countriesService.AddCity(newCity);
+
         //var lst = await _cityRepository.GetAllAsync();
         var addKey = _redisCacheService.SetAsync("test", _settings);
         var paging = await _cityRepository.GetPagedAsync(null, pageNumber, pageSize);

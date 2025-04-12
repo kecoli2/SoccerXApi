@@ -4,9 +4,10 @@ using SoccerX.Common.Enums;
 using Quartz;
 using SoccerX.Common.Attributes;
 using SoccerX.Common.Extensions;
-using SoccerX.Infrastructure.Caching.Memory;
 using System.Reflection;
+using SoccerX.Application.Interfaces.Cache.Memory;
 using SoccerX.Common.Base.Quartz.Models;
+using SoccerX.Common.Constants;
 
 namespace SoccerX.Infrastructure.Jobs.Base
 {
@@ -18,15 +19,17 @@ namespace SoccerX.Infrastructure.Jobs.Base
         private JobBuilder? _jobBuilder;
         private TriggerPriorityEnum TriggerPriority { get; set; } = TriggerPriorityEnum.Middle;
         private TriggerKey? TriggerKeyName { get; set; }
-        private Guid? _userId = null;
-        private DateTimeOffset? _startDateTime = null;
-        private DateTimeOffset? _endDateTime = null;
-        private string? _cronExpression = null;
+        private Guid? _userId;
+        private DateTimeOffset? _startDateTime;
+        private DateTimeOffset? _endDateTime;
+        private string? _cronExpression;
+        private readonly IMemoryCacheService _memoryCacheService;
         #endregion
 
         #region Constructor
-        public QuartzJobCreater(IQuartzManager scheduler)
+        public QuartzJobCreater(IQuartzManager scheduler, IMemoryCacheService memoryCacheService)
         {
+            _memoryCacheService = memoryCacheService;
             _scheduler = (QuartzManager)scheduler;
             PrepareLoadJob();
         }
@@ -148,7 +151,7 @@ namespace SoccerX.Infrastructure.Jobs.Base
             return this;
         }
 
-        public IQuartzJobCreaterExtension SetCulture(string culture)
+        public IQuartzJobCreaterExtension SetCulture(string? culture)
         {
             _culture = culture ?? "tr-TR";
             return this;
@@ -240,18 +243,22 @@ namespace SoccerX.Infrastructure.Jobs.Base
 
         private Type FindJob(JobKeyEnum jobEnum)
         {
-            return MemoryCacheObjects.JobListCache[jobEnum];
+            var jobList = _memoryCacheService.Get<Dictionary<JobKeyEnum, Type>>(SoccerXConstants.MemoryCacheJobList);
+            if (jobList != null) return jobList[jobEnum];
+            PrepareLoadJob();
+            jobList = _memoryCacheService.Get<Dictionary<JobKeyEnum, Type>>(SoccerXConstants.MemoryCacheJobList);
+            return jobList![jobEnum];
         }
 
         private void PrepareLoadJob()
         {
-            if (MemoryCacheObjects.JobListCache.Count != 0)
+            if (_memoryCacheService.Get<Dictionary<JobKeyEnum, Type>>(SoccerXConstants.MemoryCacheJobList)?.Count != 0)
             {
                 return;
             }
             var assembly = Assembly.GetExecutingAssembly();
             var types = assembly.GetTypes();
-
+            var jobDic = new Dictionary<JobKeyEnum, Type>();
             foreach (var type in types)
             {
                 // Sınıf üzerinde MyCustomAttribute attribute'ının olup olmadığını kontrol et
@@ -261,7 +268,12 @@ namespace SoccerX.Infrastructure.Jobs.Base
 
                 if (attribute == null) continue;
                 // Enum değerine göre dictionary'ye ekleyelim
-                MemoryCacheObjects.JobListCache.TryAdd(attribute.JobKey, type);
+                jobDic.TryAdd(attribute.JobKey, type);
+            }
+
+            if (jobDic.Count > 0)
+            {
+                _memoryCacheService.Set(SoccerXConstants.MemoryCacheJobList, jobDic, TimeSpan.FromDays(500));
             }
         }
 

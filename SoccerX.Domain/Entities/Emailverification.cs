@@ -11,13 +11,13 @@ public partial class Emailverification
 
     public Guid Userid { get; set; }
 
+    public string Code { get; set; }
+
     public DateTime Expiresat { get; set; }
 
     public bool? Isused { get; set; }
 
     public DateTime? Createdate { get; set; }
-
-    public string Code { get; set; }
 
     public virtual User User { get; set; }
 }

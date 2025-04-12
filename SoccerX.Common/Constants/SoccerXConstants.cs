@@ -11,9 +11,13 @@
         public const string PolicySoccerX = "PolicySoccerX";
         #endregion
 
-        #region Redis
+        #region Redis Cache Keys
         public const string RedisCountries = "RedisCountries";
         public const string RedisCountryKeyCties = "Redis_{0}_Cties";
+        #endregion
+
+        #region Memory Cache Keys
+        public const string MemoryCacheJobList = "MemoryCacheJobList";
         #endregion
     }
 }

@@ -2,7 +2,7 @@
 using SoccerX.Common.Configuration;
 using StackExchange.Redis;
 using Newtonsoft.Json;
-using SoccerX.Application.Interfaces.Redis;
+using SoccerX.Application.Interfaces.Cache.Redis;
 
 namespace SoccerX.Infrastructure.Caching
 {

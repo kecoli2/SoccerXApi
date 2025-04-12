@@ -16,9 +16,11 @@ namespace SoccerX.Persistence.Context.Configurations
 
             entity.ToTable("countries");
 
-            entity.HasIndex(e => e.Countrycode, "countries_countrycode_key").IsUnique();
+            entity.HasIndex(e => e.Countrycode, "uq_countries_countrycode").IsUnique();
 
-            entity.HasIndex(e => e.Name, "countries_name_key").IsUnique();
+            entity.HasIndex(e => e.Name, "uq_countries_name").IsUnique();
+
+            entity.HasIndex(e => new { e.Name, e.Countrycode }, "uq_countries_name_countrycode").IsUnique();
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")

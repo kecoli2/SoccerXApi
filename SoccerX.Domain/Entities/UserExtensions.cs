@@ -6,5 +6,6 @@ namespace SoccerX.Domain.Entities
     {
         public UserRole Role { get; set; }
         public UserStatus Status { get; set; }
+        public UserGender Gender { get; set; }
     }
 }

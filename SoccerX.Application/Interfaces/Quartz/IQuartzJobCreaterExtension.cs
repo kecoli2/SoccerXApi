@@ -18,7 +18,7 @@ namespace SoccerX.Application.Interfaces.Quartz
         IQuartzJobCreaterExtension SetRecovry(bool recovry);
         IQuartzJobCreaterExtension SetDurably(bool durably);
         IQuartzJobCreaterExtension SetPriority(TriggerPriorityEnum priority);
-        IQuartzJobCreaterExtension SetCulture(string culture);
+        IQuartzJobCreaterExtension SetCulture(string? culture);
         IQuartzJobCreaterExtension SetTriggerKey(string triggerKeyName);
         IQuartzJobCreaterExtension SetTriggerKey(string triggerKeyName, string group);
         IQuartzJobCreaterExtension SetUserId(Guid? id);

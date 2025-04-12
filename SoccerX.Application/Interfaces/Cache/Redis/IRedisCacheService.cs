@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace SoccerX.Application.Interfaces.Redis
+namespace SoccerX.Application.Interfaces.Cache.Redis
 {
     public interface IRedisCacheService
     {

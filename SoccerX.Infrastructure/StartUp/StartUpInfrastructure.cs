@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SoccerX.Application.Interfaces.Cache.Memory;
+using SoccerX.Application.Interfaces.Cache.Redis;
 using SoccerX.Application.Interfaces.Quartz;
-using SoccerX.Application.Interfaces.Redis;
 using SoccerX.Application.Interfaces.RestSharp;
 using SoccerX.Application.Interfaces.Security;
 using SoccerX.Infrastructure.Caching;
+using SoccerX.Infrastructure.Caching.Memory;
 using SoccerX.Infrastructure.Jobs.Base;
 using SoccerX.Infrastructure.RestSharp;
 using SoccerX.Infrastructure.Security;
@@ -19,7 +21,8 @@ namespace SoccerX.Infrastructure.StartUp
         {
             return service
                 .RegisterRedis()
-                .RegisterQuartz();
+                .RegisterQuartz()
+                .AddSingleton<IMemoryCacheService, MemoryCacheService>();
         }
         #endregion
 

@@ -19,6 +19,7 @@ namespace SoccerX.Persistence.Migration
         {
             var upgrader = DeployChanges.To
                 .PostgresqlDatabase(connectionString)
+                .WithTransaction()
                 .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
                 .LogToConsole()
                 .Build();

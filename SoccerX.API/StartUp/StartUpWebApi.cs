@@ -1,4 +1,5 @@
-﻿using SoccerX.Common.Configuration;
+﻿using SoccerX.Application.StartUp;
+using SoccerX.Common.Configuration;
 using SoccerX.DTO.StartUp;
 using SoccerX.Infrastructure.StartUp;
 using SoccerX.Persistence.StartUp;
@@ -28,7 +29,8 @@ namespace SoccerX.API.StartUp
                 .AddSwagger()
                 .AddDependcyCollectionDto()
                 .AddDependcyCollectionInfrastructure()
-                .AddDependcyCollectionPersistence(settings);
+                .AddDependcyCollectionPersistence(settings)
+                .AddDependcyCollectionApplication(settings);
         }
         #endregion
 

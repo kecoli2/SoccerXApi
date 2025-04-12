@@ -5,7 +5,7 @@ namespace SoccerX.Infrastructure.Caching.Memory
     public class MemoryCacheObjects
     {
         #region Field
-        public static Dictionary<JobKeyEnum, Type> JobListCache = new Dictionary<JobKeyEnum, Type>();
+        //public static Dictionary<JobKeyEnum, Type> JobListCache = new Dictionary<JobKeyEnum, Type>();
         #endregion
 
         #region Constructor
