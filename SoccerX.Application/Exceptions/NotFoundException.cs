@@ -12,8 +12,7 @@ public class NotFoundException : BaseException
     #endregion
 
     #region Constructor
-    public NotFoundException(string message)
-        : base(message, HttpStatusCode.NotFound) { }
+    public NotFoundException(string message): base(message, HttpStatusCode.NotFound) { }
     #endregion
 
     #region Public Method

@@ -7,8 +7,7 @@ public class UnauthorizedException : BaseException
     #endregion
 
     #region Constructor
-    public UnauthorizedException(string message = "Unauthorized")
-        : base(message, HttpStatusCode.Unauthorized) { }
+    public UnauthorizedException(string message = "Unauthorized"): base(message, HttpStatusCode.Unauthorized) { }
     #endregion
 
     #region Public Method

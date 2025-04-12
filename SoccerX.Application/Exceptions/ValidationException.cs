@@ -8,7 +8,7 @@ public class ValidationException : BaseException
     #endregion
 
     #region Constructor
-    public ValidationException(Dictionary<string, string[]> errors) : base(errors)
+    public ValidationException(Dictionary<string, string[]> errors, string message) : base(errors, message)
     {
         StatusCode = HttpStatusCode.BadRequest;
     }
