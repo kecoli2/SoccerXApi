@@ -63,39 +63,16 @@ namespace SoccerX.Persistence.Context
         #endregion
 
         #region Private Method
-        private bool IsUniqueConstraintViolation(DbUpdateException ex, out string entityName, out string propertyName)
-        {
-            entityName = null;
-            propertyName = null;
-
-            if (ex.InnerException is not PostgresException pgEx || pgEx.SqlState != "23505") return false;
-            // PostgreSQL hata mesajından bilgi çıkarımı
-            var match = Regex.Match(pgEx.ConstraintName, @"constraint ""(.+?)""", RegexOptions.IgnoreCase);
-
-            if (!match.Success) return false;
-            var constraintName = match.Groups[1].Value.ToLower();
-
-            // Constraint isimlendirme standardı: ix_<tablo>_<sütun>
-            var parts = constraintName.Split('_');
-            if (parts.Length < 3) return false;
-            entityName = parts[1];
-            propertyName = parts[2];
-            return true;
-        }
-
         private string ExtractFieldNameFromException(PostgresException pgEx, out string entityName, out string propertyName)
         {
-            entityName = null;
-            propertyName = null;
-            // 1. Direkt constraint adını kullan
+            entityName = "UnKnow Entity";
+            propertyName = "UnKnow Field";
             if (!string.IsNullOrEmpty(pgEx.ConstraintName))
             {
                 var constraintParts = pgEx.ConstraintName.Split('_');
-                if (constraintParts.Length >= 3) // uq_table_column formatı
-                {
-                    propertyName = constraintParts[2]; // column name
-                    entityName = constraintParts[1]; // entity name
-                }
+                if (constraintParts.Length < 3) return pgEx.ConstraintName; // uq_table_column formatı
+                propertyName = constraintParts[2]; // column name
+                entityName = constraintParts[1]; // entity name
                 return pgEx.ConstraintName;
             }
 
