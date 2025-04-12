@@ -1,6 +1,6 @@
 ﻿using Npgsql;
 
-namespace SoccerX.Infrastructure.Util
+namespace SoccerX.Persistence.Util
 {
     public class NpgSqlEnumTranslater : INpgsqlNameTranslator
     {

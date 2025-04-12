@@ -2,7 +2,6 @@
 using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 using SoccerX.Domain.Entities;
 using SoccerX.Domain.Enums;
-using SoccerX.Infrastructure.Util;
 
 namespace SoccerX.Persistence.Util
 {
