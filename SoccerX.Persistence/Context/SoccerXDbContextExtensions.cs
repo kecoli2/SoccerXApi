@@ -24,16 +24,13 @@ namespace SoccerX.Persistence.Context
             }
             catch (DbUpdateException ex)
             {
-                if (ex.InnerException is PostgresException pgEx && pgEx.SqlState == "23505")
-                {
-                    var fieldName = ExtractFieldNameFromException(pgEx, out var entityName, out var propertyName);
-                    Console.WriteLine($"Unique violation on field: {fieldName}");
-                    var dic = new Dictionary<string, string[]>();
-                    dic.TryAdd(entityName, new[] { propertyName });
-                    var resourceManager = string.Format(new ResourceManager(typeof(Resources))?.GetString("error_database_tableconstraint") ?? "Table_Constraint : {0}", entityName);
-                    throw new DatabaseConstraintException(dic, resourceManager);
-                }
-                throw;
+                if (ex.InnerException is not PostgresException { SqlState: "23505" } pgEx) throw;
+                var fieldName = ExtractFieldNameFromException(pgEx, out var entityName, out var propertyName);
+                Console.WriteLine($"Unique violation on field: {fieldName}");
+                var dic = new Dictionary<string, string[]>();
+                dic.TryAdd(entityName, new[] { propertyName });
+                var resourceManager = string.Format(new ResourceManager(typeof(Resources))?.GetString("error_database_tableconstraint") ?? "Table_Constraint : {0}", entityName);
+                throw new DatabaseConstraintException(dic, resourceManager);
             }
         }
         
@@ -45,16 +42,13 @@ namespace SoccerX.Persistence.Context
             }
             catch (DbUpdateException ex)
             {
-                if (ex.InnerException is PostgresException pgEx && pgEx.SqlState == "23505")
-                {
-                    var fieldName = ExtractFieldNameFromException(pgEx, out var entityName, out var propertyName);
-                    Console.WriteLine($"Unique violation on field: {fieldName}");
-                    var dic = new Dictionary<string, string[]>();
-                    dic.TryAdd(entityName, new[] { propertyName });
-                    var resourceManager = string.Format(new ResourceManager(typeof(Resources))?.GetString("error_database_tableconstraint") ?? "Table_Constraint : {0}", entityName);
-                    throw new DatabaseConstraintException(dic, resourceManager);
-                }
-                throw;
+                if (ex.InnerException is not PostgresException { SqlState: "23505" } pgEx) throw;
+                var fieldName = ExtractFieldNameFromException(pgEx, out var entityName, out var propertyName);
+                Console.WriteLine($"Unique violation on field: {fieldName}");
+                var dic = new Dictionary<string, string[]>();
+                dic.TryAdd(entityName, new[] { propertyName });
+                var resourceManager = string.Format(new ResourceManager(typeof(Resources))?.GetString("error_database_tableconstraint") ?? "Table_Constraint : {0}", entityName);
+                throw new DatabaseConstraintException(dic, resourceManager);
             }
         }
 

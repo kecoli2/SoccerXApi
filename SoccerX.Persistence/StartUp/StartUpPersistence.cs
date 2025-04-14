@@ -25,6 +25,7 @@ namespace SoccerX.Persistence.StartUp
                 {
                     options.UseNpgsql(settings.GetDatabaseConnectionString());
                     options.AddInterceptors(new AuditSaveChangesInterceptor());
+                    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking); // Tüm sorgular için tracking kapalı
                 })
                 .AddRepository();
         }
