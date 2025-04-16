@@ -58,7 +58,7 @@ public class WeatherForecastController : ControllerBase
 
         //var lst = await _cityRepository.GetAllAsync();
         var addKey = _redisCacheService.SetAsync("test", _settings);
-        var paging = await _cityRepository.GetPagedAsync(null, pageNumber, pageSize);
+        var paging = await _cityRepository.GetPagedAsync(null, null, pageNumber, pageSize);
 
         var se = await _redisCacheService.GetAsync<ApplicationSettings>("test");
 
@@ -89,9 +89,9 @@ public class WeatherForecastController : ControllerBase
             predicate = u => EF.Functions.ILike(u.Name, $"%{searchTerm}%");
         }
 
-        var pagedResult = await _cityRepository.GetPagedByCompositeCursorAsync(predicate, lastCursor, pageSize);
+        var pagedResult = await _cityRepository.GetPagedByCompositeCursorAsync(predicate, null, lastCursor, pageSize);
 
-         var dtoResult = _mapper.Map<CursorPagedResultDto<CityDto, CompositeCursorGuid>>(pagedResult);
+        var dtoResult = _mapper.Map<CursorPagedResultDto<CityDto, CompositeCursorGuid>>(pagedResult);
         return Ok(dtoResult);
 
     }
