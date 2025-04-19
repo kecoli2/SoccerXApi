@@ -24,13 +24,13 @@ public class TokenRefreshMiddleware
     #endregion
 
     #region Public Method
-    public async Task InvokeAsync(HttpContext context, IJwtService jwtService)
+    public async Task InvokeAsync(HttpContext context, ITokenService tokenService)
     {
         var encryptedToken = context.Request.Headers["Authorization"].FirstOrDefault()?.Replace("Bearer ", "");
 
         if (!string.IsNullOrEmpty(encryptedToken))
         {
-            var principal = jwtService.DecryptAndValidateToken(encryptedToken);
+            var principal = tokenService.DecryptAndValidateToken(encryptedToken);
             if (principal == null)
             {
                 context.Response.StatusCode = 401;
@@ -51,7 +51,7 @@ public class TokenRefreshMiddleware
 
                     if (Guid.TryParse(userId, out var userGuid) && !string.IsNullOrEmpty(role))
                     {
-                        var newToken = jwtService.GenerateEncryptedToken(userGuid, ChangeUserRole(role), platform.ToEnum(PlatformType.Web));
+                        var newToken = tokenService.GenerateEncryptedToken(userGuid, ChangeUserRole(role), platform.ToEnum(PlatformType.Web));
                         context.Response.Headers[SoccerXConstants.HeaderXRefreshToken] = newToken;
                     }
                 }

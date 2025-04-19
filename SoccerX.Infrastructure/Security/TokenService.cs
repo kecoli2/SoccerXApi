@@ -11,7 +11,7 @@ using SoccerX.Domain.Enums;
 
 namespace SoccerX.Infrastructure.Security;
 
-public class JwtService(ApplicationSettings applicationSettings) : IJwtService
+public class TokenService(ApplicationSettings applicationSettings) : ITokenService
 {
     #region Field
     private readonly JwtSettings _jwtSettings = applicationSettings.JwtSettings;

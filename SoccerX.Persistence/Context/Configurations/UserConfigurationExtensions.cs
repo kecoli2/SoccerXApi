@@ -19,6 +19,7 @@ namespace SoccerX.Persistence.Context.Configurations
             entity.Property(e => e.Status).HasColumnType("userstatus").HasColumnName("status").IsRequired();
             entity.Property(e => e.Role).HasColumnType("userrole").HasColumnName("role").IsRequired();
             entity.Property(e => e.Gender).HasColumnType("usergender").HasColumnName("gender").IsRequired();
+            entity.Property(e => e.Provider).HasColumnType("authprovider").HasColumnName("provider").IsRequired();
         }
 
         #endregion

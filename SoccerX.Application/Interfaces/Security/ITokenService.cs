@@ -8,7 +8,7 @@ namespace SoccerX.Application.Interfaces.Security;
 /// <summary>
 /// JWT işlemleri için servis arayüzü (şifreleme + doğrulama).
 /// </summary>
-public interface IJwtService
+public interface ITokenService
 {
     /// <summary>
     /// Kullanıcı bilgileri ile şifrelenmiş JWT üretir.

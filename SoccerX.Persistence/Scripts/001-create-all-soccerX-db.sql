@@ -8,6 +8,10 @@ BEGIN
         CREATE TYPE UserRole AS ENUM ('User', 'Admin');
     END IF;
 
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'authprovider') THEN
+        CREATE TYPE AuthProvider AS ENUM ('Local', 'Google','Apple');
+    END IF;
+
     IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'usergender') THEN
         CREATE TYPE UserGender AS ENUM ('Male', 'Female', 'Other');
     END IF;
@@ -82,6 +86,7 @@ CREATE TABLE IF NOT EXISTS Users (
     PasswordHash TEXT NOT NULL,
     Role UserRole NOT NULL DEFAULT 'User',
     Status UserStatus NOT NULL DEFAULT 'Active',
+    Provider AuthProvider NOT NULL  DEFAULT 'Local',
     BanEndDate TIMESTAMP NULL,
     ReferralUserId UUID NULL REFERENCES Users(Id) ON DELETE SET NULL,
     FollowerCount INT NOT NULL DEFAULT 0,

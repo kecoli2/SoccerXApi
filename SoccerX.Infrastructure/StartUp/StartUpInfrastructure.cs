@@ -32,7 +32,7 @@ namespace SoccerX.Infrastructure.StartUp
             return service
                 .AddSingleton<IQuartzManager, QuartzManager>()
                 .AddScoped<IQuartzJobCreater, QuartzJobCreater>()
-                .AddScoped<IJwtService, JwtService>()
+                .AddScoped<ITokenService, TokenService>()
                 .AddSingleton<IRestClientManager>(new RestClientManager("http://google.com", null));
         }
 

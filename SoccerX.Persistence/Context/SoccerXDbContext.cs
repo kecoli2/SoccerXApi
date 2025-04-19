@@ -49,6 +49,7 @@ public partial class SoccerXDbContext : DbContext
     {
         modelBuilder
             .HasPostgresEnum("auditaction", new[] { "Create", "Update", "Delete" })
+            .HasPostgresEnum("authprovider", new[] { "Local", "Google", "Apple" })
             .HasPostgresEnum("betslipstatus", new[] { "Pending", "Won", "Lost" })
             .HasPostgresEnum("paymentmethod", new[] { "CreditCard", "Crypto", "BankTransfer" })
             .HasPostgresEnum("paymentstatus", new[] { "Pending", "Completed", "Failed" })

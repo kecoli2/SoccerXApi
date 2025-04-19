@@ -26,6 +26,7 @@ namespace SoccerX.Persistence.Util
                 .MapEnum<UserRole>("userrole")
                 .MapEnum<UserStatus>("userstatus")
                 .MapEnum<UserGender>("usergender")
+                .MapEnum<AuthProvider>("authprovider")
                 .MapEnum<SchedulerResultEnum>("scheduler_result_enum");
         }
 
@@ -42,6 +43,7 @@ namespace SoccerX.Persistence.Util
             .MapEnum<UserStatus>("userstatus", new NpgSqlEnumTranslater())
             .MapEnum<UserGender>("usergender", new NpgSqlEnumTranslater())
             .MapEnum<SchedulerResultEnum>("scheduler_result_enum", new NpgSqlEnumTranslater())
+            .MapEnum<AuthProvider>("authprovider",new NpgSqlEnumTranslater())
             .MapComposite<Auditlog>()
             .MapComposite<Betslip>()
             .MapComposite<Payment>()
