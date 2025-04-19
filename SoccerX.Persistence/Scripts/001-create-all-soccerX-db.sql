@@ -95,16 +95,21 @@ CREATE TABLE IF NOT EXISTS Users (
     PostalCode VARCHAR(20),
     Address TEXT NOT NULL,
     PhoneNumber VARCHAR(20) NOT NULL,
-    AvatarUrl TEXT,
+    AvatarUrl TEXT DEFAULT NULL,
     CreateDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     UpdateDate TIMESTAMP DEFAULT NULL,
     IsDeleted BOOLEAN NOT NULL DEFAULT FALSE,
     IsEmailConfirmed BOOLEAN NOT NULL DEFAULT FALSE,
+    ExternalId TEXT DEFAULT NULL,
+    IsProfileComplete BOOLEAN NOT NULL DEFAULT FALSE,
     CONSTRAINT UQ_Users_Username UNIQUE (Username),
     CONSTRAINT UQ_Users_Email UNIQUE (Email),
     CONSTRAINT UQ_Users_PhoneNumber UNIQUE (PhoneNumber),
     CONSTRAINT UQ_Users_Username_Email_PhoneNumber UNIQUE (Username, Email, PhoneNumber)
 );
+
+-- 1) provider + externalid ikilisinin benzersizliğini sağlamak için indeks
+CREATE UNIQUE INDEX ux_users_provider_externalid  ON users(provider, externalid);
 
 -- TABLE: Followers
 CREATE TABLE IF NOT EXISTS Followers (

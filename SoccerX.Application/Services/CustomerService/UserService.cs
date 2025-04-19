@@ -4,7 +4,7 @@ using SoccerX.Application.Interfaces.Repository;
 
 namespace SoccerX.Application.Services.CustomerService
 {
-    public class CustomerService: ICustomerService
+    public class UserService: IUserService
     {
         #region Field
         private readonly IUserRepository _userRepository;
@@ -13,7 +13,7 @@ namespace SoccerX.Application.Services.CustomerService
         #endregion
 
         #region Constructor
-        public CustomerService(IUserRepository userRepository, IRedisCacheService redisCacheService, IQuartzJobCreater quartzJobCreater)
+        public UserService(IUserRepository userRepository, IRedisCacheService redisCacheService, IQuartzJobCreater quartzJobCreater)
         {
             _userRepository = userRepository;
             _redisCacheService = redisCacheService;

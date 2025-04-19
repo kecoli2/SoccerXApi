@@ -47,6 +47,10 @@ public partial class User
 
     public bool Isemailconfirmed { get; set; }
 
+    public string Externalid { get; set; }
+
+    public bool Isprofilecomplete { get; set; }
+
     public virtual ICollection<Auditlog> Auditlogs { get; set; } = new List<Auditlog>();
 
     public virtual ICollection<Betslip> Betslips { get; set; } = new List<Betslip>();

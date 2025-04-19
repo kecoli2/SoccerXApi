@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SoccerX.Domain.Entities;
+using SoccerX.Domain.Enums;
 
 namespace SoccerX.Persistence.Context.Configurations
 {
@@ -16,10 +17,10 @@ namespace SoccerX.Persistence.Context.Configurations
 
         partial void OnConfigurePartial(EntityTypeBuilder<User> entity)
         {
-            entity.Property(e => e.Status).HasColumnType("userstatus").HasColumnName("status").IsRequired();
-            entity.Property(e => e.Role).HasColumnType("userrole").HasColumnName("role").IsRequired();
+            entity.Property(e => e.Status).HasColumnType("userstatus").HasColumnName("status").HasDefaultValue(UserStatus.Active).IsRequired();
+            entity.Property(e => e.Role).HasColumnType("userrole").HasColumnName("role").HasDefaultValue(UserRole.User).IsRequired();
             entity.Property(e => e.Gender).HasColumnType("usergender").HasColumnName("gender").IsRequired();
-            entity.Property(e => e.Provider).HasColumnType("authprovider").HasColumnName("provider").IsRequired();
+            entity.Property(e => e.Provider).HasColumnType("authprovider").HasColumnName("provider").HasDefaultValue(AuthProvider.Local).IsRequired();
         }
 
         #endregion

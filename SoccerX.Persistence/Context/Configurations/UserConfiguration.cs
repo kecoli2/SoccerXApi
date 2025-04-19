@@ -45,6 +45,7 @@ namespace SoccerX.Persistence.Context.Configurations
                 .IsRequired()
                 .HasMaxLength(100)
                 .HasColumnName("email");
+            entity.Property(e => e.Externalid).HasColumnName("externalid");
             entity.Property(e => e.Followercount)
                 .HasDefaultValue(0)
                 .HasColumnName("followercount");
@@ -54,6 +55,9 @@ namespace SoccerX.Persistence.Context.Configurations
             entity.Property(e => e.Isemailconfirmed)
                 .HasDefaultValue(false)
                 .HasColumnName("isemailconfirmed");
+            entity.Property(e => e.Isprofilecomplete)
+                .HasDefaultValue(false)
+                .HasColumnName("isprofilecomplete");
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(50)

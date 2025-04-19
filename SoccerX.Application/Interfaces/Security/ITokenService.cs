@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using SoccerX.Common.Enums;
 using SoccerX.Domain.Enums;
+using SoccerX.DTO.Responses;
 
 namespace SoccerX.Application.Interfaces.Security;
 
@@ -17,7 +18,7 @@ public interface ITokenService
     /// <param name="role">Kullanıcının rolü</param>
     /// <param name="platform">User Type</param>
     /// <returns>Şifrelenmiş token string</returns>
-    string GenerateEncryptedToken(Guid userId, UserRole role, PlatformType platform);
+    AuthResponseDto GenerateTokens(Guid userId, UserRole role, PlatformType platform);
 
     /// <summary>
     /// Şifrelenmiş token'ı çözerek ClaimsPrincipal döner.

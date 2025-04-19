@@ -8,57 +8,76 @@ using SoccerX.Common.Constants;
 using SoccerX.Common.Helpers;
 using SoccerX.Common.Enums;
 using SoccerX.Domain.Enums;
+using SoccerX.DTO.Responses;
+using System.Security.Cryptography;
 
 namespace SoccerX.Infrastructure.Security;
 
-public class TokenService(ApplicationSettings applicationSettings) : ITokenService
+public class TokenService : ITokenService
 {
     #region Field
-    private readonly JwtSettings _jwtSettings = applicationSettings.JwtSettings;
+    private readonly JwtSettings _jwtSettings;
+    private readonly TimeSpan _tokenLifetime;
     #endregion
 
     #region Constructor
 
+    public TokenService(ApplicationSettings applicationSettings)
+    {
+        _jwtSettings = applicationSettings.JwtSettings;
+        _tokenLifetime = TimeSpan.FromMinutes(_jwtSettings.ExpirationMinutes);
+    }
     #endregion
 
     #region Public Method
-    public string GenerateEncryptedToken(Guid userId, UserRole role, PlatformType platform)
+    public AuthResponseDto GenerateTokens(Guid userId, UserRole role, PlatformType platform)
     {
+        // 1) Access Token oluşturma
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
         var claims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-            new Claim(ClaimTypes.Role, GetUserRole(role)),
+            new Claim(ClaimTypes.Role,GetUserRole(role)),
             new Claim(SoccerXConstants.ClaimPlatform, platform.ToString())
         };
 
-        var tokenDescriptor = new SecurityTokenDescriptor
+        var expiresAt = DateTime.UtcNow.Add(_tokenLifetime);
+        var descriptor = new SecurityTokenDescriptor
         {
             Issuer = _jwtSettings.Issuer,
             Audience = _jwtSettings.Audience,
             Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpirationMinutes),
+            Expires = expiresAt,
             SigningCredentials = creds
         };
+        var handler = new JwtSecurityTokenHandler();
+        var token = handler.CreateToken(descriptor);
+        var rawToken = handler.WriteToken(token);
+        var encryptedToken = rawToken.Encrypt();  // sizin EncryptionHelper
 
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        var rawToken = tokenHandler.WriteToken(token);
+        // 2) Refresh Token
+        var refreshToken = GenerateRefreshToken();
 
-        return rawToken.Encrypt(); // senin özel EncryptionHelper ile
+        return new AuthResponseDto
+        {
+            AccessToken = encryptedToken,
+            RefreshToken = refreshToken,
+            ExpiresAt = expiresAt
+        };
     }
 
     public ClaimsPrincipal? DecryptAndValidateToken(string encryptedToken)
     {
         try
         {
-            var decrypted = encryptedToken.Decrypt(); // çözümle
+            var decrypted = encryptedToken.Decrypt();
 
-            var tokenHandler = new JwtSecurityTokenHandler();
+            var handler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_jwtSettings.SecretKey);
 
-            var validationParameters = new TokenValidationParameters
+            var validationParams = new TokenValidationParameters
             {
                 ValidateIssuer = true,
                 ValidateAudience = true,
@@ -71,13 +90,21 @@ public class TokenService(ApplicationSettings applicationSettings) : ITokenServi
                 IssuerSigningKey = new SymmetricSecurityKey(key)
             };
 
-            var principal = tokenHandler.ValidateToken(decrypted, validationParameters, out _);
+            var principal = handler.ValidateToken(decrypted, validationParams, out _);
             return principal;
         }
         catch
         {
             return null;
         }
+    }
+
+    private string GenerateRefreshToken()
+    {
+        var randomBytes = new byte[32];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomBytes);
+        return Convert.ToBase64String(randomBytes);
     }
     #endregion
 

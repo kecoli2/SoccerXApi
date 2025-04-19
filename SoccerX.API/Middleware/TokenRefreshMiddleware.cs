@@ -6,6 +6,7 @@ using SoccerX.Common.Constants;
 using SoccerX.Common.Enums;
 using SoccerX.Common.Extensions;
 using SoccerX.Domain.Enums;
+using SoccerX.Infrastructure.Security;
 
 namespace SoccerX.API.Middleware;
 public class TokenRefreshMiddleware
@@ -26,53 +27,76 @@ public class TokenRefreshMiddleware
     #region Public Method
     public async Task InvokeAsync(HttpContext context, ITokenService tokenService)
     {
-        var encryptedToken = context.Request.Headers["Authorization"].FirstOrDefault()?.Replace("Bearer ", "");
-
-        if (!string.IsNullOrEmpty(encryptedToken))
+        // 1) Authorization header'dan token'ı al
+        var bearer = context.Request.Headers["Authorization"].FirstOrDefault();
+        if (!string.IsNullOrEmpty(bearer) && bearer.StartsWith("Bearer "))
         {
+            var encryptedToken = bearer["Bearer ".Length..];
+
+            // 2) Token'ı çöz ve doğrula
             var principal = tokenService.DecryptAndValidateToken(encryptedToken);
             if (principal == null)
             {
-                context.Response.StatusCode = 401;
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 return;
             }
 
-            var expClaim = principal?.FindFirst(JwtRegisteredClaimNames.Exp);
-            if (expClaim != null && long.TryParse(expClaim.Value, out var exp))
+            // 3) Expiration claim'ini oku
+            var expClaim = principal.FindFirst(JwtRegisteredClaimNames.Exp);
+            if (expClaim != null && long.TryParse(expClaim.Value, out var expSeconds))
             {
-                var expirationTime = DateTimeOffset.FromUnixTimeSeconds(exp);
-                var remaining = expirationTime - DateTimeOffset.UtcNow;
+                var expirationTime = DateTimeOffset.FromUnixTimeSeconds(expSeconds);
+                var minutesLeft = (expirationTime - DateTimeOffset.UtcNow).TotalMinutes;
 
-                if (remaining.TotalMinutes <= _jwtSettings.RenewalThresholdMinutes)
+                // 4) Eşik süresinden az kaldıysa yenile
+                if (minutesLeft <= _jwtSettings.RenewalThresholdMinutes)
                 {
-                    var userId = principal!.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                    var role = principal!.FindFirst(ClaimTypes.Role)?.Value;
-                    var platform = principal!.FindFirst(SoccerXConstants.ClaimPlatform)?.Value;
+                    // Kullanıcı bilgilerini al
+                    var userIdStr = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                    var roleStr = principal.FindFirst(ClaimTypes.Role)?.Value;
+                    var platformStr = principal.FindFirst(SoccerXConstants.ClaimPlatform)?.Value;
 
-                    if (Guid.TryParse(userId, out var userGuid) && !string.IsNullOrEmpty(role))
+                    if (Guid.TryParse(userIdStr, out var userId) && TryParseUserRole(roleStr, out var userRole) && TryParsePlatform(platformStr, out var platform))
                     {
-                        var newToken = tokenService.GenerateEncryptedToken(userGuid, ChangeUserRole(role), platform.ToEnum(PlatformType.Web));
-                        context.Response.Headers[SoccerXConstants.HeaderXRefreshToken] = newToken;
+                        // 5) Yeni tokenları üret
+                        var authDto = tokenService.GenerateTokens(userId, userRole, platform);
+
+                        // 6) Header'lara ekle
+                        context.Response.Headers[SoccerXConstants.HeaderXAccessToken] = authDto.AccessToken;
+                        context.Response.Headers[SoccerXConstants.HeaderXRefreshToken] = authDto.RefreshToken;
+                        context.Response.Headers[SoccerXConstants.HeaderXExpiresAt] = authDto.ExpiresAt.ToString("o"); // ISO 8601
                     }
                 }
             }
         }
 
+        // Pipeline devam etsin
         await _next(context);
     }
     #endregion
 
     #region Private Method
 
-    private UserRole ChangeUserRole(string userRole = SoccerXConstants.RoleUser)
+    private bool TryParseUserRole(string? role, out UserRole userRole)
     {
-        return userRole switch
+        userRole = UserRole.User;
+        return role switch
         {
-            SoccerXConstants.RoleUser => UserRole.User,
-            SoccerXConstants.RoleAdmin => UserRole.Admin,
-            SoccerXConstants.RoleEditor => UserRole.Editor,
-            _ => UserRole.User
+            SoccerXConstants.RoleUser => Enum.TryParse<UserRole>("User", out userRole),
+            SoccerXConstants.RoleEditor => Enum.TryParse<UserRole>("Editor", out userRole),
+            SoccerXConstants.RoleAdmin => Enum.TryParse<UserRole>("Admin", out userRole),
+            _ => false
         };
+    }
+    private bool TryParsePlatform(string? plat, out PlatformType platform)
+    {
+        // Assuming you have an extension or similar
+        if (!string.IsNullOrEmpty(plat)
+            && Enum.TryParse<PlatformType>(plat, out platform))
+            return true;
+
+        platform = PlatformType.Web;
+        return false;
     }
     #endregion
 }
