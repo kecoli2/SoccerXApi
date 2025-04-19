@@ -225,9 +225,9 @@ namespace SoccerX.Persistence.Repositories
             return new CursorPagedResult<T, CompositeCursorGuid>(items, newCursor);
         }
 
-        public async Task SaveChangesAsync()
+        public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            await Context.SaveChangesAsync();
+            await Context.SaveChangesAsync(cancellationToken);
         }
 
         #endregion

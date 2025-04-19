@@ -57,5 +57,5 @@ public interface IGenericRepository<T> where T : class
     /// Db Insert,Update,Delete
     /// </summary>
     /// <returns></returns>
-    Task SaveChangesAsync();
+    Task SaveChangesAsync(CancellationToken cancellationToken = default);
 }

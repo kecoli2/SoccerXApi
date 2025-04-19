@@ -27,6 +27,8 @@
         /// JWT Settings
         /// </summary>
         public JwtSettings JwtSettings { get; set; } = new JwtSettings();
+
+        public string AppleClientId { get; set; } = "";
         #endregion
 
         #region Constructors
