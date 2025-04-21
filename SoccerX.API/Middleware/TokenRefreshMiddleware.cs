@@ -4,9 +4,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.JsonWebTokens;
 using SoccerX.Common.Constants;
 using SoccerX.Common.Enums;
-using SoccerX.Common.Extensions;
 using SoccerX.Domain.Enums;
-using SoccerX.Infrastructure.Security;
 
 namespace SoccerX.API.Middleware;
 public class TokenRefreshMiddleware

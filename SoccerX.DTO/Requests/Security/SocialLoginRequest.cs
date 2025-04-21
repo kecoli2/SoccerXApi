@@ -6,5 +6,6 @@ namespace SoccerX.DTO.Requests.Security
     {
         public string IdToken { get; set; } = null!;
         public AuthProvider Provider { get; set; }
+
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace SoccerX.Common.Extensions
+﻿using System.ComponentModel.DataAnnotations;
+using System.Resources;
+
+namespace SoccerX.Common.Extensions
 {
     public static class ExtensionsCore
     {
@@ -28,6 +31,30 @@
 
             return defaultValue;
         }
+
+        public static bool IsValidEmail(this string email)
+        {
+            return !string.IsNullOrWhiteSpace(email) && new EmailAddressAttribute().IsValid(email);
+        }
+
+        public static string FromResource(this string resourceKey, ResourceManager resourceManager, params object[] args)
+        {
+            var resourceString = resourceManager.GetString(resourceKey) ?? $"[{resourceKey}]";
+
+            if (args is not { Length: > 0 }) return resourceString;
+            try
+            {
+                return string.Format(resourceString, args);
+            }
+            catch (FormatException)
+            {
+                // Format hatası durumunda orijinal string'i döndür
+                return resourceString;
+            }
+
+            return resourceString;
+        }
+
         #endregion
 
         #region Private Method

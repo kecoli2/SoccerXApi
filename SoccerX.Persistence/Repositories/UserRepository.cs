@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SoccerX.Application.Interfaces.Repository;
 using SoccerX.Domain.Entities;
+using SoccerX.Domain.Enums;
 using SoccerX.Persistence.Context;
 
 namespace SoccerX.Persistence.Repositories
@@ -17,6 +18,18 @@ namespace SoccerX.Persistence.Repositories
 
         public async Task<User?> GetByUsernameAsync(string username) =>
             await Context.Users.FirstOrDefaultAsync(u => u.Username == username);
+
+        public async Task UpdateUserStatus(Guid userId, UserStatus status)
+        {
+            var user = new User { Id = userId };
+            Context.Users.Attach(user);
+            user.Status = status;
+            user.Banenddate = null;
+            Context.Entry(user).Property(x=> x.Status).IsModified = true;
+            Context.Entry(user).Property(x => x.Banenddate).IsModified = true;
+            await SaveChangesAsync();
+        }
+
         #endregion
 
         #region Private Method

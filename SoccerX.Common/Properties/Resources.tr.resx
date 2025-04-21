@@ -123,4 +123,10 @@
   <data name="error_database_tableconstraint" xml:space="preserve">
     <value>Tablo' da {0} Constraint hatası alındı</value>
   </data>
+  <data name="error_InvalidUserNamePassword" xml:space="preserve">
+    <value>Kullanıcı adı veya şifre hatalı.</value>
+  </data>
+  <data name="error_userBanned" xml:space="preserve">
+  <value>Admin tarafından {0}. Tarihine kadar sisteme girişiniz askıya alındı</value>
+</data>
 </root>
