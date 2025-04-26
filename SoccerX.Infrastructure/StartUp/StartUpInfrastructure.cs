@@ -2,13 +2,17 @@
 using SoccerX.Application.Interfaces.Cache.Memory;
 using SoccerX.Application.Interfaces.Cache.Redis;
 using SoccerX.Application.Interfaces.Quartz;
+using SoccerX.Application.Interfaces.Resources;
 using SoccerX.Application.Interfaces.RestSharp;
 using SoccerX.Application.Interfaces.Security;
-using SoccerX.Infrastructure.Caching;
-using SoccerX.Infrastructure.Caching.Memory;
+using SoccerX.Application.Services.Email;
 using SoccerX.Infrastructure.Jobs.Base;
-using SoccerX.Infrastructure.RestSharp;
-using SoccerX.Infrastructure.Security;
+using SoccerX.Infrastructure.Services.Caching;
+using SoccerX.Infrastructure.Services.Caching.Memory;
+using SoccerX.Infrastructure.Services.Email;
+using SoccerX.Infrastructure.Services.Resources;
+using SoccerX.Infrastructure.Services.RestSharp;
+using SoccerX.Infrastructure.Services.Security;
 
 namespace SoccerX.Infrastructure.StartUp
 {
@@ -22,6 +26,8 @@ namespace SoccerX.Infrastructure.StartUp
             return service
                 .RegisterRedis()
                 .RegisterQuartz()
+                .AddScoped<IResourceManager, SoccerXResources>()
+                .AddScoped<IEmailService, EmailService>()
                 .AddSingleton<IMemoryCacheService, MemoryCacheService>();
         }
         #endregion

@@ -29,6 +29,11 @@
         public JwtSettings JwtSettings { get; set; } = new JwtSettings();
 
         public string AppleClientId { get; set; } = "";
+
+        /// <summary>
+        /// Smtp Settings
+        /// </summary>
+        public SmtpSettings SmtpSettings { get; set; } = new SmtpSettings();
         #endregion
 
         #region Constructors

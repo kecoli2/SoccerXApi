@@ -3,7 +3,7 @@ using StackExchange.Redis;
 using Newtonsoft.Json;
 using SoccerX.Application.Interfaces.Cache.Redis;
 
-namespace SoccerX.Infrastructure.Caching
+namespace SoccerX.Infrastructure.Services.Caching
 {
     public class RedisCacheService : IRedisCacheService
     {

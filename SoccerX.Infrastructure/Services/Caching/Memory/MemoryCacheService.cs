@@ -1,7 +1,7 @@
 ﻿using SoccerX.Application.Interfaces.Cache.Memory;
 using System.Collections.Concurrent;
 
-namespace SoccerX.Infrastructure.Caching.Memory
+namespace SoccerX.Infrastructure.Services.Caching.Memory
 {
     public class MemoryCacheService: IMemoryCacheService, IDisposable
     {
@@ -28,7 +28,7 @@ namespace SoccerX.Infrastructure.Caching.Memory
         /// </summary>
         public T? Get<T>(string key)
         {
-            if (!_cache.TryGetValue(key, out var cacheItem)) return default(T);
+            if (!_cache.TryGetValue(key, out var cacheItem)) return default;
             if (cacheItem.Expiration > DateTimeOffset.Now)
             {
                 return (T)cacheItem.Value!;
@@ -38,7 +38,7 @@ namespace SoccerX.Infrastructure.Caching.Memory
                 // Süresi dolmuş öğe bulunduğunda hemen kaldır.
                 Remove(key);
             }
-            return default(T);
+            return default;
         }
 
         /// <summary>

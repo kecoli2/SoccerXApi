@@ -5,7 +5,7 @@ using RestSharp;
 using SoccerX.Application.Interfaces.RestSharp;
 using SoccerX.Common.Shared.Model;
 
-namespace SoccerX.Infrastructure.RestSharp
+namespace SoccerX.Infrastructure.Services.RestSharp
 {
     public class RestClientManager: IRestClientManager
     {

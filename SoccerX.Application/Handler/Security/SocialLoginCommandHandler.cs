@@ -19,16 +19,15 @@ using System.Linq.Expressions;
 using SoccerX.Application.Exceptions;
 using SoccerX.Common.Extensions;
 using System.Resources;
+using SoccerX.Application.Interfaces.Resources;
+using SoccerX.Application.Services.CustomerService;
 
 namespace SoccerX.Application.Handler.Security
 {
-    public class SocialLoginCommandHandler(IUserRepository userRepository, ITokenService tokenService,
-            IHttpClientFactory httpClientFactory, ApplicationSettings applicationSettings,
-            ResourceManager resourceManager)
+    public class SocialLoginCommandHandler(IUserRepository userRepository, ITokenService tokenService, IHttpClientFactory httpClientFactory, ApplicationSettings applicationSettings, IResourceManager resourceManager, IUserService _userService)
         : IRequestHandler<SocialLoginCommand, AuthResponseDto>
     {
         #region Field
-
         #endregion
 
         #region Constructor
@@ -67,7 +66,7 @@ namespace SoccerX.Application.Handler.Security
                     throw new NotSupportedException($"Provider {request.Provider} is not supported.");
             }
 
-            Expression<Func<User, User>> selector = u => new User
+            Expression<Func<User, User>> selector = u => new Domain.Entities.User
             {
                 Id = u.Id,
                 Name = u.Name,
@@ -105,19 +104,23 @@ namespace SoccerX.Application.Handler.Security
                     Avatarurl = pictureUrl
                     // Gerekli diğer alanlar (Countryid, Cityid vs.) 
                 };
-                await userRepository.AddAsync(user);
-                await userRepository.SaveChangesAsync(cancellationToken);
+                await _userService.NewCustomerSocial(user, cancellationToken);
             }
             else
             {
-                if (user.Status == UserStatus.Banned && user.Banenddate >= DateTime.Now)
+                switch (user.Status)
                 {
-                    throw new UnauthorizedException("error_userBanned".FromResource(resourceManager: resourceManager, user.Banenddate?.ToString("dd/MM/yyyy HH:mm")!));
+                    case UserStatus.Banned when user.Banenddate >= DateTime.Now:
+                        throw new UnauthorizedException( resourceManager.GetString("error_userBanned", user.Banenddate?.ToString("dd/MM/yyyy HH:mm")!));
+                    case UserStatus.Banned:
+                        await userRepository.UpdateUserStatus(user.Id, UserStatus.Active);
+                        break;
+                    case UserStatus.Active:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
-                else if (user.Status == UserStatus.Banned)
-                {
-                    await userRepository.UpdateUserStatus(user.Id, UserStatus.Active);
-                }
+
                 // Profil tamamlanma durumuna göre işaretle
                 isNewUser = !user.Isprofilecomplete;
             }

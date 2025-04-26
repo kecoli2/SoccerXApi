@@ -11,7 +11,7 @@ using SoccerX.Domain.Enums;
 using SoccerX.DTO.Responses;
 using System.Security.Cryptography;
 
-namespace SoccerX.Infrastructure.Security;
+namespace SoccerX.Infrastructure.Services.Security;
 
 public class TokenService : ITokenService
 {

@@ -16,6 +16,6 @@ namespace SoccerX.Application.Services.CountryService
         public Task<City> AddCity(City city);
         public Task<City> UpdateCity(City city);
         public Task DeleteCity(Guid id);
-
+        public Task<Country> GetOtherCountry();
     }
 }

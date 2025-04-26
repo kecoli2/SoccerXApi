@@ -17,6 +17,7 @@
 		<EmbeddedResource Include="Scripts\001-create-all-soccerX-db.sql" />
 		<EmbeddedResource Include="Scripts\002-update_date_function.sql" />
 		<EmbeddedResource Include="Scripts\003-quartznet-postgresql-tables.sql" />
+		<EmbeddedResource Include="Scripts\005-insert-country-cities.sql" />
 		<EmbeddedResource Include="Scripts\004-insert-country-cities.sql" />
 	</ItemGroup>
 

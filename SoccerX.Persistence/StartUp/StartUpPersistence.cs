@@ -17,7 +17,6 @@ namespace SoccerX.Persistence.StartUp
         #endregion
 
         #region Public Method
-
         public static IServiceCollection AddDependcyCollectionPersistence(this IServiceCollection services, ApplicationSettings settings)
         {
             return services
@@ -50,7 +49,8 @@ namespace SoccerX.Persistence.StartUp
                 .AddScoped<ISubscriptionRepository, SubscriptionRepository>()
                 .AddScoped<ITeamRepository, TeamRepository>()
                 .AddScoped<ITransactionRepository, TransactionRepository>()
-                .AddScoped<IUserRepository, UserRepository>();
+                .AddScoped<IUserRepository, UserRepository>()
+                .AddScoped<IUnitOfWork, UnitOfWork>();
         }
         #endregion
     }

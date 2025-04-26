@@ -124,6 +124,17 @@ namespace SoccerX.Application.Services.CountryService
             var cacheKey = string.Format(SoccerXConstants.RedisCountryKeyCties, city.First().Countryid);
             await RemoveCityCache(city.First().Id, cacheKey);
         }
+
+        public async Task<Country> GetOtherCountry()
+        {
+            var getOtherCountryKey = string.Format(SoccerXConstants.RedisCountries, "otherCountry");
+            var country = await _redisCacheService.GetAsync<Country>(getOtherCountryKey);
+            if (country != null) return country!;
+            country = await _countryRepository.GetByCodeAsync("--");
+            await _redisCacheService.SetAsync(getOtherCountryKey, country, TimeSpan.FromMinutes(10));
+            return country!;
+        }
+
         #endregion
 
         #region Private Method

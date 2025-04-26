@@ -11,6 +11,5 @@ namespace SoccerX.Application.Interfaces.Quartz
         IQuartzJobCreaterExtension CreateJob<T>() where T : IBaseJob;
         IQuartzJobCreaterExtension Create(Type jobType);
         IQuartzJobCreaterExtension Create(JobKeyEnum jobKeyEnum);
-        Task<JobDetailModel> Start();
     }
 }

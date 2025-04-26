@@ -129,4 +129,10 @@
 	<data name="error_userBanned" xml:space="preserve">
   <value>Your system access has been suspended by admin until {0}.</value>
 </data>
+	<data name="error_userEmailIsExist" xml:space="preserve">
+		<value>The email address {0} is already in use by another user in the system.</value>
+	</data>
+	<data name="error_userNameIsExist" xml:space="preserve">
+	<value>The username {0} is already in use by another user in the system.</value>
+	</data>
 </root>

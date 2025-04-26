@@ -14,6 +14,7 @@ using SoccerX.Common.Helpers;
 using SoccerX.Domain.Entities;
 using SoccerX.Domain.Enums;
 using System.Linq.Expressions;
+using SoccerX.Application.Interfaces.Resources;
 
 namespace SoccerX.Application.Handler.Security
 {
@@ -22,11 +23,11 @@ namespace SoccerX.Application.Handler.Security
         #region Field
         private readonly IUserRepository _userRepository;
         private readonly ITokenService _tokenService;
-        private readonly ResourceManager _resourceManager;
+        private readonly IResourceManager _resourceManager;
         #endregion
 
         #region Constructor
-        public LocalLoginCommandHandler(IUserRepository userRepository, ITokenService tokenService, ResourceManager resourceManager)
+        public LocalLoginCommandHandler(IUserRepository userRepository, ITokenService tokenService, IResourceManager resourceManager)
         {
             _userRepository = userRepository;
             _tokenService = tokenService;
@@ -64,19 +65,23 @@ namespace SoccerX.Application.Handler.Security
 
             if (user == null)
             {
-                throw new NotFoundException("error_InvalidUserNamePassword".FromResource(_resourceManager));
+                throw new NotFoundException( _resourceManager.GetString("error_InvalidUserNamePassword"));
             }
 
             if (user.Passwordhash.Decrypt() != request.Password)
-                throw new NotFoundException("error_InvalidUserNamePassword".FromResource(_resourceManager));
+                throw new NotFoundException(_resourceManager.GetString("error_InvalidUserNamePassword"));
 
-            if (user.Status == UserStatus.Banned && user.Banenddate >= DateTime.Now)
+            switch (user.Status)
             {
-                throw new UnauthorizedException("error_userBanned".FromResource(resourceManager: _resourceManager, user.Banenddate?.ToString("dd/MM/yyyy HH:mm")!));
-            }
-            else if (user.Status == UserStatus.Banned)
-            {
-                await _userRepository.UpdateUserStatus(user.Id, UserStatus.Active);
+                case UserStatus.Banned when user.Banenddate >= DateTime.Now:
+                    throw new UnauthorizedException(_resourceManager.GetString("error_userBanned", user.Banenddate?.ToString("dd/MM/yyyy HH:mm")!));
+                case UserStatus.Banned:
+                    await _userRepository.UpdateUserStatus(user.Id, UserStatus.Active);
+                    break;
+                case UserStatus.Active:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             // 3) JWT + Refresh token üret

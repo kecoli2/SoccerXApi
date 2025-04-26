@@ -1,5 +1,7 @@
-﻿using SoccerX.Common.Enums;
+﻿using SoccerX.Common.Base.Quartz.Models;
+using SoccerX.Common.Enums;
 using System;
+using System.Threading.Tasks;
 
 namespace SoccerX.Application.Interfaces.Quartz
 {
@@ -25,8 +27,6 @@ namespace SoccerX.Application.Interfaces.Quartz
         IQuartzJobCreaterExtension StartDate(DateTimeOffset startDate);
         IQuartzJobCreaterExtension EndDate(DateTimeOffset endDate);
         IQuartzJobCreaterExtension SetCronExpression(string cronExpression);
-
-
-
+        Task<JobDetailModel> Start();
     }
 }

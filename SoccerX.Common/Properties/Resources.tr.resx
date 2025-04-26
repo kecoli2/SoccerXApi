@@ -129,4 +129,10 @@
   <data name="error_userBanned" xml:space="preserve">
   <value>Admin tarafından {0}. Tarihine kadar sisteme girişiniz askıya alındı</value>
 </data>
+  <data name="error_userEmailIsExist" xml:space="preserve">
+  <value>{0} e-mail adresi sistemde başka bir kullanıcı tarafından kullanılmaktadır.</value>
+</data>
+  <data name="error_userNameIsExist" xml:space="preserve">
+  <value>{0} kullanıcı adı sistemde başka bir kullanıcı tarafından kullanılmaktadır.</value>
+</data>
 </root>
