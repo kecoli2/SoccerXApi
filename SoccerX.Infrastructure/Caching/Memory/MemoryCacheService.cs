@@ -8,7 +8,6 @@ namespace SoccerX.Infrastructure.Caching.Memory
         #region Field
         private readonly ConcurrentDictionary<string, CacheItem> _cache = new ConcurrentDictionary<string, CacheItem>();
         private readonly Timer _cleanupTimer;
-
         #endregion
 
         #region Constructor
