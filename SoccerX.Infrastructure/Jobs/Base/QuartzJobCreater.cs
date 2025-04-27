@@ -198,7 +198,7 @@ namespace SoccerX.Infrastructure.Jobs.Base
             var jobDetail = _jobBuilder?.Build();
             TriggerBuilder? triggerBuilder = null;
             if (_userId != null)
-                jobDetail?.JobDataMap.Put(QuartzConstant.JobUserId, _userId);
+                jobDetail?.JobDataMap.Put(QuartzConstant.JobUserId, _userId.ToString());
             jobDetail?.JobDataMap.Put(QuartzConstant.JobCulture, _culture);
 
             if (_cronExpression != null)

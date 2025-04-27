@@ -12,7 +12,7 @@ namespace SoccerX.Common.Base.Quartz.Criteria
         #region Field
 
         public string ToMailAddress { get; set; } = null!;
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         #endregion
     }

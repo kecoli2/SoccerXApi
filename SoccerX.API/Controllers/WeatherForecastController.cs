@@ -54,7 +54,7 @@ public class WeatherForecastController : ControllerBase
         await _quartzJobCreater.Create(JobKeyEnum.SendVerificationMail)
             .SetCriteria(new SendEmailVerifcationCriteria
             {
-                UserId = Guid.NewGuid(),
+                UserId = Guid.NewGuid().ToString(),
                 ToMailAddress = "salih",
                 Culture = _resourceManager.GetCultureKey()
             })
@@ -62,7 +62,7 @@ public class WeatherForecastController : ControllerBase
             .SetDescription("Deneme")
             .Start();
 
-
+        return Ok();
         var country = await _countriesService.GetCountries();
 
         //var city = await _countriesService.GetCities(country!.First().Id);

@@ -32,7 +32,7 @@ namespace SoccerX.Infrastructure.Jobs.Base
             if (_settings.JobStoreType == "Database")
             {
                 props.Add("quartz.jobStore.type", "Quartz.Impl.AdoJobStore.JobStoreTX, Quartz");
-                props.Add("quartz.jobStore.useProperties", "true");
+                props.Add("quartz.jobStore.useProperties", "false");
                 props.Add("quartz.jobStore.dataSource", "default");
                 props.Add("quartz.jobStore.tablePrefix", "qrtz_");
                 props.Add("quartz.jobStore.driverDelegateType", "Quartz.Impl.AdoJobStore.PostgreSQLDelegate, Quartz");

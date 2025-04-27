@@ -33,7 +33,7 @@ namespace SoccerX.Infrastructure.Jobs.Jobs.Test
                 Createdate = DateTime.Now,
                 Expiresat = DateTime.Now.AddMinutes(5),
                 Isused = false,
-                Userid = JobCriteria!.UserId,
+                Userid = Guid.Parse(JobCriteria!.UserId),
             };
             return Task.CompletedTask;
         }

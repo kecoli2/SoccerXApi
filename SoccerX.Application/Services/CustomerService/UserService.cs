@@ -73,7 +73,7 @@ namespace SoccerX.Application.Services.CustomerService
                 await _quartzJobCreater.Create(JobKeyEnum.SendVerificationMail)
                     .SetCriteria(new SendEmailVerifcationCriteria
                     {
-                        UserId = user.Id,
+                        UserId = user.Id.ToString(),
                         ToMailAddress = user.Email,
                     })
                     .SetPriority(TriggerPriorityEnum.High)
