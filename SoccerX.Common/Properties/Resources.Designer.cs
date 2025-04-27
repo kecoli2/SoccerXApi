@@ -61,7 +61,52 @@ namespace SoccerX.Common.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User Name.
+        ///   Looks up a localized string similar to Tablo&apos; da {0} Constraint hatası alındı.
+        /// </summary>
+        public static string error_database_tableconstraint {
+            get {
+                return ResourceManager.GetString("error_database_tableconstraint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kullanıcı adı veya şifre hatalı..
+        /// </summary>
+        public static string error_InvalidUserNamePassword {
+            get {
+                return ResourceManager.GetString("error_InvalidUserNamePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Admin tarafından {0}. Tarihine kadar sisteme girişiniz askıya alındı.
+        /// </summary>
+        public static string error_userBanned {
+            get {
+                return ResourceManager.GetString("error_userBanned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} e-mail adresi sistemde başka bir kullanıcı tarafından kullanılmaktadır..
+        /// </summary>
+        public static string error_userEmailIsExist {
+            get {
+                return ResourceManager.GetString("error_userEmailIsExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} kullanıcı adı sistemde başka bir kullanıcı tarafından kullanılmaktadır..
+        /// </summary>
+        public static string error_userNameIsExist {
+            get {
+                return ResourceManager.GetString("error_userNameIsExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kullanıcı adı.
         /// </summary>
         public static string User_Name {
             get {

@@ -78,6 +78,7 @@ namespace SoccerX.Application.Services.CustomerService
                     })
                     .SetPriority(TriggerPriorityEnum.High)
                     .SetCulture(_resourceManager.GetCultureKey())
+                    .SetUserId(user.Id)
                     .Start();
             }
             catch (Exception)

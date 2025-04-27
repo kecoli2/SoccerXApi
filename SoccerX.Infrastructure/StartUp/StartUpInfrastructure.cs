@@ -7,6 +7,7 @@ using SoccerX.Application.Interfaces.RestSharp;
 using SoccerX.Application.Interfaces.Security;
 using SoccerX.Application.Services.Email;
 using SoccerX.Infrastructure.Jobs.Base;
+using SoccerX.Infrastructure.Jobs.Base.Plugin;
 using SoccerX.Infrastructure.Services.Caching;
 using SoccerX.Infrastructure.Services.Caching.Memory;
 using SoccerX.Infrastructure.Services.Email;
@@ -37,6 +38,7 @@ namespace SoccerX.Infrastructure.StartUp
         {
             return service
                 .AddSingleton<IQuartzManager, QuartzManager>()
+                .AddSingleton<JobHistoryPlugin>()
                 .AddScoped<IQuartzJobCreater, QuartzJobCreater>()
                 .AddScoped<ITokenService, TokenService>()
                 .AddSingleton<IRestClientManager>(new RestClientManager("http://google.com", null));

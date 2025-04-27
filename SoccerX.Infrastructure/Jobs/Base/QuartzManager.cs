@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using Quartz.Impl.Matchers;
 using SoccerX.Application.Interfaces.Quartz;
 using SoccerX.Common.Base.Quartz.Models;
+using SoccerX.Infrastructure.Jobs.Base.Plugin;
 
 namespace SoccerX.Infrastructure.Jobs.Base
 {
@@ -13,11 +14,13 @@ namespace SoccerX.Infrastructure.Jobs.Base
         #region Field
         private readonly QuartzSettings _settings;
         private readonly IScheduler _scheduler;
+        private readonly JobHistoryPlugin _jobHistoryPlugin;
         #endregion
 
         #region Constructor
-        public QuartzManager(ApplicationSettings options)
+        public QuartzManager(ApplicationSettings options, JobHistoryPlugin jobHistoryPlugin)
         {
+            _jobHistoryPlugin = jobHistoryPlugin;
             _settings = options.Quartz;
             var props = new NameValueCollection
             {
@@ -50,6 +53,7 @@ namespace SoccerX.Infrastructure.Jobs.Base
 
             ISchedulerFactory schedulerFactory = new StdSchedulerFactory(props);
             _scheduler = schedulerFactory.GetScheduler().Result;
+            _scheduler.ListenerManager.AddJobListener(_jobHistoryPlugin, GroupMatcher<JobKey>.AnyGroup());
         }
         #endregion
 

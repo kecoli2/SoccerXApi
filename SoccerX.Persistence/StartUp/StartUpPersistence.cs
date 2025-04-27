@@ -50,6 +50,7 @@ namespace SoccerX.Persistence.StartUp
                 .AddScoped<ITeamRepository, TeamRepository>()
                 .AddScoped<ITransactionRepository, TransactionRepository>()
                 .AddScoped<IUserRepository, UserRepository>()
+                .AddScoped<ICommentRepository, CommentRepository>()
                 .AddScoped<IUnitOfWork, UnitOfWork>();
         }
         #endregion

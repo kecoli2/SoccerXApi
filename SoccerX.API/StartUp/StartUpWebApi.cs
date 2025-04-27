@@ -3,6 +3,8 @@ using SoccerX.Common.Configuration;
 using SoccerX.DTO.StartUp;
 using SoccerX.Infrastructure.StartUp;
 using SoccerX.Persistence.StartUp;
+using System.Reflection;
+using System.Resources;
 
 namespace SoccerX.API.StartUp
 {
@@ -24,9 +26,17 @@ namespace SoccerX.API.StartUp
         /// <returns></returns>
         public static IServiceCollection AddDependcyCollectionWebApi(this IServiceCollection services, ApplicationSettings settings)
         {
+            var assembly = Assembly.Load("SoccerX.Common");
+           
+
+
+            //builder.Services.AddSingleton<ResourceManager>(_ =>
+            //    new ResourceManager(baseName, assembly));
+
             return services
                 .AddSingleton(settings)
                 .AddSwagger()
+                .AddSingleton<ResourceManager>(_ => new ResourceManager("SoccerX.Common.Properties.Resources", assembly))
                 .AddDependcyCollectionDto()
                 .AddDependcyCollectionInfrastructure()
                 .AddDependcyCollectionPersistence(settings)

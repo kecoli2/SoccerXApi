@@ -8,7 +8,11 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using SoccerX.Common.Configuration;
 using SoccerX.Application.Interfaces.Cache.Redis;
+using SoccerX.Application.Interfaces.Quartz;
+using SoccerX.Application.Interfaces.Resources;
 using SoccerX.Application.Services.CountryService;
+using SoccerX.Common.Base.Quartz.Criteria;
+using SoccerX.Common.Enums;
 
 namespace SoccerX.API.Controllers;
 
@@ -27,8 +31,10 @@ public class WeatherForecastController : ControllerBase
     private readonly IRedisCacheService _redisCacheService;
     private readonly ApplicationSettings _settings;
     private readonly ICountriesService _countriesService;
+    private readonly IQuartzJobCreater _quartzJobCreater;
+    private readonly IResourceManager _resourceManager;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger, ICityRepository cityRepository, IMapper mapper, IRedisCacheService redisCacheService, ApplicationSettings settings, ICountriesService countriesService)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, ICityRepository cityRepository, IMapper mapper, IRedisCacheService redisCacheService, ApplicationSettings settings, ICountriesService countriesService, IQuartzJobCreater quartzJobCreater, IResourceManager resourceManager)
     {
         _logger = logger;
         _cityRepository = cityRepository;
@@ -36,11 +42,26 @@ public class WeatherForecastController : ControllerBase
         _redisCacheService = redisCacheService;
         _settings = settings;
         _countriesService = countriesService;
+        _quartzJobCreater = quartzJobCreater;
+        _resourceManager = resourceManager;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
     public async Task<IActionResult> Get(int pageNumber, int pageSize)
     {
+        var ss = _resourceManager.GetString("User.Name");
+
+        await _quartzJobCreater.Create(JobKeyEnum.SendVerificationMail)
+            .SetCriteria(new SendEmailVerifcationCriteria
+            {
+                UserId = Guid.NewGuid(),
+                ToMailAddress = "salih",
+                Culture = _resourceManager.GetCultureKey()
+            })
+            .SetUserId(Guid.NewGuid())
+            .SetDescription("Deneme")
+            .Start();
+
 
         var country = await _countriesService.GetCountries();
 

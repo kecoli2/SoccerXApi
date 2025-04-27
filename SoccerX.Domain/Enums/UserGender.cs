@@ -2,6 +2,8 @@
 {
     public enum UserGender
     {
-        
+        Male,
+        Female,
+        Other
     }
 }

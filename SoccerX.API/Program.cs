@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Localization;
 using SoccerX.API.HostedService;
 using SoccerX.API.Middleware;
 using SoccerX.API.StartUp;
 using SoccerX.Common.Configuration;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,6 +54,35 @@ var applicationSettings = new ApplicationSettings
 builder.Services.AddHostedService<QuartzHostedService>();
 builder.Services.AddDependcyCollectionWebApi(applicationSettings);
 // Add services to the container.
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[]
+    {
+        new CultureInfo("tr-TR"),
+        new CultureInfo("en-US")
+    };
+
+    options.DefaultRequestCulture = new RequestCulture("tr-TR");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+    options.ApplyCurrentCultureToResponseHeaders = true;
+
+    // Özel provider (Header tabanlý)
+    options.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(async context =>
+    {
+        var acceptLanguage = context.Request.GetTypedHeaders().AcceptLanguage;
+        var requestedCulture = acceptLanguage?.FirstOrDefault()?.Value.Value;
+
+        // Desteklenen kültürleri kontrol et
+        var culture = supportedCultures.Any(c =>
+            c.Name.Equals(requestedCulture, StringComparison.OrdinalIgnoreCase))
+            ? requestedCulture
+            : "tr-TR";
+
+        return new ProviderCultureResult(culture, culture);
+    }));
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

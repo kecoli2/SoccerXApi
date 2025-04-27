@@ -36,8 +36,21 @@ namespace SoccerX.Common.Attributes
         #region Private Method
         private string GetResource()
         {
-            return new ResourceManager(typeof(Resources))?.GetString(JobDescriptionKey) ?? $"[{JobDescriptionKey}]"; ;
+            var assembly = typeof(SoccerX.Common.Properties.Resources).Assembly;
+            foreach (var name in assembly.GetManifestResourceNames())
+            {
+                Console.WriteLine(name);
+            }
+
+
+            var rm = new ResourceManager(typeof(Resources).FullName, typeof(Resources).Assembly);
+            return rm.GetString(JobDescriptionKey) ?? $"[{JobDescriptionKey}]";
+            //return new ResourceManager(typeof(Resources))?.GetString(JobDescriptionKey) ?? ; ;
         }
+
+        private static ResourceManager ResourceManager =>
+            new ResourceManager("SoccerX.Common.Properties.Resources",
+                typeof(JobAttributes).Assembly);
         #endregion
     }
 }
