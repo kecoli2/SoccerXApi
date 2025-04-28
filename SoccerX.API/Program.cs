@@ -4,6 +4,8 @@ using SoccerX.API.Middleware;
 using SoccerX.API.StartUp;
 using SoccerX.Common.Configuration;
 using System.Globalization;
+using Quartz.Logging;
+using SoccerX.Infrastructure.Jobs.Base;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,8 +53,8 @@ var applicationSettings = new ApplicationSettings
 };
 
 //DI Tanimlamalari
-builder.Services.AddHostedService<QuartzHostedService>();
 builder.Services.AddDependcyCollectionWebApi(applicationSettings);
+builder.Services.AddHostedService<QuartzHostedService>();
 // Add services to the container.
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
@@ -83,6 +85,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
         return new ProviderCultureResult(culture, culture);
     }));
 });
+LogProvider.SetCurrentLogProvider(new ConsoleLogProviderQuartz());
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

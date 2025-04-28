@@ -44,8 +44,8 @@ BEGIN
         CREATE TYPE ReferralStatus AS ENUM ('Pending', 'Approved', 'Rejected');
     END IF;
 
-     IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'scheduler_result_enum') THEN
-        CREATE TYPE scheduler_result_enum AS ENUM ('Ok', 'Error');
+     IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'schedulerresultenum') THEN
+        CREATE TYPE schedulerresultenum AS ENUM ('Ok', 'Error');
     END IF;
 END
 $$;
@@ -263,7 +263,7 @@ CREATE TABLE SchedulerResult (
     Jobkey VARCHAR(255) NOT NULL,
     JobGroup VARCHAR(255) NOT NULL,
     JobDescription TEXT NOT NULL,
-    Result scheduler_result_enum NOT NULL DEFAULT 'Ok',
+    Result schedulerresultenum NOT NULL DEFAULT 'Ok',
     ResultDetail TEXT,
     StartDate TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     EndDate TIMESTAMP WITHOUT TIME ZONE NOT NULL,

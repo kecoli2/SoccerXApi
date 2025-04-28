@@ -11,12 +11,18 @@ namespace SoccerX.Infrastructure.Jobs.Jobs.Test
     public class TestJob: BaseJob<SendEmailVerifcationCriteria>
     {
         #region Field
-        private readonly IEmailVerificationRepository _emailVerificationRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public TestJob(IEmailVerificationRepository emailVerificationRepository)
+        public TestJob(IUnitOfWork unitOfWork): base()
         {
-            _emailVerificationRepository = emailVerificationRepository;
+            _unitOfWork = unitOfWork;
         }
+        //private readonly IEmailVerificationRepository _emailVerificationRepository;
+
+        //public TestJob(IEmailVerificationRepository emailVerificationRepository)
+        //{
+        //    _emailVerificationRepository = emailVerificationRepository;
+        //}
 
         #endregion
 

@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Quartz;
+using Quartz.Spi;
 using SoccerX.Application.Interfaces.Cache.Memory;
 using SoccerX.Application.Interfaces.Cache.Redis;
 using SoccerX.Application.Interfaces.Quartz;
@@ -8,6 +10,7 @@ using SoccerX.Application.Interfaces.Security;
 using SoccerX.Application.Services.Email;
 using SoccerX.Infrastructure.Jobs.Base;
 using SoccerX.Infrastructure.Jobs.Base.Plugin;
+using SoccerX.Infrastructure.Jobs.Jobs.Test;
 using SoccerX.Infrastructure.Services.Caching;
 using SoccerX.Infrastructure.Services.Caching.Memory;
 using SoccerX.Infrastructure.Services.Email;
@@ -29,6 +32,7 @@ namespace SoccerX.Infrastructure.StartUp
                 .RegisterQuartz()
                 .AddScoped<IResourceManager, SoccerXResources>()
                 .AddScoped<IEmailService, EmailService>()
+                .AddScoped<ITokenService, TokenService>()
                 .AddSingleton<IMemoryCacheService, MemoryCacheService>();
         }
         #endregion
@@ -36,12 +40,24 @@ namespace SoccerX.Infrastructure.StartUp
         #region Private Method
         private static IServiceCollection RegisterQuartz(this IServiceCollection service)
         {
-            return service
+            service
+                .AddSingleton<IJobFactory, QuartzJobFactory>()
                 .AddSingleton<IQuartzManager, QuartzManager>()
                 .AddSingleton<JobHistoryPlugin>()
                 .AddScoped<IQuartzJobCreater, QuartzJobCreater>()
-                .AddScoped<ITokenService, TokenService>()
                 .AddSingleton<IRestClientManager>(new RestClientManager("http://google.com", null));
+
+
+            var type = typeof(IJob);
+            var lst = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(c => c.FullName?.Contains("SoccerX.Infrastructure") == true)
+                .SelectMany(assembly => assembly.GetTypes()).Where(p =>
+                    type.IsAssignableFrom(p) && p is { IsInterface: false, IsAbstract: false });
+            foreach (var implementationType in lst)
+            {
+                service.AddTransient(implementationType);
+            }
+            return service;
         }
 
         private static IServiceCollection RegisterRedis(this IServiceCollection service)

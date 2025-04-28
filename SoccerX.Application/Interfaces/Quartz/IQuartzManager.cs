@@ -18,5 +18,6 @@ namespace SoccerX.Application.Interfaces.Quartz
         Task ResumeTrigger(string triggerKey, CancellationToken cancellationToken = default(CancellationToken));
         Task ResumeErrorTrigger(CancellationToken  cancellationToken);
         Task<bool> IsJobGroupPaused(string groupName, CancellationToken cancellationToken = default(CancellationToken));
+        public void SetJobFactory(object factory);
     }
 }

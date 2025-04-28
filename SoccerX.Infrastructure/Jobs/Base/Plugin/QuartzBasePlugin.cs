@@ -38,7 +38,7 @@ namespace SoccerX.Infrastructure.Jobs.Base.Plugin
 
         #region Public Method
 
-        public Task WriteResultToScheduler(IJobExecutionContext context, JobExecutionException? exception, CancellationToken cancellationToken)
+        public async Task WriteResultToScheduler(IJobExecutionContext context, JobExecutionException? exception, CancellationToken cancellationToken)
         {
             using var scope = _serviceProvider.CreateScope();
             var schedulerResultRepository = scope.ServiceProvider.GetRequiredService<ISchedulerResultRepository>();
@@ -59,8 +59,8 @@ namespace SoccerX.Infrastructure.Jobs.Base.Plugin
                 Userid = context.JobDetail.JobDataMap.GetNullableGuidValue(QuartzConstant.JobUserId)
             };
 
-            schedulerResultRepository.AddAsync(result);
-            return schedulerResultRepository.SaveChangesAsync(cancellationToken);
+            await schedulerResultRepository.AddAsync(result);
+            await schedulerResultRepository.SaveChangesAsync(cancellationToken);
         }
         #endregion
 

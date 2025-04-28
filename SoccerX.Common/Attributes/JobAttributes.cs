@@ -43,7 +43,7 @@ namespace SoccerX.Common.Attributes
             }
 
 
-            var rm = new ResourceManager(typeof(Resources).FullName, typeof(Resources).Assembly);
+            var rm = new ResourceManager(typeof(Resources).FullName!, typeof(Resources).Assembly);
             return rm.GetString(JobDescriptionKey) ?? $"[{JobDescriptionKey}]";
             //return new ResourceManager(typeof(Resources))?.GetString(JobDescriptionKey) ?? ; ;
         }

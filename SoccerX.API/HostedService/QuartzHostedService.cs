@@ -1,4 +1,7 @@
-﻿using SoccerX.Application.Interfaces.Quartz;
+﻿using Quartz.Impl.Matchers;
+using Quartz;
+using Quartz.Spi;
+using SoccerX.Application.Interfaces.Quartz;
 
 namespace SoccerX.API.HostedService
 {
@@ -6,6 +9,7 @@ namespace SoccerX.API.HostedService
     {
         #region Field
         private readonly IQuartzManager _quartzManager;
+        private readonly IJobFactory _jobFactory;
         #endregion
 
         #region Constructor
@@ -18,7 +22,16 @@ namespace SoccerX.API.HostedService
         #region Public Method
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            await _quartzManager.StartAsync(cancellationToken);
+            try
+            {
+                //_quartzManager.SetJobFactory(_jobFactory);
+                await _quartzManager.StartAsync(cancellationToken);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)

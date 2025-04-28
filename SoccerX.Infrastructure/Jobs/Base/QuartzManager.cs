@@ -3,6 +3,7 @@ using Quartz.Impl;
 using SoccerX.Common.Configuration;
 using System.Collections.Specialized;
 using Quartz.Impl.Matchers;
+using Quartz.Spi;
 using SoccerX.Application.Interfaces.Quartz;
 using SoccerX.Common.Base.Quartz.Models;
 using SoccerX.Infrastructure.Jobs.Base.Plugin;
@@ -14,13 +15,13 @@ namespace SoccerX.Infrastructure.Jobs.Base
         #region Field
         private readonly QuartzSettings _settings;
         private readonly IScheduler _scheduler;
-        private readonly JobHistoryPlugin _jobHistoryPlugin;
+        private IJobFactory _jobFactory;
         #endregion
 
         #region Constructor
-        public QuartzManager(ApplicationSettings options, JobHistoryPlugin jobHistoryPlugin)
+        public QuartzManager(ApplicationSettings options, JobHistoryPlugin jobHistoryPlugin, IJobFactory jobFactory)
         {
-            _jobHistoryPlugin = jobHistoryPlugin;
+            _jobFactory = jobFactory;
             _settings = options.Quartz;
             var props = new NameValueCollection
             {
@@ -53,7 +54,8 @@ namespace SoccerX.Infrastructure.Jobs.Base
 
             ISchedulerFactory schedulerFactory = new StdSchedulerFactory(props);
             _scheduler = schedulerFactory.GetScheduler().Result;
-            _scheduler.ListenerManager.AddJobListener(_jobHistoryPlugin, GroupMatcher<JobKey>.AnyGroup());
+            _scheduler.ListenerManager.AddJobListener(jobHistoryPlugin, GroupMatcher<JobKey>.AnyGroup());
+            _scheduler.JobFactory = jobFactory;
         }
         #endregion
 
@@ -144,7 +146,17 @@ namespace SoccerX.Infrastructure.Jobs.Base
             return await _scheduler.IsJobGroupPaused(groupName, cancellationToken);
         }
 
+        public void SetJobFactory(object factory)
+        {
+            _jobFactory = (IJobFactory)factory;
+        }
+
         public IScheduler GetScheduler() => _scheduler;
+
+        public IJobFactory JobFactory
+        {
+            set => _jobFactory = value; //geçici olarak değiştirildi
+        }
         #endregion
 
         #region Private Method

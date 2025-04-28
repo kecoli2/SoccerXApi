@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SoccerX.Common.Base.Quartz.Criteria.Base;
+﻿using SoccerX.Common.Base.Quartz.Criteria.Base;
 
 namespace SoccerX.Common.Base.Quartz.Criteria
 {
@@ -12,7 +7,7 @@ namespace SoccerX.Common.Base.Quartz.Criteria
         #region Field
 
         public string ToMailAddress { get; set; } = null!;
-        public string UserId { get; set; }
+        public string UserId { get; set; } = null!;
 
         #endregion
     }
