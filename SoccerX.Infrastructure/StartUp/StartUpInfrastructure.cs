@@ -40,10 +40,10 @@ namespace SoccerX.Infrastructure.StartUp
         #region Private Method
         private static IServiceCollection RegisterQuartz(this IServiceCollection service)
         {
-            service
-                .AddSingleton<IJobFactory, QuartzJobFactory>()
+            service                
                 .AddSingleton<IQuartzManager, QuartzManager>()
-                .AddSingleton<JobHistoryPlugin>()
+                .AddSingleton<JobHistoryPlugin>()                
+                .AddSingleton<IJobFactory, QuartzJobFactory>()                
                 .AddScoped<IQuartzJobCreater, QuartzJobCreater>()
                 .AddSingleton<IRestClientManager>(new RestClientManager("http://google.com", null));
 
@@ -51,11 +51,14 @@ namespace SoccerX.Infrastructure.StartUp
             var type = typeof(IJob);
             var lst = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(c => c.FullName?.Contains("SoccerX.Infrastructure") == true)
-                .SelectMany(assembly => assembly.GetTypes()).Where(p =>
-                    type.IsAssignableFrom(p) && p is { IsInterface: false, IsAbstract: false });
+                .SelectMany(assembly => assembly.GetTypes())
+                .Where(p => type.IsAssignableFrom(p)
+                            && p is { IsInterface: false, IsAbstract: false }
+                            && !p.Name.Contains("ScopedJobWrapper")); // ⬅️ Buraya dikkat!
+
             foreach (var implementationType in lst)
             {
-                service.AddTransient(implementationType);
+                service.AddScoped(implementationType);
             }
             return service;
         }

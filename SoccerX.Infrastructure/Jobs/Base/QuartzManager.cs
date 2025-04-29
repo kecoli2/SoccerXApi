@@ -55,7 +55,7 @@ namespace SoccerX.Infrastructure.Jobs.Base
             ISchedulerFactory schedulerFactory = new StdSchedulerFactory(props);
             _scheduler = schedulerFactory.GetScheduler().Result;
             _scheduler.ListenerManager.AddJobListener(jobHistoryPlugin, GroupMatcher<JobKey>.AnyGroup());
-            _scheduler.JobFactory = jobFactory;
+            _scheduler.JobFactory = _jobFactory;
         }
         #endregion
 
@@ -151,12 +151,7 @@ namespace SoccerX.Infrastructure.Jobs.Base
             _jobFactory = (IJobFactory)factory;
         }
 
-        public IScheduler GetScheduler() => _scheduler;
-
-        public IJobFactory JobFactory
-        {
-            set => _jobFactory = value; //geçici olarak değiştirildi
-        }
+        public IScheduler GetScheduler() => _scheduler; 
         #endregion
 
         #region Private Method

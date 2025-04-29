@@ -24,7 +24,7 @@ namespace SoccerX.API.HostedService
         {
             try
             {
-                //_quartzManager.SetJobFactory(_jobFactory);
+                _quartzManager.SetJobFactory(_jobFactory);
                 await _quartzManager.StartAsync(cancellationToken);
             }
             catch (Exception e)
