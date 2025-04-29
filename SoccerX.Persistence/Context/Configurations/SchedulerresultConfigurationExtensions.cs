@@ -16,7 +16,7 @@ namespace SoccerX.Persistence.Context.Configurations
 
         partial void OnConfigurePartial(EntityTypeBuilder<Schedulerresult> entity)
         {
-            entity.Property(e => e.Result).HasColumnName("result").HasColumnType("scheduler_result_enum");
+            entity.Property(e => e.Result).HasColumnName("result").HasColumnType("schedulerresultenum");
         }
 
         #endregion

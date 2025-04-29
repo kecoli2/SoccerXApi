@@ -1,10 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 using SoccerX.Application.Interfaces.Repository;
 using SoccerX.Common.Configuration;
 using SoccerX.Persistence.Context;
 using SoccerX.Persistence.Interceptors;
 using SoccerX.Persistence.Repositories;
+using SoccerX.Persistence.Util;
+using System;
 
 namespace SoccerX.Persistence.StartUp
 {
@@ -19,14 +22,18 @@ namespace SoccerX.Persistence.StartUp
         #region Public Method
         public static IServiceCollection AddDependcyCollectionPersistence(this IServiceCollection services, ApplicationSettings settings)
         {
-            return services
-                .AddDbContext<SoccerXDbContext>(options =>
+           return services.AddDbContext<SoccerXDbContext>((serviceProvider, options) =>
+            {
+                var dataSourceBuilder = new NpgsqlDataSourceBuilder(settings.GetDatabaseConnectionString());
+                dataSourceBuilder.NpgsqlToEnumMapRegisterAll();
+                var dataSource = dataSourceBuilder.Build();
+                options.UseNpgsql(dataSource, npgsqlOptionsAction =>
                 {
-                    options.UseNpgsql(settings.GetDatabaseConnectionString());
-                    options.AddInterceptors(new AuditSaveChangesInterceptor());
-                    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking); // Tüm sorgular için tracking kapalı
-                })
-                .AddRepository();
+                    npgsqlOptionsAction.NpgsqlToEnumMapRegisterAll();
+                });
+                options.AddInterceptors(new AuditSaveChangesInterceptor());
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking); // Tüm sorgular için tracking kapalı
+            }).AddRepository();
         }
 
         #endregion
