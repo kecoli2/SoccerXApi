@@ -1,6 +1,4 @@
-﻿using Quartz.Impl.Matchers;
-using Quartz;
-using Quartz.Spi;
+﻿using Quartz.Spi;
 using SoccerX.Application.Interfaces.Quartz;
 
 namespace SoccerX.API.HostedService
@@ -13,9 +11,10 @@ namespace SoccerX.API.HostedService
         #endregion
 
         #region Constructor
-        public QuartzHostedService(IQuartzManager quartzManager)
+        public QuartzHostedService(IQuartzManager quartzManager, IJobFactory jobFactory)
         {
             _quartzManager = quartzManager;
+            _jobFactory = jobFactory;
         }
         #endregion
 

@@ -4,6 +4,8 @@ using SoccerX.Application.Commands.Security;
 using SoccerX.Common.Constants;
 using SoccerX.Common.Enums;
 using SoccerX.DTO.Requests.Security;
+using SoccerX.DTO.Responses;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace SoccerX.API.Controllers
 {
@@ -17,6 +19,7 @@ namespace SoccerX.API.Controllers
 
         #region Actions
         [HttpPost("social-login")]
+        [SwaggerResponse(200, type: typeof(AuthResponseDto))]
         public async Task<IActionResult> SocialLogin([FromBody] SocialLoginRequest req)
         {
             try
@@ -32,6 +35,7 @@ namespace SoccerX.API.Controllers
         }
 
         [HttpPost("local-login")]
+        [SwaggerResponse(200, type: typeof(AuthResponseDto))]
         public async Task<IActionResult> LocalLogin([FromBody] LocalLoginRequest req)
         {
             try

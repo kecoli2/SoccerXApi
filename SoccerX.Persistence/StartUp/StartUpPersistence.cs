@@ -7,7 +7,6 @@ using SoccerX.Persistence.Context;
 using SoccerX.Persistence.Interceptors;
 using SoccerX.Persistence.Repositories;
 using SoccerX.Persistence.Util;
-using System;
 
 namespace SoccerX.Persistence.StartUp
 {
