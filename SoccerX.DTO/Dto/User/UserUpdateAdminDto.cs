@@ -1,18 +1,20 @@
 ﻿using System;
 
-namespace SoccerX.DTO.Dto
+namespace SoccerX.DTO.Dto.User
 {
-    public class UserUpdateDto
+    public class UserUpdateAdminDto
     {
         #region Field
         public Guid Id { get; set; }
+        public required string Username { get; set; }
+        public required string Email { get; set; }
+        public required string Name { get; set; }
+        public required string Surname { get; set; }
         public DateOnly Birthdate { get; set; }
+        public DateTime? Banenddate { get; set; }
         public Guid Countryid { get; set; }
         public Guid Cityid { get; set; }
-        public string? Postalcode { get; set; }
-        public required string Address { get; set; }
-        public required string Phonenumber { get; set; }
-        public string? Avatarurl { get; set; }
+        public bool Isdeleted { get; set; }
         #endregion
 
         #region Constructor

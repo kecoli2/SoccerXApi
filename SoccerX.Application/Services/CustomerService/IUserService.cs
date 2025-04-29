@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using SoccerX.Domain.Entities;
-using SoccerX.DTO.Dto;
+using SoccerX.DTO.Dto.User;
 
 namespace SoccerX.Application.Services.CustomerService
 {

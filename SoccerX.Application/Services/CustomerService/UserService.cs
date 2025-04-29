@@ -12,7 +12,7 @@ using SoccerX.Application.Services.CountryService;
 using SoccerX.Common.Base.Quartz.Criteria;
 using SoccerX.Common.Enums;
 using SoccerX.Domain.Entities;
-using SoccerX.DTO.Dto;
+using SoccerX.DTO.Dto.User;
 
 namespace SoccerX.Application.Services.CustomerService
 {

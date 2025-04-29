@@ -2,7 +2,7 @@
 using AutoMapper;
 using SoccerX.Common.Helpers;
 using SoccerX.Domain.Entities;
-using SoccerX.DTO.Dto;
+using SoccerX.DTO.Dto.User;
 
 namespace SoccerX.DTO.Mappers
 {
