@@ -35,12 +35,13 @@ public class TokenService : ITokenService
         // 1) Access Token oluşturma
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
+        var jti = Guid.NewGuid().ToString();
         var claims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
             new Claim(ClaimTypes.Role,GetUserRole(role)),
-            new Claim(SoccerXConstants.ClaimPlatform, platform.ToString())
+            new Claim(SoccerXConstants.ClaimPlatform, platform.ToString()),
+            new Claim(JwtRegisteredClaimNames.Jti, jti)
         };
 
         var expiresAt = DateTime.UtcNow.Add(_tokenLifetime);

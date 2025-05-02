@@ -51,7 +51,7 @@ var applicationSettings = new ApplicationSettings
 DatabaseMigration.EnsureDatabaseIsUpToDate(applicationSettings.GetDatabaseConnectionString());
 var ss = string.Format(SoccerXConstants.RedisCountryKeyCties, 24);
 var dataSourceBuilder = new NpgsqlDataSourceBuilder(applicationSettings.GetDatabaseConnectionString());
-dataSourceBuilder.NpgsqlToEnumMapRegisterAll();
+//dataSourceBuilder.NpgsqlToEnumMapRegisterAll();
 var dataSource = dataSourceBuilder.Build();
 var optionsBuilder = new DbContextOptionsBuilder<SoccerXDbContext>();
 optionsBuilder.UseNpgsql(dataSource, o =>

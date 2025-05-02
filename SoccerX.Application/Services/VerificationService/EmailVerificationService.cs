@@ -40,7 +40,6 @@ namespace SoccerX.Application.Services.VerificationService
 
                 _unitOfWork.UserRepository.Update(user);
                 _unitOfWork.EmailVerificationRepository.Update(record);
-                await _unitOfWork.SaveChangesAsync();
                 await _unitOfWork.CommitTransactionAsync();
 
                 return true;

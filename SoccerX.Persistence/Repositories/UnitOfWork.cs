@@ -50,7 +50,7 @@ namespace SoccerX.Persistence.Repositories
         #endregion
 
         #region Public Method
-        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
         {
             return await _context.SaveChangesAsync(cancellationToken);
         }
@@ -62,22 +62,20 @@ namespace SoccerX.Persistence.Repositories
 
         public async Task CommitTransactionAsync()
         {
-            if (_transaction != null)
-            {
-                await _transaction.CommitAsync();
-                await _transaction.DisposeAsync();
-                _transaction = null;
-            }
+            if (_transaction == null)
+                throw new InvalidOperationException("Transaction başlatılmadı.");
+
+            await _context.SaveChangesAsync();
+            await _transaction.CommitAsync();
+            await DisposeTransactionAsync();
         }
 
         public async Task RollbackTransactionAsync()
         {
-            if (_transaction != null)
-            {
-                await _transaction.RollbackAsync();
-                await _transaction.DisposeAsync();
-                _transaction = null;
-            }
+            if (_transaction == null)
+                throw new InvalidOperationException("Transaction başlatılmadı.");
+            await _transaction.RollbackAsync();
+            await DisposeTransactionAsync();            
         }
 
         public void Dispose()
@@ -88,6 +86,13 @@ namespace SoccerX.Persistence.Repositories
         #endregion
 
         #region Private Method
+        private async Task DisposeTransactionAsync()
+        {
+            if (_transaction is null) return;
+            await _transaction.DisposeAsync();
+            _transaction = null;
+        }
+
         #endregion
     }
 }

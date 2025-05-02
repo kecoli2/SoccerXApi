@@ -46,7 +46,7 @@ namespace SoccerX.Application.Services.CustomerService
             user.Countryid = (await _countriesService.GetOtherCountry()).Id;
             user.Cityid = (await _countriesService.GetCities(user.Countryid)).First().Id;
             await _unitOfWork.UserRepository.AddAsync(user);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
         }
 
         public async Task CreateUser(UserCreateDto userDto, CancellationToken cancellationToken)
@@ -67,8 +67,7 @@ namespace SoccerX.Application.Services.CustomerService
                 }
 
                 var user = _mapper.Map<User>(userDto);
-                await _unitOfWork.UserRepository.AddAsync(user);
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                await _unitOfWork.UserRepository.AddAsync(user);                
                 await _unitOfWork.CommitTransactionAsync();
                 await _quartzJobCreater.Create(JobKeyEnum.SendVerificationMail)
                     .SetCriteria(new SendEmailVerifcationCriteria

@@ -87,7 +87,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
             ? requestedCulture
             : "tr-TR";
 
-        return Task.FromResult<ProviderCultureResult?>(new ProviderCultureResult(culture, culture));
+        return Task.FromResult(new ProviderCultureResult(culture, culture));
     }));
 });
 LogProvider.SetCurrentLogProvider(new ConsoleLogProviderQuartz());
@@ -112,9 +112,12 @@ if (app.Environment.IsDevelopment())
 }
 
 //MiddleWare
+app.UseRouting();
+app.UseRequestLocalization();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseMiddleware<TokenRefreshMiddleware>();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
-app.UseAuthorization();
 app.MapControllers();
 app.Run();

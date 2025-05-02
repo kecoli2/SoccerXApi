@@ -16,18 +16,18 @@ namespace SoccerX.Persistence.Util
         #region Public Methods
         public static void NpgsqlToEnumMapRegisterAll(this NpgsqlDbContextOptionsBuilder builder)
         {
-            builder
-                .MapEnum<AuditAction>("auditaction")
-                .MapEnum<BetSlipStatus>("betslipstatus")
-                .MapEnum<PaymentMethod>("paymentmethod")
-                .MapEnum<PaymentStatus>("paymentstatus")
-                .MapEnum<ReferralStatus>("referralstatus")
-                .MapEnum<TransactionType>("transactiontype")
-                .MapEnum<UserRole>("userrole")
-                .MapEnum<UserStatus>("userstatus")
-                .MapEnum<UserGender>("usergender")
-                .MapEnum<AuthProvider>("authprovider")
-                .MapEnum<SchedulerResultEnum>("schedulerresultenum");
+            builder                
+                .MapEnum<AuditAction>("auditaction", nameTranslator: new NpgSqlEnumTranslater())
+                .MapEnum<BetSlipStatus>("betslipstatus", nameTranslator: new NpgSqlEnumTranslater())
+                .MapEnum<PaymentMethod>("paymentmethod", nameTranslator: new NpgSqlEnumTranslater())
+                .MapEnum<PaymentStatus>("paymentstatus", nameTranslator: new NpgSqlEnumTranslater())
+                .MapEnum<ReferralStatus>("referralstatus", nameTranslator: new NpgSqlEnumTranslater())
+                .MapEnum<TransactionType>("transactiontype", nameTranslator: new NpgSqlEnumTranslater())
+                .MapEnum<UserRole>("userrole", nameTranslator: new NpgSqlEnumTranslater())
+                .MapEnum<UserStatus>("userstatus", nameTranslator: new NpgSqlEnumTranslater())
+                .MapEnum<UserGender>("usergender", nameTranslator: new NpgSqlEnumTranslater())
+                .MapEnum<AuthProvider>("authprovider", nameTranslator: new NpgSqlEnumTranslater())
+                .MapEnum<SchedulerResultEnum>("schedulerresultenum", nameTranslator: new NpgSqlEnumTranslater());
         }
 
         public static void NpgsqlToEnumMapRegisterAll(this NpgsqlDataSourceBuilder builder)
@@ -43,7 +43,7 @@ namespace SoccerX.Persistence.Util
             .MapEnum<UserStatus>("userstatus", new NpgSqlEnumTranslater())
             .MapEnum<UserGender>("usergender", new NpgSqlEnumTranslater())
             .MapEnum<SchedulerResultEnum>("schedulerresultenum", new NpgSqlEnumTranslater())
-            .MapEnum<AuthProvider>("authprovider",new NpgSqlEnumTranslater())
+            .MapEnum<AuthProvider>("authprovider", new NpgSqlEnumTranslater())
             .MapComposite<Auditlog>()
             .MapComposite<Betslip>()
             .MapComposite<Payment>()
