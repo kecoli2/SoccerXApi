@@ -61,6 +61,42 @@ namespace SoccerX.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adres girilmesi zorunludur..
+        /// </summary>
+        public static string Address_NotEmpty {
+            get {
+                return ResourceManager.GetString("Address_NotEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kullanıcı yasaklı durumda olduğunda yasak bitiş tarihi zorunludur..
+        /// </summary>
+        public static string BanEndDate_Required {
+            get {
+                return ResourceManager.GetString("BanEndDate_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Geçerli bir e-posta girin..
+        /// </summary>
+        public static string Email_EmailAddress {
+            get {
+                return ResourceManager.GetString("Email_EmailAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to E-posta zorunlu..
+        /// </summary>
+        public static string Email_NotEmpty {
+            get {
+                return ResourceManager.GetString("Email_NotEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tablo&apos; da {0} Constraint hatası alındı.
         /// </summary>
         public static string error_database_tableconstraint {
@@ -106,11 +142,92 @@ namespace SoccerX.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adınızı giriniz..
+        /// </summary>
+        public static string Name_NotEmpty {
+            get {
+                return ResourceManager.GetString("Name_NotEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to En az bir rakam içermeli..
+        /// </summary>
+        public static string Password_Digit {
+            get {
+                return ResourceManager.GetString("Password_Digit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to En az 8 karakter olmalı..
+        /// </summary>
+        public static string Password_MinimumLength {
+            get {
+                return ResourceManager.GetString("Password_MinimumLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Şifre zorunlu..
+        /// </summary>
+        public static string Password_NotEmpty {
+            get {
+                return ResourceManager.GetString("Password_NotEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to En az bir büyük harf içermeli..
+        /// </summary>
+        public static string Password_UppercaseLetter {
+            get {
+                return ResourceManager.GetString("Password_UppercaseLetter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Telefon bilgisi zorunludur..
+        /// </summary>
+        public static string Phonenumber_NotEmpty {
+            get {
+                return ResourceManager.GetString("Phonenumber_NotEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Soyadınızı giriniz..
+        /// </summary>
+        public static string Surname_NotEmpty {
+            get {
+                return ResourceManager.GetString("Surname_NotEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kullanıcı adı.
         /// </summary>
         public static string User_Name {
             get {
                 return ResourceManager.GetString("User.Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to En az 3 karakter olmalı..
+        /// </summary>
+        public static string Username_MinimumLength {
+            get {
+                return ResourceManager.GetString("Username_MinimumLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kullanıcı adı zorunlu..
+        /// </summary>
+        public static string Username_NotEmpty {
+            get {
+                return ResourceManager.GetString("Username_NotEmpty", resourceCulture);
             }
         }
     }

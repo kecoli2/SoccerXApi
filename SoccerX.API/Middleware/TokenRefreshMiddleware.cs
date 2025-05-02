@@ -38,7 +38,7 @@ public class TokenRefreshMiddleware
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 return;
             }
-
+            context.User = principal;
             // 3) Expiration claim'ini oku
             var expClaim = principal.FindFirst(JwtRegisteredClaimNames.Exp);
             if (expClaim != null && long.TryParse(expClaim.Value, out var expSeconds))

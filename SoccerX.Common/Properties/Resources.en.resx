@@ -135,4 +135,43 @@
 	<data name="error_userNameIsExist" xml:space="preserve">
 	<value>The username {0} is already in use by another user in the system.</value>
 	</data>
+	<data name="Username_NotEmpty" xml:space="preserve">
+    <value>Username is required.</value>
+  </data>
+	<data name="Username_MinimumLength" xml:space="preserve">
+    <value>Must be at least 3 characters.</value>
+  </data>
+	<data name="Email_NotEmpty" xml:space="preserve">
+    <value>Email is required.</value>
+  </data>
+	<data name="Email_EmailAddress" xml:space="preserve">
+    <value>Please enter a valid email address.</value>
+  </data>
+	<data name="Address_NotEmpty" xml:space="preserve">
+    <value>Address is required.</value>
+  </data>
+	<data name="Phonenumber_NotEmpty" xml:space="preserve">
+    <value>Phone number is required.</value>
+  </data>
+	<data name="Password_NotEmpty" xml:space="preserve">
+    <value>Password is required.</value>
+  </data>
+	<data name="Password_MinimumLength" xml:space="preserve">
+    <value>Must be at least 8 characters.</value>
+  </data>
+	<data name="Password_UppercaseLetter" xml:space="preserve">
+    <value>Must contain at least one uppercase letter.</value>
+  </data>
+	<data name="Password_Digit" xml:space="preserve">
+    <value>Must contain at least one digit.</value>
+  </data>
+	<data name="Name_NotEmpty" xml:space="preserve">
+    <value>Please enter your name.</value>
+  </data>
+	<data name="Surname_NotEmpty" xml:space="preserve">
+    <value>Please enter your surname.</value>
+  </data>
+	<data name="BanEndDate_Required" xml:space="preserve">
+    <value>Ban end date is required when user status is banned.</value>
+	</data>
 </root>

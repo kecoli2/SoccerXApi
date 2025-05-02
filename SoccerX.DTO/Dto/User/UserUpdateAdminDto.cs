@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SoccerX.Domain.Enums;
+using System;
 
 namespace SoccerX.DTO.Dto.User
 {
@@ -15,6 +16,8 @@ namespace SoccerX.DTO.Dto.User
         public Guid Countryid { get; set; }
         public Guid Cityid { get; set; }
         public bool Isdeleted { get; set; }
+        public UserRole Role { get; set; }
+        public UserStatus Status { get; set; }
         #endregion
 
         #region Constructor

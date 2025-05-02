@@ -6,6 +6,7 @@ using SoccerX.Common.Configuration;
 using System.Globalization;
 using Quartz.Logging;
 using SoccerX.Infrastructure.Jobs.Base;
+using SoccerX.Common.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -96,6 +97,17 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+// Policy Tanimlari
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(SoccerXConstants.PolicySoccerX, policy =>
+    {
+        policy.RequireRole(SoccerXConstants.RoleAdmin);
+        policy.RequireRole(SoccerXConstants.RoleEditor);
+        policy.RequireRole(SoccerXConstants.RoleUser);
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -106,6 +118,7 @@ if (app.Environment.IsDevelopment())
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
         c.RoutePrefix = ""; // Uygulama köküne koyar (örn: https://localhost:5001)
+        c.ConfigObject.AdditionalItems["headers"] = new[] { "Accept-Language: tr-TR" };
     });
 
     app.MapOpenApi();

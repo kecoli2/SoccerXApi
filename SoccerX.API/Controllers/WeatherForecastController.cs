@@ -13,6 +13,7 @@ using SoccerX.Application.Interfaces.Resources;
 using SoccerX.Application.Services.CountryService;
 using SoccerX.Common.Base.Quartz.Criteria;
 using SoccerX.Common.Enums;
+using SoccerX.Common.Properties;
 
 namespace SoccerX.API.Controllers;
 
@@ -48,7 +49,7 @@ public class WeatherForecastController : ControllerBase
 
     [HttpGet(Name = "GetWeatherForecast")]
     public async Task<IActionResult> Get(int pageNumber, int pageSize)
-    {
+    {        
         var ss = _resourceManager.GetString("User.Name");
 
         await _quartzJobCreater.Create(JobKeyEnum.SendVerificationMail)
@@ -63,31 +64,31 @@ public class WeatherForecastController : ControllerBase
             .Start();
 
         return Ok();
-        var country = await _countriesService.GetCountries();
+        //var country = await _countriesService.GetCountries();
 
-        //var city = await _countriesService.GetCities(country!.First().Id);
+        ////var city = await _countriesService.GetCities(country!.First().Id);
 
-        //foreach (var ci in city)
-        //{
-        //    ci.Name = "S " + ci.Name;
-        //    await _countriesService.UpdateCity(ci);
-        //}
-
-
-        var newCity = new City { Name = Guid.NewGuid().ToString(), Countryid = country!.First().Id };
-        await _countriesService.AddCity(newCity);
-
-        //var lst = await _cityRepository.GetAllAsync();
-        var addKey = _redisCacheService.SetAsync("test", _settings);
-        var paging = await _cityRepository.GetPagedAsync(null, null, pageNumber, pageSize);
-
-        var se = await _redisCacheService.GetAsync<ApplicationSettings>("test");
+        ////foreach (var ci in city)
+        ////{
+        ////    ci.Name = "S " + ci.Name;
+        ////    await _countriesService.UpdateCity(ci);
+        ////}
 
 
+        //var newCity = new City { Name = Guid.NewGuid().ToString(), Countryid = country!.First().Id };
+        //await _countriesService.AddCity(newCity);
 
-        var dtoResult = _mapper.Map<PagedResultDto<CityDto>>(paging);
+        ////var lst = await _cityRepository.GetAllAsync();
+        //var addKey = _redisCacheService.SetAsync("test", _settings);
+        //var paging = await _cityRepository.GetPagedAsync(null, null, pageNumber, pageSize);
 
-        return Ok(dtoResult);
+        //var se = await _redisCacheService.GetAsync<ApplicationSettings>("test");
+
+
+
+        //var dtoResult = _mapper.Map<PagedResultDto<CityDto>>(paging);
+
+        //return Ok(dtoResult);
 
     }
 

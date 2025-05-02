@@ -11,6 +11,7 @@ using SoccerX.Application.Interfaces.Resources;
 using SoccerX.Application.Services.CountryService;
 using SoccerX.Common.Base.Quartz.Criteria;
 using SoccerX.Common.Enums;
+using SoccerX.Common.Properties;
 using SoccerX.Domain.Entities;
 using SoccerX.DTO.Dto.User;
 
@@ -58,12 +59,12 @@ namespace SoccerX.Application.Services.CustomerService
                 if (isExistEmail)
                 {
                     throw new ValidationException(new Dictionary<string, string[]> { { "Email", new[] { userDto.Email } } },
-                        string.Format(_resourceManager.GetString("error_userEmailIsExist"), userDto.Email));
+                        string.Format(Resources.error_userEmailIsExist, userDto.Email));
                 }
                 var isUserName = await _unitOfWork.UserRepository.CountAsync(u => u.Username == userDto.Username) > 0;
                 if (isUserName)
                 {
-                    throw new ValidationException(new Dictionary<string, string[]> { { "Username", new[] { userDto.Username } } }, string.Format(_resourceManager.GetString("error_userNameIsExist"), userDto.Username));
+                    throw new ValidationException(new Dictionary<string, string[]> { { "Username", new[] { userDto.Username } } }, string.Format(Resources.error_userNameIsExist, userDto.Username));
                 }
 
                 var user = _mapper.Map<User>(userDto);

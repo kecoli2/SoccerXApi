@@ -1,4 +1,6 @@
-﻿using SoccerX.Application.StartUp;
+﻿using SoccerX.API.StartUp.Swagger;
+using SoccerX.Application.Commands.UserCommand;
+using SoccerX.Application.StartUp;
 using SoccerX.Common.Configuration;
 using SoccerX.DTO.StartUp;
 using SoccerX.Infrastructure.StartUp;
@@ -27,7 +29,7 @@ namespace SoccerX.API.StartUp
         public static IServiceCollection AddDependcyCollectionWebApi(this IServiceCollection services, ApplicationSettings settings)
         {
             var assembly = Assembly.Load("SoccerX.Common");
-           
+
 
 
             //builder.Services.AddSingleton<ResourceManager>(_ =>
@@ -35,6 +37,7 @@ namespace SoccerX.API.StartUp
 
             return services
                 .AddSingleton(settings)
+                .AddHttpClient()
                 .AddSwagger()
                 .AddSingleton<ResourceManager>(_ => new ResourceManager("SoccerX.Common.Properties.Resources", assembly))
                 .AddDependcyCollectionDto()
@@ -52,9 +55,11 @@ namespace SoccerX.API.StartUp
         /// <returns></returns>
         private static IServiceCollection AddSwagger(this IServiceCollection services)
         {
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen(); // BU MUTLAKA OLMALI
-            return services;
+            return services.AddEndpointsApiExplorer()
+                    .AddSwaggerGen(c =>
+                    {
+                        c.OperationFilter<DefaultLanguageHeaderFilter>();
+                    });
         }
         #endregion
 

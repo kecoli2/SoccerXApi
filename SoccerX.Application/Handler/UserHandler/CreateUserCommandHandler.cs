@@ -6,14 +6,14 @@ using SoccerX.Application.Services.CustomerService;
 
 namespace SoccerX.Application.Handler.UserHandler
 {
-    public class UserCreateHandler : IRequestHandler<UserCreateCommand, bool>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, bool>
     {
         #region Field
         private readonly IUserService _userService;
         #endregion
 
         #region Constructor
-        public UserCreateHandler(IUserService userService)
+        public CreateUserCommandHandler(IUserService userService)
         {
             _userService = userService;
         }
@@ -21,9 +21,9 @@ namespace SoccerX.Application.Handler.UserHandler
         #endregion
 
         #region Public Method
-        public async Task<bool> Handle(UserCreateCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            await _userService.CreateUser(request.userCreateDtoRequest, cancellationToken);
+            await _userService.CreateUser(request.userCreateDto, cancellationToken);
             return true;
         }
         #endregion

@@ -45,7 +45,8 @@ namespace SoccerX.Infrastructure.StartUp
                 .AddSingleton<JobHistoryPlugin>()                
                 .AddSingleton<IJobFactory, QuartzJobFactory>()                
                 .AddScoped<IQuartzJobCreater, QuartzJobCreater>()
-                .AddSingleton<IRestClientManager>(new RestClientManager("http://google.com", null));
+                .AddSingleton<IRestClientManager>(new RestClientManager("http://google.com", null))
+                .AddScoped<IQuartzJobCreaterExtension, QuartzJobCreater>();
 
 
             var type = typeof(IJob);
