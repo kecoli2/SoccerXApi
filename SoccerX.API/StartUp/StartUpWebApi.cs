@@ -1,6 +1,8 @@
-﻿using SoccerX.API.StartUp.Swagger;
+﻿using FluentValidation;
+using SoccerX.API.StartUp.Swagger;
 using SoccerX.Application.Commands.UserCommand;
 using SoccerX.Application.StartUp;
+using SoccerX.Application.Validators.User;
 using SoccerX.Common.Configuration;
 using SoccerX.DTO.StartUp;
 using SoccerX.Infrastructure.StartUp;
