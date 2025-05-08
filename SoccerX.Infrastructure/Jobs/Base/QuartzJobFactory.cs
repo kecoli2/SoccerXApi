@@ -15,16 +15,17 @@ namespace SoccerX.Infrastructure.Jobs.Base
 
         public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)
         {
-            using var scope = _serviceScopeFactory.CreateScope();
-            return (scope.ServiceProvider.GetRequiredService(bundle.JobDetail.JobType) as IJob)!;
+            var scope = _serviceScopeFactory.CreateScope();
+            var job = (IJob)scope.ServiceProvider.GetRequiredService(bundle.JobDetail.JobType);
+            return new ScopedJobWrapper(job, scope); // wrapper üzerinden scope'u yaşat
         }
 
         public void ReturnJob(IJob job)
         {
-            //if (job is ScopedJobWrapper wrapper)
-            //{
-            //    wrapper.Dispose();
-            //}            
+            if (job is IDisposable disposable)
+            {
+                disposable.Dispose(); // 🔥 burada scope düzgün dispose edilir
+            }
         }
 
         private class ScopedJobWrapper : IJob, IDisposable

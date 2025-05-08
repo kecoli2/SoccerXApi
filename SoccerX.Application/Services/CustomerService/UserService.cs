@@ -11,7 +11,6 @@ using SoccerX.Application.Interfaces.Resources;
 using SoccerX.Application.Services.CountryService;
 using SoccerX.Common.Base.Quartz.Criteria;
 using SoccerX.Common.Enums;
-using SoccerX.Common.Helpers;
 using SoccerX.Common.Properties;
 using SoccerX.Domain.Entities;
 using SoccerX.DTO.Dto.User;
@@ -56,7 +55,7 @@ namespace SoccerX.Application.Services.CustomerService
             await _unitOfWork.BeginTransactionAsync();
             try
             {
-                var isExistEmail = await _unitOfWork.UserRepository.CountAsync(u => u.Email == userDto.Name) > 0;
+                var isExistEmail = await _unitOfWork.UserRepository.CountAsync(u => u.Email == userDto.Email) > 0;
                 if (isExistEmail)
                 {
                     throw new ValidationException(new Dictionary<string, string[]> { { "Email", new[] { userDto.Email } } },
@@ -76,6 +75,8 @@ namespace SoccerX.Application.Services.CustomerService
 
                 var user = _mapper.Map<User>(userDto);
                 user.Createdate = DateTime.Now;
+                user.Status = Domain.Enums.UserStatus.WaitingForEmailVerification;
+
                 await _unitOfWork.UserRepository.AddAsync(user);                
                 await _unitOfWork.CommitTransactionAsync();
                 await _quartzJobCreater.Create(JobKeyEnum.SendVerificationMail)
@@ -95,6 +96,11 @@ namespace SoccerX.Application.Services.CustomerService
                 throw;
             }
 
+        }
+
+        public Task VerifiedUser(string code)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

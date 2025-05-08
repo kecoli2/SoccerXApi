@@ -9,5 +9,6 @@ namespace SoccerX.Application.Services.CustomerService
     {
         Task NewCustomerSocial(User user, CancellationToken cancellationToken);
         Task CreateUser(UserCreateDto user, CancellationToken cancellationToken);
+        Task VerifiedUser(string code);
     }
 }

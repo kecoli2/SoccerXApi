@@ -23,7 +23,6 @@ var applicationSettings = new ApplicationSettings
         StartOnStartup = true,
         TriggerCheckInterval = 10
     },
-
     RateLimit = new RateLimitSettings
     {
         Limit = 100,
@@ -33,7 +32,6 @@ var applicationSettings = new ApplicationSettings
         LimitExceededMessage = "Rate limit exceeded",
         PeriodInSeconds = 60,
     },
-
     Redis = new RedisSettings
     {
         Database = 0,
@@ -45,12 +43,20 @@ var applicationSettings = new ApplicationSettings
         UseSentinel = false,
         UseSsl = false
     },
-
     JwtSettings = new JwtSettings
     {
         SecretKey = "6r7uF7QZyhivcEWnlweJ2m8YikxjS4Xx6BmUxBh/ax8q64tKgplooNKBppJc9ntM"
+    },
+    SmtpSettings = new SmtpSettings
+    {
+        Host = "smtp.gmail.com",
+        Port = 465,
+        UseSsl = true,
+        FromEmail = "kecoli2@gmail.com",
+        FromName = "Salih Yücel",
+        Password = "mgnz oztv nhpz yrlq",
+        Username = "kecoli2@gmail.com"
     }
-
 };
 
 //DI Tanimlamalari

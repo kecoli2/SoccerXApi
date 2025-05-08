@@ -3,5 +3,6 @@
 public enum UserStatus
 {
     Active,
-    Banned
+    Banned,
+    WaitingForEmailVerification,
 }

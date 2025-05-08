@@ -19,7 +19,7 @@ namespace SoccerX.Infrastructure.Services.Email
         #endregion
 
         #region Public Method
-        public async Task SendEmailAsync(string to, string subject, string body)
+        public async Task<string?> SendEmailAsync(string to, string subject, string body)
         {
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(_smtpSettings.FromName, _smtpSettings.FromEmail));
@@ -33,11 +33,12 @@ namespace SoccerX.Infrastructure.Services.Email
             using var client = new SmtpClient();
             await client.ConnectAsync(_smtpSettings.Host, _smtpSettings.Port, _smtpSettings.UseSsl);
             await client.AuthenticateAsync(_smtpSettings.Username, _smtpSettings.Password);
-            await client.SendAsync(message);
+            var result = await client.SendAsync(message);
             await client.DisconnectAsync(true);
+            return result.ToString();
         }
 
-        public async Task SendHtmlEmailAsync(string to, string subject, string htmlContent)
+        public async Task<string?> SendHtmlEmailAsync(string to, string subject, string htmlContent)
         {
             var message = new MimeMessage();
 
@@ -59,7 +60,6 @@ namespace SoccerX.Infrastructure.Services.Email
             message.Body = bodyBuilder.ToMessageBody();
 
             using var client = new SmtpClient();
-
             try
             {
                 // SMTP bağlantısı
@@ -67,7 +67,8 @@ namespace SoccerX.Infrastructure.Services.Email
                 // Kimlik doğrulama
                 await client.AuthenticateAsync(_smtpSettings.Username, _smtpSettings.Password);
                 // Email gönderme
-                await client.SendAsync(message);
+                var result = await client.SendAsync(message);
+                return result.ToString();
             }
             finally
             {

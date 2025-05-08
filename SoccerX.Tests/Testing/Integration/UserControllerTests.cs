@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -40,7 +41,7 @@ namespace SoccerX.Tests.Testing.Integration
             var prefix = Guid.NewGuid().ToString("N").Substring(0, 5);
             var request = new UserCreateDto
             {
-                Email = prefix + "testuser@example.com",
+                Email = "salih.yucel@univera.com.tr",
                 Password = "Test1234!",
                 Username = prefix + "testuser",
                 Address = "123 Test St",

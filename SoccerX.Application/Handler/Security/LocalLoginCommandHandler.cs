@@ -3,7 +3,6 @@ using SoccerX.Application.Commands.Security;
 using SoccerX.DTO.Responses;
 using System;
 using System.Linq;
-using System.Resources;
 using System.Threading;
 using System.Threading.Tasks;
 using SoccerX.Application.Exceptions;
@@ -48,7 +47,8 @@ namespace SoccerX.Application.Handler.Security
                 Passwordhash = u.Passwordhash,
                 Banenddate = u.Banenddate,
                 Status = u.Status,
-                Role = u.Role
+                Role = u.Role,
+                Email = u.Email
             };
             User? user = null;
 
@@ -70,7 +70,7 @@ namespace SoccerX.Application.Handler.Security
 
             if (user.Passwordhash.Decrypt() != request.Password)
                 throw new NotFoundException(_resourceManager.GetString("error_InvalidUserNamePassword"));
-
+            var isEmailVerified = true;
             switch (user.Status)
             {
                 case UserStatus.Banned when user.Banenddate >= DateTime.Now:
@@ -79,6 +79,9 @@ namespace SoccerX.Application.Handler.Security
                     await _userRepository.UpdateUserStatus(user.Id, UserStatus.Active);
                     break;
                 case UserStatus.Active:
+                    break;
+                case UserStatus.WaitingForEmailVerification:
+                    isEmailVerified = false;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -90,6 +93,7 @@ namespace SoccerX.Application.Handler.Security
             authDto.Name = user.Name;
             authDto.SurName = user.Surname;
             authDto.Email = user.Email;
+            authDto.IsUserVerify = isEmailVerified;
             return authDto;
         }
         #endregion

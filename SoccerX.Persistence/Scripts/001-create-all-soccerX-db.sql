@@ -17,7 +17,7 @@ BEGIN
     END IF;
 
     IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'userstatus') THEN
-        CREATE TYPE UserStatus AS ENUM ('Active', 'Banned');
+        CREATE TYPE UserStatus AS ENUM ('Active', 'Banned','WaitingForEmailVerification');
     END IF;
 
     IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'transactiontype') THEN

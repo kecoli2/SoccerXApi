@@ -12,7 +12,7 @@ namespace SoccerX.DTO.Responses
         public string Email { get; set; } = null!;
         public string Name { get; set; } = null!;
         public string SurName { get; set; } = null!;
-
+        public bool IsUserVerify { get; set; }
         #endregion
 
         #region Constructor

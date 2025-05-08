@@ -1,4 +1,5 @@
 ﻿using SoccerX.Application.Interfaces.Repository;
+using SoccerX.Application.Services.Email;
 using SoccerX.Common.Attributes;
 using SoccerX.Common.Base.Quartz.Criteria;
 using SoccerX.Common.Enums;
@@ -8,21 +9,17 @@ using SoccerX.Infrastructure.Jobs.Base;
 namespace SoccerX.Infrastructure.Jobs.Jobs.Test
 {
     [JobAttributes(JobKeyEnum.SendVerificationMail, JobCategoryEnum.PublicJob,"SendMail","SendMailDesc",typeof(SendEmailVerifcationCriteria), false)]
-    public class TestJob: BaseJob<SendEmailVerifcationCriteria>
+    public class EmailVerificationJob: BaseJob<SendEmailVerifcationCriteria>
     {
         #region Field
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailService _emailService;
 
-        public TestJob(IUnitOfWork unitOfWork): base()
+        public EmailVerificationJob(IUnitOfWork unitOfWork, IEmailService emailService) : base()
         {
             _unitOfWork = unitOfWork;
+            _emailService = emailService;
         }
-        //private readonly IEmailVerificationRepository _emailVerificationRepository;
-
-        //public TestJob(IEmailVerificationRepository emailVerificationRepository)
-        //{
-        //    _emailVerificationRepository = emailVerificationRepository;
-        //}
 
         #endregion
 
@@ -30,7 +27,7 @@ namespace SoccerX.Infrastructure.Jobs.Jobs.Test
         #endregion
 
         #region Public Method
-        public override Task Executing()
+        public override async Task Executing()
         {
             var code = new Random().Next(100000, 999999).ToString();
             var eMailVerification = new Emailverification
@@ -39,9 +36,16 @@ namespace SoccerX.Infrastructure.Jobs.Jobs.Test
                 Createdate = DateTime.Now,
                 Expiresat = DateTime.Now.AddMinutes(5),
                 Isused = false,
-                Userid = Guid.Parse(JobCriteria!.UserId),
+                Userid = Guid.Parse(JobCriteria!.UserId)
             };
-            return Task.CompletedTask;
+            _unitOfWork.EmailVerificationRepository.Update(eMailVerification);
+            await _unitOfWork.EmailVerificationRepository.AddAsync(eMailVerification);
+            await _unitOfWork.CommitAsync();
+            var result = await _emailService.SendEmailAsync(JobCriteria.ToMailAddress, "EmailVerification", code);                        
+            if (1 == 1)
+            {
+
+            }
         }
         #endregion
 
