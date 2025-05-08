@@ -9,9 +9,9 @@ using SoccerX.DTO.Dto.User;
 namespace SoccerX.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 [Authorize]
-public class CustomerController : Controller
+public class UserController : Controller
 {
     #region Field
     private readonly IMediator _mediator;
@@ -19,7 +19,7 @@ public class CustomerController : Controller
     #endregion
 
     #region Constructor
-    public CustomerController(IMediator mediator, IMapper mapper)
+    public UserController(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
         _mapper = mapper;
@@ -27,17 +27,17 @@ public class CustomerController : Controller
     #endregion
 
     #region Actions   
-    [HttpPost("Create")]
+    [HttpPost("Register")]
     [AllowAnonymous]
-    public async Task<IActionResult> Create([FromBody] UserCreateDto dto)
+    public async Task<IActionResult> Register([FromBody] UserCreateDto dto)
     {        
         var result = await _mediator.Send(new CreateUserCommand(dto));
         return Ok(result);
     }
 
-    [HttpPost("Create2")]
+    [HttpPost("RegisterAdmin")]
     [Authorize(Policy = SoccerXConstants.PolicySoccerX, Roles = SoccerXConstants.RoleAdmin)]
-    public async Task<IActionResult> Create2([FromBody] UserCreateDto dto)
+    public async Task<IActionResult> RegisterAdmin([FromBody] UserCreateDto dto)
     {
         var result = await _mediator.Send(new CreateUserCommand(dto));
         return Ok(result);

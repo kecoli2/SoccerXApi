@@ -60,7 +60,7 @@ optionsBuilder.UseNpgsql(dataSource, o =>
 });
 
 
-var jsonStrimgs = applicationSettings.ToJson().MinifyJson();
+var jsonStrimgs = applicationSettings.ToJsonNewton().MinifyJsonNewton();
 var jsonEncrypt = jsonStrimgs.Encrypt();
 
 var jsonDecrypt = jsonEncrypt.Decrypt();

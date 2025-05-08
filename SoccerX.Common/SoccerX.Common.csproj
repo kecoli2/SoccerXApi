@@ -5,9 +5,16 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>preview</LangVersion>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Remove="Extensions\JsonExtensions.cs" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<Folder Include="Security\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>

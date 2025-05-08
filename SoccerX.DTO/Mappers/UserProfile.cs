@@ -21,7 +21,7 @@ namespace SoccerX.DTO.Mappers
                 .ForMember(dest => dest.Createdate, opt => opt.MapFrom(_ => DateTime.UtcNow))
                 .ForMember(dest => dest.Isdeleted, opt => opt.MapFrom(_ => false))
                 .ForMember(dest => dest.Isemailconfirmed, opt => opt.MapFrom(_ => false))
-                .ForMember(dest => dest.Followercount, opt => opt.MapFrom(_ => 0));
+                .ForMember(dest => dest.Followercount, opt => opt.MapFrom(_ => 0));                
 
             CreateMap<UserUpdateDto, User>();
             CreateMap<UserUpdateAdminDto, User>();
@@ -37,7 +37,7 @@ namespace SoccerX.DTO.Mappers
         private string HashPassword(string password)
         {
             // Implement your password hashing logic here
-            return password.Decrypt();
+            return password.Encrypt();
         }
         #endregion
 

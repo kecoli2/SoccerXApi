@@ -1,4 +1,6 @@
 ﻿using SoccerX.Application.Exceptions;
+using SoccerX.Common.Extensions;
+using SoccerX.DTO.Responses;
 using System.Net;
 using System.Text.Json;
 
@@ -33,13 +35,14 @@ namespace SoccerX.API.Middleware
                 context.Response.StatusCode = (int)ex.StatusCode;
                 context.Response.ContentType = "application/json";
 
-                var errorResponse = new
+                var errorResponse = new ErrorResponse
                 {
-                    message = ex.Message,
-                    errors = ex.PropertyErrors // null olabilir
+                    Message = ex.Message,
+                    PropertyErrors = ex.PropertyErrors,
+                    StatusCode = (int)ex.StatusCode,
                 };
-
-                await context.Response.WriteAsync(JsonSerializer.Serialize(errorResponse));
+                
+                await context.Response.WriteAsync(errorResponse.ToJsonNewton());
             }
             catch (Exception ex)
             {
@@ -48,12 +51,13 @@ namespace SoccerX.API.Middleware
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 context.Response.ContentType = "application/json";
 
-                var errorResponse = new
+                var errorResponse = new ErrorResponse
                 {
-                    message = "Beklenmeyen bir hata oluştu."
+                    Message = ex.Message,                    
+                    StatusCode = context.Response.StatusCode,
                 };
 
-                await context.Response.WriteAsync(JsonSerializer.Serialize(errorResponse));
+                await context.Response.WriteAsync(errorResponse.ToJsonNewton().MinifyJsonNewton());
             }
         }
         #endregion

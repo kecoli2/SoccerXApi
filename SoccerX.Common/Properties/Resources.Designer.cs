@@ -142,6 +142,15 @@ namespace SoccerX.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Telefon numarası başka bir kullanıcı adına kayıtlıdır.
+        /// </summary>
+        public static string error_userPhoneNumberIsExist {
+            get {
+                return ResourceManager.GetString("error_userPhoneNumberIsExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adınızı giriniz..
         /// </summary>
         public static string Name_NotEmpty {

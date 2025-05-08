@@ -9,6 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace SoccerX.API.Controllers
 {
+    [Route("api/[controller]")]
     public class AuthController : BaseApiController
     {
         #region Field
