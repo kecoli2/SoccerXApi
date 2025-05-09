@@ -58,7 +58,7 @@ public partial class SoccerXDbContext : DbContext
             .HasPostgresEnum("transactiontype", new[] { "Deposit", "Withdraw", "Bet", "Win" })
             .HasPostgresEnum("usergender", new[] { "Male", "Female", "Other" })
             .HasPostgresEnum("userrole", new[] { "User", "Admin" })
-            .HasPostgresEnum("userstatus", new[] { "Active", "Banned" })
+            .HasPostgresEnum("userstatus", new[] { "Active", "Banned", "WaitingForEmailVerification" })
             .HasPostgresExtension("pgcrypto");
 
         modelBuilder.ApplyConfiguration(new Configurations.AuditlogConfiguration());
