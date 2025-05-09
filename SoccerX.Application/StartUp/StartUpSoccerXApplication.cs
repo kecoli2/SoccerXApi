@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SoccerX.Application.Commands.UserCommand;
 using SoccerX.Application.Services.CountryService;
 using SoccerX.Application.Services.CustomerService;
+using SoccerX.Application.Services.Transaction;
 using SoccerX.Application.Validators.Security;
 using SoccerX.Application.Validators.User;
 using SoccerX.Common.Configuration;
@@ -25,7 +26,8 @@ namespace SoccerX.Application.StartUp
         {
             return service                
                 .AddScoped<IUserService, UserService>()
-                .AddScoped<ICountriesService, CountriesService>()        
+                .AddScoped<ICountriesService, CountriesService>()       
+                .AddScoped<ITransactionService, TransactionService>()
                 .AddDependcyCollectionValidationManager()
                 .AddMediatR(cfg =>
                 {

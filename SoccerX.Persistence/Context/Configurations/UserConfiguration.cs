@@ -31,6 +31,9 @@ namespace SoccerX.Persistence.Context.Configurations
                 .IsRequired()
                 .HasColumnName("address");
             entity.Property(e => e.Avatarurl).HasColumnName("avatarurl");
+            entity.Property(e => e.Balance)
+                .HasPrecision(10, 2)
+                .HasColumnName("balance");
             entity.Property(e => e.Banenddate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("banenddate");

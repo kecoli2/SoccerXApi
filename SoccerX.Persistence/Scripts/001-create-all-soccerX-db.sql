@@ -103,6 +103,7 @@ CREATE TABLE IF NOT EXISTS Users (
     ExternalId TEXT DEFAULT NULL,
     IsProfileComplete BOOLEAN NOT NULL DEFAULT FALSE,
     RowVersion BIGINT NOT NULL DEFAULT 0,
+    Balance DECIMAL(10,2) NOT NULL DEFAULT 0,
     CONSTRAINT UQ_Users_Username UNIQUE (Username),
     CONSTRAINT UQ_Users_Email UNIQUE (Email),
     CONSTRAINT UQ_Users_PhoneNumber UNIQUE (PhoneNumber),
