@@ -32,6 +32,16 @@ public class TokenRefreshMiddleware
             var encryptedToken = bearer["Bearer ".Length..];
 
             // 2) Token'ı çöz ve doğrula
+            try
+            {
+                var decryptedToken = tokenService.DecryptToken(encryptedToken);
+                context.Request.Headers["Authorization"] = $"Bearer {decryptedToken}";
+            }
+            catch 
+            {
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                return;
+            }            
             var principal = tokenService.DecryptAndValidateToken(encryptedToken);
             if (principal == null)
             {

@@ -22,5 +22,20 @@
         #region Memory Cache Keys
         public const string MemoryCacheJobList = "MemoryCacheJobList";
         #endregion
+
+        #region Controller Action Key
+        
+        #region UserController
+        public const string User_Register = "/api/user/register";
+        public const string User_Register_Admin = "/api/user/registerAdmin";
+        public const string User_VerifyEmail = "/api/user/verifyemail";
+        public const string User_SendNewVerifyEmaill = "/api/user/SendNewVerifyEmail";
+        #endregion
+
+        #region AuthController
+        public const string Authenticate_Local = "/api/auth/local-login";
+        public const string Authenticate_Social = "/api/auth/social-login";
+        #endregion        
+        #endregion
     }
 }

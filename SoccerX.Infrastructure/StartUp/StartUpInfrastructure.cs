@@ -68,7 +68,6 @@ namespace SoccerX.Infrastructure.StartUp
         {
             return service.AddSingleton<IRedisCacheService, RedisCacheService>();
         }
-
         #endregion
 
     }

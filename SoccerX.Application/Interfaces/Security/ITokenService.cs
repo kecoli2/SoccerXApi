@@ -26,4 +26,6 @@ public interface ITokenService
     /// <param name="encryptedToken">Şifrelenmiş JWT token</param>
     /// <returns>ClaimsPrincipal veya null</returns>
     ClaimsPrincipal? DecryptAndValidateToken(string encryptedToken);
+
+    string DecryptToken(string encryptedToken);
 }

@@ -15,13 +15,16 @@ using SoccerX.Application.Interfaces.Resources;
 using SoccerX.Application.Services.CountryService;
 using SoccerX.Common.Base.Quartz.Criteria;
 using SoccerX.Common.Enums;
+using SoccerX.Common.Extensions;
+using SoccerX.Common.Helpers;
 using SoccerX.Common.Properties;
 using SoccerX.Domain.Entities;
+using SoccerX.Domain.Enums;
 using SoccerX.DTO.Dto.User;
 
 namespace SoccerX.Application.Services.CustomerService
 {
-    public class UserService: IUserService
+    public class UserService : IUserService
     {
         #region Field
         private readonly ICountriesService _countriesService;
@@ -83,7 +86,7 @@ namespace SoccerX.Application.Services.CustomerService
                 user.Createdate = DateTime.Now;
                 user.Status = Domain.Enums.UserStatus.WaitingForEmailVerification;
 
-                await _unitOfWork.UserRepository.AddAsync(user);                
+                await _unitOfWork.UserRepository.AddAsync(user);
                 await _unitOfWork.CommitTransactionAsync();
                 await _quartzJobCreater.Create(JobKeyEnum.SendVerificationMail)
                     .SetCriteria(new SendEmailVerifcationCriteria
@@ -115,6 +118,7 @@ namespace SoccerX.Application.Services.CustomerService
                     Id = u.Id,
                     Email = u.Email,
                     Isemailconfirmed = u.Isemailconfirmed,
+                    Status = u.Status,
                 };
 
                 var user = await _unitOfWork.UserRepository.GetByIdAsync(userId, selector);
@@ -129,6 +133,7 @@ namespace SoccerX.Application.Services.CustomerService
                     throw new BaseException(Resources.error_userEmailVerificationCodeNotFound);
                 }
                 user.Isemailconfirmed = true;
+                user.Status = UserStatus.Active;
                 emailVerification.Isused = true;
                 _unitOfWork.UserRepository.Update(user);
                 _unitOfWork.EmailVerificationRepository.Update(emailVerification);
@@ -151,7 +156,7 @@ namespace SoccerX.Application.Services.CustomerService
             };
 
             var user = await _unitOfWork.UserRepository.GetByIdAsync(userId, selector);
-            if(user == null)
+            if (user == null)
             {
                 throw new BaseException(Resources.error_userNotFound);
             }
@@ -170,13 +175,47 @@ namespace SoccerX.Application.Services.CustomerService
 
         public Task<Guid> GetActiveUserId()
         {
-            var claim = _httpContextAccessor?.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var claim = _httpContextAccessor?.HttpContext?.User?.GetUserId();
             if (claim == null)
             {
                 throw new UnauthorizedException();
             }
             var userId = Guid.Parse(claim);
             return Task.FromResult(userId);
+        }
+
+        public async Task<bool> ChangeCurrentPassword(Guid securityKey, string oldPassword, string newPassword, CancellationToken cancellationToken)
+        {
+            await _unitOfWork.BeginTransactionAsync(cancellationToken);
+            try
+            {
+                Expression<Func<User, User>>? selector = u => new User
+                {
+                    Id = u.Id,
+                    Passwordhash = u.Passwordhash
+                };
+                var userId = await GetActiveUserId();
+                var user = await _unitOfWork.UserRepository.GetByIdAsync(userId, selector);
+                if (user == null)
+                {
+                    throw new BaseException(Resources.error_userNotFound);
+                }
+
+                if (user.Passwordhash != oldPassword.Encrypt())
+                {
+                    throw new ValidationException(new Dictionary<string, string[]> { { "OldPassword", new[] { oldPassword } } }, Resources.error_userChangePasswordNotValid);
+                }
+                user.Passwordhash = newPassword.Encrypt();
+                _unitOfWork.UserRepository.Update(user);
+                await _unitOfWork.CommitTransactionAsync(cancellationToken);
+                return true;
+            }
+            catch (Exception)
+            {
+                await _unitOfWork.RollbackTransactionAsync(cancellationToken);
+                throw;
+            }
+
         }
         #endregion
 

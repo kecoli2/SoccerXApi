@@ -13,5 +13,7 @@ namespace SoccerX.Application.Services.CustomerService
         Task CreateUser(UserCreateDto user, CancellationToken cancellationToken);
         Task VerifiedUser(string code, CancellationToken cancellationToken);
         Task SendRenewVerificationCode(CancellationToken cancellationToken);
+        Task<bool> ChangeCurrentPassword(Guid securityKey, string oldPassword, string newPassword, CancellationToken cancellationToken);
+
     }
 }

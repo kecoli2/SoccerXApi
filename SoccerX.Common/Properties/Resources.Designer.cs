@@ -124,6 +124,15 @@ namespace SoccerX.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Eski şifreniz hatalıdır, Lütfen tekrardan deneyiniz.
+        /// </summary>
+        public static string error_userChangePasswordNotValid {
+            get {
+                return ResourceManager.GetString("error_userChangePasswordNotValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} e-mail adresi sistemde başka bir kullanıcı tarafından kullanılmaktadır..
         /// </summary>
         public static string error_userEmailIsExist {

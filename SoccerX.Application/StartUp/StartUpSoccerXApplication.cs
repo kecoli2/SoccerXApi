@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SoccerX.Application.Commands.UserCommand;
 using SoccerX.Application.Services.CountryService;
 using SoccerX.Application.Services.CustomerService;
+using SoccerX.Application.Validators.Security;
 using SoccerX.Application.Validators.User;
 using SoccerX.Common.Configuration;
 using System.Reflection;
@@ -39,6 +40,7 @@ namespace SoccerX.Application.StartUp
             return service
                 .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
                 .AddValidatorsFromAssemblyContaining<UserCreateDtoValidator>()
+                .AddValidatorsFromAssemblyContaining<ChangePasswordValidator>()
                 .AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters();
         }

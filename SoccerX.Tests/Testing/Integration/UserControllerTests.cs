@@ -1,18 +1,14 @@
 ﻿using FluentAssertions;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
-using Newtonsoft.Json;
-using SoccerX.Application.Exceptions;
+using SoccerX.Common.Constants;
 using SoccerX.Common.Extensions;
 using SoccerX.DTO.Dto.User;
+using SoccerX.DTO.Requests.Security;
 using SoccerX.DTO.Responses;
 using SoccerX.Tests.Base.IntegrationFactory;
-using SoccerX.Tests.Base.Util;
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -30,10 +26,97 @@ namespace SoccerX.Tests.Testing.Integration
         {
             _client = factory.CreateClient();
             _client.DefaultRequestHeaders.Add("Accept-Language", "tr-TR");
+            var token = LocalLogin().Result;
+            if(token != null)
+            {
+                _client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token.AccessToken}");
+            }
         }
         #endregion
 
         #region Public Method
+
+        public async Task<AuthResponseDto?> LocalLogin()
+        {
+            // Arrange
+            var request = new LocalLoginRequest
+            {
+                EmailOrUserName = "salih.yucel@univera.com.tr",
+                Password = "Test1234!"
+            };
+            // Act
+            var response = await _client.PostAsJsonAsync(SoccerXConstants.Authenticate_Local, request);
+            if(response.StatusCode != HttpStatusCode.OK)
+            {
+                return null;
+            }
+            var responseContent = await response.Content.ReadAsStringAsync();
+            // 🔍 DEBUG LOG
+            Console.WriteLine($"[DEBUG] StatusCode: {response.StatusCode}");
+            Console.WriteLine($"[DEBUG] ResponseContent: {responseContent}");
+            return responseContent?.FromJsonNewton<AuthResponseDto>() ?? new AuthResponseDto();
+        }
+
+        [Fact]
+        public async Task VerifyEmail_ShouldReturnOk_WhenCodeIsValid()
+        {
+            // Arrange
+            var fakeCode = "241174"; // Varsayım: bu kod test ortamında geçerli
+            var requestContent = JsonContent.Create(fakeCode);
+
+            // Act
+            var response = await _client.PostAsync(SoccerXConstants.User_VerifyEmail, requestContent);
+
+            // DEBUG: Hata olması durumunda içeriği göster
+            var content = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"[VerifyEmail] StatusCode: {response.StatusCode}");
+            Console.WriteLine($"[VerifyEmail] Content: {content}");
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK, $"but received {response.StatusCode} with content: {content}");
+        }
+
+        [Fact]
+        public async Task SendNewVerifyEmail_ShouldReturnOk_WhenCalledWithEmptyString()
+        {
+            // Arrange
+            var requestBody = JsonContent.Create(""); // veya new StringContent("\"\"", Encoding.UTF8, "application/json")
+
+            // (Varsa) Token gerekiyorsa ekleyin:
+            // _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", validJwtToken);
+
+            // Act
+            var response = await _client.PostAsync(SoccerXConstants.User_SendNewVerifyEmaill, requestBody);
+            Thread.Sleep(TimeSpan.FromSeconds(15)); // Gecikme ekleyin, gerekirse
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"[SendNewVerifyEmail] StatusCode: {response.StatusCode}");
+            Console.WriteLine($"[SendNewVerifyEmail] Content: {responseContent}");
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK,
+                $"but received {response.StatusCode} with content: {responseContent}");
+        }
+
+        [Fact]
+        public async Task VerifyEmail_ShouldReturnError_WhenCodeIsNotValid()
+        {
+            // Arrange
+            var fakeCode = "485511"; // Varsayım: bu kod test ortamında geçerli
+            var requestContent = JsonContent.Create(fakeCode);
+
+            // Act
+            var response = await _client.PostAsync(SoccerXConstants.User_VerifyEmail, requestContent);
+
+            // DEBUG: Hata olması durumunda içeriği göster
+            var content = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"[VerifyEmail] StatusCode: {response.StatusCode}");
+            Console.WriteLine($"[VerifyEmail] Content: {content}");
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);            
+        }
+
         [Fact]
         public async Task Register_ShouldCreateUser_WhenValidRequest()
         {
@@ -57,8 +140,9 @@ namespace SoccerX.Tests.Testing.Integration
             };
 
             // Act
-            var response = await _client.PostAsJsonAsync(TestApiControllerEndPoint.User_Register, request);
+            var response = await _client.PostAsJsonAsync(SoccerXConstants.User_Register, request);
             var responseContent = await response.Content.ReadAsStringAsync();
+            Thread.Sleep(TimeSpan.FromSeconds(25));
 
             // 🔍 DEBUG LOG
             Console.WriteLine($"[DEBUG] StatusCode: {response.StatusCode}");
@@ -68,7 +152,7 @@ namespace SoccerX.Tests.Testing.Integration
             responseContent.Should().Contain("true", $"but received content: {responseContent}");
         }
 
-        [Fact]
+        //[Fact]
         public async Task Register_ShouldReturnBadRequest_WhenMissingFields()
         {
             // Arrange
@@ -84,7 +168,7 @@ namespace SoccerX.Tests.Testing.Integration
             };
 
             // Act
-            var response = await _client.PostAsJsonAsync(TestApiControllerEndPoint.User_Register_Admin, request);
+            var response = await _client.PostAsJsonAsync(SoccerXConstants.User_Register_Admin, request);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);

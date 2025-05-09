@@ -78,6 +78,7 @@ public class UserController : Controller
         }        
     }
 
+
     [HttpPost("SendNewVerifyEmail")]
     public async Task<IActionResult> SendNewVerifyEmail([FromBody] string emptyString)
     {

@@ -121,6 +121,11 @@ public class TokenService : ITokenService
             _ => throw new ArgumentOutOfRangeException(nameof(role), role, null)
         };
     }
+
+    public string DecryptToken(string encryptedToken)
+    {
+        return encryptedToken.Decrypt();
+    }
     #endregion
 }
 

@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <Folder Include="Base\UnitFactory\" />
+    <Folder Include="Base\Util\" />
   </ItemGroup>
 
   <ItemGroup>

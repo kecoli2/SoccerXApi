@@ -183,5 +183,8 @@
 	<data name="error_userNotFound" xml:space="preserve">
     <value>Kullanıcı bulunamadı.</value>
   </data>
+   <data name="error_userChangePasswordNotValid" xml:space="preserve">
+    <value>Eski şifreniz hatalıdır, Lütfen tekrardan deneyiniz</value>
+  </data>
 	
 </root>
