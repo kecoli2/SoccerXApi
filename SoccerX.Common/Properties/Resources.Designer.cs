@@ -133,11 +133,29 @@ namespace SoccerX.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Girilien doğrulama kodu yanlış veya daha önce kullanılmıştır. Lütfen yeni bir kod talep edin....
+        /// </summary>
+        public static string error_userEmailVerificationCodeNotFound {
+            get {
+                return ResourceManager.GetString("error_userEmailVerificationCodeNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} kullanıcı adı sistemde başka bir kullanıcı tarafından kullanılmaktadır..
         /// </summary>
         public static string error_userNameIsExist {
             get {
                 return ResourceManager.GetString("error_userNameIsExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kullanıcı bulunamadı..
+        /// </summary>
+        public static string error_userNotFound {
+            get {
+                return ResourceManager.GetString("error_userNotFound", resourceCulture);
             }
         }
         

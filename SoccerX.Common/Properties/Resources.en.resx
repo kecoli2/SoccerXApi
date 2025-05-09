@@ -177,4 +177,10 @@
   <data name="error_userPhoneNumberIsExist" xml:space="preserve">
     <value>The phone number is already registered to another user.</value>
   </data>
+<data name="error_userEmailVerificationCodeNotFound" xml:space="preserve">
+  <value>The verification code you entered is incorrect or has already been used. Please request a new code...</value>
+</data>
+	<data name="error_userNotFound" xml:space="preserve">
+    <value>User not found.</value>
+  </data>
 </root>

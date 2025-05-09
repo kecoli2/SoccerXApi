@@ -38,7 +38,7 @@ public class TokenService : ITokenService
         var jti = Guid.NewGuid().ToString();
         var claims = new[]
         {
-            new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+            new Claim(ClaimTypes.NameIdentifier, userId.ToString()),            
             new Claim(ClaimTypes.Role,GetUserRole(role)),
             new Claim(SoccerXConstants.ClaimPlatform, platform.ToString()),
             new Claim(JwtRegisteredClaimNames.Jti, jti)

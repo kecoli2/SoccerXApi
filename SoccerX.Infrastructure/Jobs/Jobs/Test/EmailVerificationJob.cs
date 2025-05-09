@@ -36,7 +36,7 @@ namespace SoccerX.Infrastructure.Jobs.Jobs.Test
                 Createdate = DateTime.Now,
                 Expiresat = DateTime.Now.AddMinutes(5),
                 Isused = false,
-                Userid = Guid.Parse(JobCriteria!.UserId)
+                Userid = JobCriteria!.UserId
             };
             _unitOfWork.EmailVerificationRepository.Update(eMailVerification);
             await _unitOfWork.EmailVerificationRepository.AddAsync(eMailVerification);

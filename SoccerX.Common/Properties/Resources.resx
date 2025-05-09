@@ -177,4 +177,11 @@
   <data name="error_userPhoneNumberIsExist" xml:space="preserve">
     <value>Telefon numarası başka bir kullanıcı adına kayıtlıdır</value>
   </data>
+	<data name="error_userEmailVerificationCodeNotFound" xml:space="preserve">
+    <value>Girilien doğrulama kodu yanlış veya daha önce kullanılmıştır. Lütfen yeni bir kod talep edin...</value>
+  </data>
+	<data name="error_userNotFound" xml:space="preserve">
+    <value>Kullanıcı bulunamadı.</value>
+  </data>
+	
 </root>

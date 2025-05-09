@@ -26,9 +26,9 @@ namespace SoccerX.Application.Interfaces.Repository
         IUserRepository UserRepository { get; }
 
         Task<int> CommitAsync(CancellationToken cancellationToken = default);
-        Task BeginTransactionAsync();
-        Task CommitTransactionAsync();
-        Task RollbackTransactionAsync();
+        Task BeginTransactionAsync(CancellationToken cancellationToken = default);
+        Task CommitTransactionAsync(CancellationToken cancellationToken = default);
+        Task RollbackTransactionAsync(CancellationToken cancellationToken = default);
 
     }
 }

@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Net.Http;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using SoccerX.Application.Exceptions;
 using SoccerX.Application.Interfaces.Quartz;
 using SoccerX.Application.Interfaces.Repository;
@@ -26,11 +30,12 @@ namespace SoccerX.Application.Services.CustomerService
         private readonly IUnitOfWork _unitOfWork;
         private readonly IQuartzJobCreater _quartzJobCreater;
         private readonly IQuartzJobCreaterExtension _quartzJobCreaterExtension;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         #endregion
 
         #region Constructor
-        public UserService(ICountriesService countriesService, 
-            IResourceManager resourceManager, IMapper mapper, IUnitOfWork unitOfWork, IQuartzJobCreater quartzJobCreater, IQuartzJobCreaterExtension quartzJobCreaterExtension)
+        public UserService(ICountriesService countriesService,
+            IResourceManager resourceManager, IMapper mapper, IUnitOfWork unitOfWork, IQuartzJobCreater quartzJobCreater, IQuartzJobCreaterExtension quartzJobCreaterExtension, IHttpContextAccessor httpContextAccessor)
         {
             _countriesService = countriesService;
             _resourceManager = resourceManager;
@@ -38,6 +43,7 @@ namespace SoccerX.Application.Services.CustomerService
             _unitOfWork = unitOfWork;
             _quartzJobCreater = quartzJobCreater;
             _quartzJobCreaterExtension = quartzJobCreaterExtension;
+            _httpContextAccessor = httpContextAccessor;
         }
         #endregion
 
@@ -82,7 +88,7 @@ namespace SoccerX.Application.Services.CustomerService
                 await _quartzJobCreater.Create(JobKeyEnum.SendVerificationMail)
                     .SetCriteria(new SendEmailVerifcationCriteria
                     {
-                        UserId = user.Id.ToString(),
+                        UserId = user.Id,
                         ToMailAddress = user.Email,
                     })
                     .SetPriority(TriggerPriorityEnum.High)
@@ -98,11 +104,80 @@ namespace SoccerX.Application.Services.CustomerService
 
         }
 
-        public Task VerifiedUser(string code)
+        public async Task VerifiedUser(string code, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _unitOfWork.BeginTransactionAsync();
+            var userId = await GetActiveUserId();
+            try
+            {
+                Expression<Func<User, User>>? selector = u => new User
+                {
+                    Id = u.Id,
+                    Email = u.Email,
+                    Isemailconfirmed = u.Isemailconfirmed,
+                };
+
+                var user = await _unitOfWork.UserRepository.GetByIdAsync(userId, selector);
+                if (user == null)
+                {
+                    throw new BaseException(Resources.error_userNotFound);
+                }
+                var emailVerification = _unitOfWork.EmailVerificationRepository.GetAllAsync(x => x.Userid == userId && x.Code == code
+                && x.Isused == false && x.Expiresat >= DateTime.Now).Result.FirstOrDefault();
+                if (emailVerification == null)
+                {
+                    throw new BaseException(Resources.error_userEmailVerificationCodeNotFound);
+                }
+                user.Isemailconfirmed = true;
+                emailVerification.Isused = true;
+                _unitOfWork.UserRepository.Update(user);
+                _unitOfWork.EmailVerificationRepository.Update(emailVerification);
+                await _unitOfWork.CommitTransactionAsync();
+            }
+            catch (Exception)
+            {
+                await _unitOfWork.RollbackTransactionAsync(cancellationToken);
+                throw;
+            }
         }
 
+        public async Task SendRenewVerificationCode(CancellationToken cancellationToken)
+        {
+            var userId = await GetActiveUserId();
+            Expression<Func<User, User>>? selector = u => new User
+            {
+                Id = u.Id,
+                Email = u.Email
+            };
+
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(userId, selector);
+            if(user == null)
+            {
+                throw new BaseException(Resources.error_userNotFound);
+            }
+
+            await _quartzJobCreater.Create(JobKeyEnum.SendVerificationMail)
+                    .SetCriteria(new SendEmailVerifcationCriteria
+                    {
+                        UserId = user.Id,
+                        ToMailAddress = user.Email,
+                    })
+                    .SetPriority(TriggerPriorityEnum.High)
+                    .SetCulture(_resourceManager.GetCultureKey())
+                    .SetUserId(user.Id)
+                    .Start();
+        }
+
+        public Task<Guid> GetActiveUserId()
+        {
+            var claim = _httpContextAccessor?.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (claim == null)
+            {
+                throw new UnauthorizedException();
+            }
+            var userId = Guid.Parse(claim);
+            return Task.FromResult(userId);
+        }
         #endregion
 
         #region Private Method

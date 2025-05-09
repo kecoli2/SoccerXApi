@@ -55,7 +55,7 @@ public class WeatherForecastController : ControllerBase
         await _quartzJobCreater.Create(JobKeyEnum.SendVerificationMail)
             .SetCriteria(new SendEmailVerifcationCriteria
             {
-                UserId = Guid.NewGuid().ToString(),
+                UserId = Guid.NewGuid(),
                 ToMailAddress = "salih",
                 Culture = _resourceManager.GetCultureKey()
             })
