@@ -60,16 +60,3 @@ CREATE TRIGGER trg_set_updated_date_auditlog
 BEFORE UPDATE ON auditlog
 FOR EACH ROW
 EXECUTE FUNCTION set_updated_date();
-
-CREATE OR REPLACE FUNCTION increment_rowversion()
-  RETURNS TRIGGER AS $$
-BEGIN
-  NEW.rowversion := OLD.rowversion + 1;
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trg_users_rowversion
-  BEFORE UPDATE ON users
-  FOR EACH ROW
-  EXECUTE FUNCTION increment_rowversion();

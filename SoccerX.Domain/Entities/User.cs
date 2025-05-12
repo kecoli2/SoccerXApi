@@ -51,8 +51,6 @@ public partial class User
 
     public bool Isprofilecomplete { get; set; }
 
-    public long Rowversion { get; set; }
-
     public decimal Balance { get; set; }
 
     public virtual ICollection<Auditlog> Auditlogs { get; set; } = new List<Auditlog>();

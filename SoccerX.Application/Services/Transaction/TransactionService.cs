@@ -36,68 +36,69 @@ namespace SoccerX.Application.Services.Transaction
         {
             const int MaxRetries = 3;
             int attempt = 0;
+            return new TransactionResultDto();
 
-            while (true)
-            {
-                attempt++;
-                try
-                {
-                    await _unitOfWork.BeginTransactionAsync(cancellationToken);
-                    _logger.LogInformation("Attempt {Attempt} for User={User}", attempt, userId);
+            //while (true)
+            //{
+            //    attempt++;
+            //    try
+            //    {
+            //        await _unitOfWork.BeginTransactionAsync(cancellationToken);
+            //        _logger.LogInformation("Attempt {Attempt} for User={User}", attempt, userId);
 
-                    Expression<Func<User, User>>? selector = u => new User
-                    {
-                        Id = u.Id,
-                        Balance = u.Balance,
-                        Rowversion = u.Rowversion
-                    };
-                    // 1) Kullanıcıyı çek (RowVersion ile birlikte)
-                    var user = await _unitOfWork.UserRepository.GetByIdAsync(userId, selector)
-                               ?? throw new KeyNotFoundException($"User {userId} not found");
+            //        Expression<Func<User, User>>? selector = u => new User
+            //        {
+            //            Id = u.Id,
+            //            Balance = u.Balance,
+            //            Rowversion = u.Rowversion
+            //        };
+            //        // 1) Kullanıcıyı çek (RowVersion ile birlikte)
+            //        var user = await _unitOfWork.UserRepository.GetByIdAsync(userId, selector)
+            //                   ?? throw new KeyNotFoundException($"User {userId} not found");
 
-                    var oldBalance = user.Balance;
-                    var newBalance = oldBalance + amount;
+            //        var oldBalance = user.Balance;
+            //        var newBalance = oldBalance + amount;
 
-                    if (type == TransactionType.Withdrawal && newBalance < 0)
-                        throw new InsufficientFundsException(userId, oldBalance, amount);
+            //        if (type == TransactionType.Withdrawal && newBalance < 0)
+            //            throw new InsufficientFundsException(userId, oldBalance, amount);
 
-                    // 2) Transaction kaydı
-                    var txn = new SoccerX.Domain.Entities.Transaction
-                    {
-                        Id = Guid.NewGuid(),
-                        Userid = userId,
-                        Amount = amount,
-                        TransactionType = type,
-                        Createdate = DateTime.UtcNow
-                    };
-                    await _unitOfWork.TransactionRepository.AddAsync(txn);
+            //        // 2) Transaction kaydı
+            //        var txn = new SoccerX.Domain.Entities.Transaction
+            //        {
+            //            Id = Guid.NewGuid(),
+            //            Userid = userId,
+            //            Amount = amount,
+            //            TransactionType = type,
+            //            Createdate = DateTime.UtcNow
+            //        };
+            //        await _unitOfWork.TransactionRepository.AddAsync(txn);
 
-                    // 3) Bakiye güncelle ve concurrency token otomatik artacak
-                    user.Balance = newBalance;
-                    _unitOfWork.UserRepository.Update(user);
+            //        // 3) Bakiye güncelle ve concurrency token otomatik artacak
+            //        user.Balance = newBalance;
+            //        _unitOfWork.UserRepository.Update(user);
 
-                    // 4) Commit (UnitOfWork)
-                    await _unitOfWork.CommitTransactionAsync(cancellationToken);
+            //        // 4) Commit (UnitOfWork)
+            //        await _unitOfWork.CommitTransactionAsync(cancellationToken);
 
-                    // 5) Domain event, logging vs.
-                    await _mediator.Publish(new BalanceChangedEvent(userId, newBalance), cancellationToken);
-                    _logger.LogInformation("Transaction {TxnId} succeeded on attempt {Attempt}", txn.Id, attempt);
+            //        // 5) Domain event, logging vs.
+            //        await _mediator.Publish(new BalanceChangedEvent(userId, newBalance), cancellationToken);
+            //        _logger.LogInformation("Transaction {TxnId} succeeded on attempt {Attempt}", txn.Id, attempt);
 
-                    return new TransactionResultDto
-                    {
-                        TransactionId = txn.Id,
-                        OldBalance = oldBalance,
-                        NewBalance = newBalance,
-                        Timestamp = txn.Createdate
-                    };
-                }
-                catch (DbUpdateConcurrencyException ex) when (attempt < MaxRetries)
-                {
-                    _logger.LogWarning(ex, "Concurrency conflict on attempt {Attempt} for User={User}", attempt, userId);
-                    // Kısa gecikme ekleyebilirsiniz: await Task.Delay(50, cancellationToken);
-                    continue;
-                }
-            }
+            //        return new TransactionResultDto
+            //        {
+            //            TransactionId = txn.Id,
+            //            OldBalance = oldBalance,
+            //            NewBalance = newBalance,
+            //            Timestamp = txn.Createdate
+            //        };
+            //    }
+            //    catch (DbUpdateConcurrencyException ex) when (attempt < MaxRetries)
+            //    {
+            //        _logger.LogWarning(ex, "Concurrency conflict on attempt {Attempt} for User={User}", attempt, userId);
+            //        // Kısa gecikme ekleyebilirsiniz: await Task.Delay(50, cancellationToken);
+            //        continue;
+            //    }
+            //}
         }
 
         #endregion

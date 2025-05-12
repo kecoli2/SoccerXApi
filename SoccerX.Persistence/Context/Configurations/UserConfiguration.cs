@@ -76,9 +76,6 @@ namespace SoccerX.Persistence.Context.Configurations
                 .HasMaxLength(20)
                 .HasColumnName("postalcode");
             entity.Property(e => e.Referraluserid).HasColumnName("referraluserid");
-            entity.Property(e => e.Rowversion)
-                .HasDefaultValue(0L)
-                .HasColumnName("rowversion");
             entity.Property(e => e.Surname)
                 .IsRequired()
                 .HasMaxLength(50)
