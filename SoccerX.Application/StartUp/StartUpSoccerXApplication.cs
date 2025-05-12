@@ -2,6 +2,7 @@
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using SoccerX.Application.Commands.UserCommand;
+using SoccerX.Application.Interfaces.Transaction;
 using SoccerX.Application.Services.CountryService;
 using SoccerX.Application.Services.CustomerService;
 using SoccerX.Application.Services.Transaction;
@@ -27,7 +28,7 @@ namespace SoccerX.Application.StartUp
             return service                
                 .AddScoped<IUserService, UserService>()
                 .AddScoped<ICountriesService, CountriesService>()       
-                .AddScoped<ITransactionService, TransactionService>()
+                .AddScoped<ITransactionService, TransactionService>()                
                 .AddDependcyCollectionValidationManager()
                 .AddMediatR(cfg =>
                 {

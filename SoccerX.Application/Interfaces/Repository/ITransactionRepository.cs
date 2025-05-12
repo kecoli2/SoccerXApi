@@ -5,8 +5,8 @@ using SoccerX.Domain.Entities;
 
 namespace SoccerX.Application.Interfaces.Repository;
 
-public interface ITransactionRepository : IGenericRepository<Transaction>
+public interface ITransactionRepository : IGenericRepository<Domain.Entities.Transaction>
 {
-    Task<IEnumerable<Transaction>> GetByUserIdAsync(Guid userId);
+    Task<IEnumerable<Domain.Entities.Transaction>> GetByUserIdAsync(Guid userId);
     Task<decimal> GetUserBalanceAsync(Guid userId);
 }

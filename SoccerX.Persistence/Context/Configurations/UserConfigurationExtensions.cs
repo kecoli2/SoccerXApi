@@ -21,6 +21,7 @@ namespace SoccerX.Persistence.Context.Configurations
             entity.Property(e => e.Role).HasColumnType("userrole").HasColumnName("role").HasDefaultValue(UserRole.User).IsRequired();
             entity.Property(e => e.Gender).HasColumnType("usergender").HasColumnName("gender").IsRequired();
             entity.Property(e => e.Provider).HasColumnType("authprovider").HasColumnName("provider").HasDefaultValue(AuthProvider.Local).IsRequired();
+            entity.Property(e => e.Xmin).HasColumnName("xmin").HasColumnType("xid").IsConcurrencyToken().ValueGeneratedOnAddOrUpdate();
         }
 
         #endregion

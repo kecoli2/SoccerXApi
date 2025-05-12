@@ -186,5 +186,8 @@
    <data name="error_userChangePasswordNotValid" xml:space="preserve">
     <value>Eski şifreniz hatalıdır, Lütfen tekrardan deneyiniz</value>
   </data>
+	<data name="error_userBalanceOut" xml:space="preserve">
+    <value>Bakiye yetersiz. \\n Guncel Bakiye: {0}, \\n Cikis yapılmak istenen tutar: {1}</value>
+  </data>
 	
 </root>

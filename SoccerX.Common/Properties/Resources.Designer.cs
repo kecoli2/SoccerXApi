@@ -115,6 +115,15 @@ namespace SoccerX.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bakiye yetersiz. \\n Guncel Bakiye: {0}, \\n Cikis yapılmak istenen tutar: {1}.
+        /// </summary>
+        public static string error_userBalanceOut {
+            get {
+                return ResourceManager.GetString("error_userBalanceOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Admin tarafından {0}. Tarihine kadar sisteme girişiniz askıya alındı.
         /// </summary>
         public static string error_userBanned {

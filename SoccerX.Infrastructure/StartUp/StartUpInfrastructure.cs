@@ -3,6 +3,7 @@ using Quartz;
 using Quartz.Spi;
 using SoccerX.Application.Interfaces.Cache.Memory;
 using SoccerX.Application.Interfaces.Cache.Redis;
+using SoccerX.Application.Interfaces.Polly;
 using SoccerX.Application.Interfaces.Quartz;
 using SoccerX.Application.Interfaces.Resources;
 using SoccerX.Application.Interfaces.RestSharp;
@@ -10,10 +11,10 @@ using SoccerX.Application.Interfaces.Security;
 using SoccerX.Application.Services.Email;
 using SoccerX.Infrastructure.Jobs.Base;
 using SoccerX.Infrastructure.Jobs.Base.Plugin;
-using SoccerX.Infrastructure.Jobs.Jobs.Test;
 using SoccerX.Infrastructure.Services.Caching;
 using SoccerX.Infrastructure.Services.Caching.Memory;
 using SoccerX.Infrastructure.Services.Email;
+using SoccerX.Infrastructure.Services.Polly;
 using SoccerX.Infrastructure.Services.Resources;
 using SoccerX.Infrastructure.Services.RestSharp;
 using SoccerX.Infrastructure.Services.Security;
@@ -33,6 +34,7 @@ namespace SoccerX.Infrastructure.StartUp
                 .AddScoped<IResourceManager, SoccerXResources>()
                 .AddScoped<IEmailService, EmailService>()
                 .AddScoped<ITokenService, TokenService>()
+                .AddScoped<IRetryPolicyService, RetryPolicyService>()
                 .AddSingleton<IMemoryCacheService, MemoryCacheService>();
         }
         #endregion

@@ -34,6 +34,8 @@
         /// Smtp Settings
         /// </summary>
         public SmtpSettings SmtpSettings { get; set; } = new SmtpSettings();
+
+        public RetrySettings RetrySetting { get; set; } = new RetrySettings();
         #endregion
 
         #region Constructors

@@ -8,5 +8,6 @@ namespace SoccerX.Domain.Entities
         public UserStatus Status { get; set; }
         public UserGender Gender { get; set; }
         public AuthProvider Provider { get; set; }
+        public uint Xmin { get; set; }
     }
 }

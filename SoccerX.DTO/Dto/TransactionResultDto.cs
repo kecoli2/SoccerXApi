@@ -9,6 +9,10 @@ namespace SoccerX.DTO.Dto
     public class TransactionResultDto
     {
         #region Field
+        public Guid TransactionId { get; set; }
+        public decimal OldBalance { get; set; }
+        public decimal NewBalance { get; set; }
+        public DateTime Timestamp { get; set; }
         #endregion
 
         #region Constructor
@@ -18,6 +22,6 @@ namespace SoccerX.DTO.Dto
         #endregion
 
         #region Private Method
-        #endregion
+        #endregion        
     }
 }
