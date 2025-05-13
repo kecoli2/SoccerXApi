@@ -189,5 +189,14 @@
 	<data name="error_userBalanceOut" xml:space="preserve">
     <value>Bakiye yetersiz. \\n Guncel Bakiye: {0}, \\n Cikis yapılmak istenen tutar: {1}</value>
   </data>
-	
+	<data name="error_FromUserIsNotEmpty" xml:space="preserve">
+    <value>Gönderen kullanıcıyı seçiniz</value>
+  </data>
+	<data name="error_ToUserIsNotEmpty" xml:space="preserve">
+    <value>Alan kullanıcıyı seçiniz</value>
+  </data>
+    <data name="error_AmountGreat" xml:space="preserve">
+    <value>Alan kullanıcıyı seçiniz</value>
+  </data>
+
 </root>

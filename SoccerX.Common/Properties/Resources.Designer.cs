@@ -97,6 +97,15 @@ namespace SoccerX.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Alan kullanıcıyı seçiniz.
+        /// </summary>
+        public static string error_AmountGreat {
+            get {
+                return ResourceManager.GetString("error_AmountGreat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tablo&apos; da {0} Constraint hatası alındı.
         /// </summary>
         public static string error_database_tableconstraint {
@@ -106,11 +115,29 @@ namespace SoccerX.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Gönderen kullanıcıyı seçiniz.
+        /// </summary>
+        public static string error_FromUserIsNotEmpty {
+            get {
+                return ResourceManager.GetString("error_FromUserIsNotEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kullanıcı adı veya şifre hatalı..
         /// </summary>
         public static string error_InvalidUserNamePassword {
             get {
                 return ResourceManager.GetString("error_InvalidUserNamePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alan kullanıcıyı seçiniz.
+        /// </summary>
+        public static string error_ToUserIsNotEmpty {
+            get {
+                return ResourceManager.GetString("error_ToUserIsNotEmpty", resourceCulture);
             }
         }
         
