@@ -36,6 +36,8 @@
         public SmtpSettings SmtpSettings { get; set; } = new SmtpSettings();
 
         public RetrySettings RetrySetting { get; set; } = new RetrySettings();
+
+        public FootballApiSettings FootballApiSettings { get; set; } = new FootballApiSettings();
         #endregion
 
         #region Constructors

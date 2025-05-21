@@ -8,7 +8,7 @@ using SoccerX.Infrastructure.Jobs.Base;
 
 namespace SoccerX.Infrastructure.Jobs.Jobs.Test
 {
-    [JobAttributes(JobKeyEnum.SendVerificationMail, JobCategoryEnum.PublicJob,"SendMail","SendMailDesc",typeof(SendEmailVerifcationCriteria), false)]
+    [JobAttributes(JobKeyEnum.SendVerificationMail, JobCategoryEnum.PublicJob,"SendMail","SendMailDesc",typeof(SendEmailVerifcationCriteria), false, null)]
     public class EmailVerificationJob: BaseJob<SendEmailVerifcationCriteria>
     {
         #region Field

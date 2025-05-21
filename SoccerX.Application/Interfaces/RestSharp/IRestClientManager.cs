@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using RestSharp;
 using SoccerX.Common.Shared.Model;
 
 namespace SoccerX.Application.Interfaces.RestSharp
@@ -10,6 +11,8 @@ namespace SoccerX.Application.Interfaces.RestSharp
         Task<RestClientApiResponse<T>> PostAsync<T>(string endpoint, object? body = null, Dictionary<string, string>? headers = null);
         Task<RestClientApiResponse<T>> PutAsync<T>(string endpoint, object? body = null, Dictionary<string, string>? headers = null);
         Task<RestClientApiResponse<T>> DeleteAsync<T>(string endpoint, object? queryParams = null, Dictionary<string, string>? headers = null);
+        Task<RestClientApiResponse<T>> ExecuteAsync<T>(RestRequest request);
+        
         void AddDefaultHeaders(string key, string value);
     }
 }

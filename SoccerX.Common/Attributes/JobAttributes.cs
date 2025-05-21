@@ -15,10 +15,11 @@ namespace SoccerX.Common.Attributes
         public Type JobCriteria { get; }
         public bool IsVisible { get; }
         private string JobDescriptionKey { get; }
+        public string? JobExecutionKey { get; }
         #endregion
 
         #region Constructor
-        public JobAttributes(JobKeyEnum jobKey, JobCategoryEnum jobCategory, string jobName, string jobDescriptionKey, Type jobCriteria, bool isVisible)
+        public JobAttributes(JobKeyEnum jobKey, JobCategoryEnum jobCategory, string jobName, string jobDescriptionKey, Type jobCriteria, bool isVisible, string? jobExecutionKey)
         {
             JobKey = jobKey;
             JobName = jobName;
@@ -26,6 +27,7 @@ namespace SoccerX.Common.Attributes
             IsVisible = isVisible;
             JobCategory = jobCategory;
             JobDescriptionKey = jobDescriptionKey;
+            JobExecutionKey = jobExecutionKey;
         }
 
         #endregion

@@ -25,12 +25,6 @@ namespace SoccerX.Infrastructure.Services.RestSharp
                 Timeout = TimeSpan.FromSeconds(10)
             };
 
-            //_retryPolicy = Policy<RestResponse>
-            //    .Handle<HttpRequestException>()
-            //    .OrResult(r => (int)r.StatusCode >= 500)
-            //    .WaitAndRetryAsync(3, retryAttempt =>
-            //        TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-
             _retryPolicy = Policy
                 .Handle<HttpRequestException>()
                 .Or<Exception>()
@@ -79,6 +73,40 @@ namespace SoccerX.Infrastructure.Services.RestSharp
             _defaultHeaders?.TryAdd(key, value);
         }
 
+        public async Task<RestClientApiResponse<T>> ExecuteAsync<T>(RestRequest request)
+        {
+            try
+            {
+                if (_defaultHeaders != null)
+                {
+                    foreach (var header in _defaultHeaders)
+                    {
+                        request.AddHeader(header.Key, header.Value);
+                    }
+                }
+
+                var response = await _retryPolicy.ExecuteAsync(async () => await _client.ExecuteAsync<T>(request));
+
+                return new RestClientApiResponse<T>
+                {
+                    IsSuccess = response.IsSuccessful,
+                    Data = response.Data,
+                    ErrorMessage = response.ErrorMessage ?? response.Content,
+                    StatusCode = (int)response.StatusCode
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "RestSharp request failed");
+                return new RestClientApiResponse<T>
+                {
+                    IsSuccess = false,
+                    ErrorMessage = ex.Message,
+                    StatusCode = 500
+                };
+            }
+        }
+
         #endregion
 
         #region Private Method
@@ -91,7 +119,7 @@ namespace SoccerX.Infrastructure.Services.RestSharp
                 {
                     foreach (var prop in queryParams.GetType().GetProperties())
                     {
-                        request.AddQueryParameter(prop.Name, prop.GetValue(queryParams)?.ToString());
+                        request.AddQueryParameter(prop.Name, prop.GetValue(queryParams)?.ToString());                        
                     }
                 }
 
@@ -100,8 +128,7 @@ namespace SoccerX.Infrastructure.Services.RestSharp
                     foreach (var header in _defaultHeaders)
                     {
                         request.AddHeader(header.Key, header.Value);
-                    }
-                    
+                    }                    
                 }
 
                 // Header'ları ekleme

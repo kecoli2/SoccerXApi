@@ -40,7 +40,7 @@ namespace SoccerX.Infrastructure.Jobs.Base
         {
             var jobAttribute = typeof(T).GetAttributeValue((JobAttributes dna) => dna);
             _jobBuilder = JobBuilder.Create(typeof(T));
-            var jobKey = new JobKey(Guid.NewGuid().ToString(), jobAttribute?.JobCategory.GetHashCode().ToString());
+            var jobKey = GenerateJobKey(jobAttribute);
             _jobBuilder.WithIdentity(jobKey);
             _jobBuilder.WithDescription(jobAttribute?.JobDescription);
             TriggerPriority = TriggerPriorityEnum.Middle;
@@ -51,7 +51,7 @@ namespace SoccerX.Infrastructure.Jobs.Base
         {
             var jobAttribute = jobType.GetAttributeValue((JobAttributes dna) => dna);
             _jobBuilder = JobBuilder.Create(jobType);
-            var jobKey = new JobKey(Guid.NewGuid().ToString(), jobAttribute?.JobCategory.GetHashCode().ToString());
+            var jobKey = GenerateJobKey(jobAttribute);
             _jobBuilder.WithIdentity(jobKey);
             _jobBuilder.WithDescription(jobAttribute?.JobDescription);
             TriggerPriority = TriggerPriorityEnum.Middle;
@@ -62,7 +62,7 @@ namespace SoccerX.Infrastructure.Jobs.Base
         {
             var jobAttribute = FindJob(jobKeyEnum).GetAttributeValue((JobAttributes dna) => dna);
             _jobBuilder = JobBuilder.Create(FindJob(jobKeyEnum));
-            var jobKey = new JobKey(Guid.NewGuid().ToString(), jobAttribute?.JobCategory.GetHashCode().ToString());
+            var jobKey = GenerateJobKey(jobAttribute);
             _jobBuilder.WithIdentity(jobKey);
             _jobBuilder.WithDescription(jobAttribute?.JobDescription);
             TriggerPriority = TriggerPriorityEnum.Middle;
@@ -71,13 +71,13 @@ namespace SoccerX.Infrastructure.Jobs.Base
 
         public IQuartzJobCreaterExtension SetJobKey(string key)
         {
-            _jobBuilder?.WithIdentity(new JobKey(Guid.NewGuid().ToString(), JobCategoryEnum.PublicJob.GetHashCode().ToString()));
+            _jobBuilder?.WithIdentity(new JobKey(key, JobCategoryEnum.PublicJob.GetHashCode().ToString()));
             return this;
         }
 
         public IQuartzJobCreaterExtension SetJobKey(string key, JobCategoryEnum category)
         {
-            _jobBuilder?.WithIdentity(new JobKey(Guid.NewGuid().ToString(), category.GetHashCode().ToString()));
+            _jobBuilder?.WithIdentity(new JobKey(key, category.GetHashCode().ToString()));
             return this;
         }
 
@@ -282,6 +282,20 @@ namespace SoccerX.Infrastructure.Jobs.Base
             return new JobDetailModel(jobDetail.Key.Name, jobDetail.Key.Group, jobDetail.Description,
                 jobDetail.JobDataMap.WrappedMap, jobDetail.Durable, jobDetail.PersistJobDataAfterExecution,
                 jobDetail.ConcurrentExecutionDisallowed, jobDetail.RequestsRecovery, dateTimeOffset);
+        }
+
+        private JobKey GenerateJobKey(JobAttributes? jobAttribute)
+        {
+            if(jobAttribute == null)
+            {
+                return new JobKey(Guid.NewGuid().ToString(), JobCategoryEnum.PublicJob.GetHashCode().ToString());
+            }
+            if(jobAttribute.JobExecutionKey != null)
+            {
+                return new JobKey(jobAttribute.JobExecutionKey, jobAttribute.JobCategory.GetHashCode().ToString());
+            }
+            var jobKey = new JobKey(Guid.NewGuid().ToString(), jobAttribute?.JobCategory.GetHashCode().ToString());
+            return jobKey;
         }
         #endregion
     }

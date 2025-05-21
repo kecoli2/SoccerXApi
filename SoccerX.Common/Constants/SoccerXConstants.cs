@@ -35,7 +35,13 @@
         #region AuthController
         public const string Authenticate_Local = "/api/auth/local-login";
         public const string Authenticate_Social = "/api/auth/social-login";
-        #endregion        
+        #endregion
+
+        #region FootBallApiConst
+        public const string RapidapiHost = "x-rapidapi-host";
+        public const string RapidapiKey = "x-rapidapi-key";
+        public const string RapidApisportsKey= "x-apisports-key";
+        #endregion
         #endregion
     }
 }

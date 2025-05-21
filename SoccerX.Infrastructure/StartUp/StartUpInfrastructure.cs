@@ -3,6 +3,7 @@ using Quartz;
 using Quartz.Spi;
 using SoccerX.Application.Interfaces.Cache.Memory;
 using SoccerX.Application.Interfaces.Cache.Redis;
+using SoccerX.Application.Interfaces.FootballApiManager;
 using SoccerX.Application.Interfaces.Polly;
 using SoccerX.Application.Interfaces.Quartz;
 using SoccerX.Application.Interfaces.Resources;
@@ -14,6 +15,7 @@ using SoccerX.Infrastructure.Jobs.Base.Plugin;
 using SoccerX.Infrastructure.Services.Caching;
 using SoccerX.Infrastructure.Services.Caching.Memory;
 using SoccerX.Infrastructure.Services.Email;
+using SoccerX.Infrastructure.Services.FootballApi;
 using SoccerX.Infrastructure.Services.Polly;
 using SoccerX.Infrastructure.Services.Resources;
 using SoccerX.Infrastructure.Services.RestSharp;
@@ -46,8 +48,8 @@ namespace SoccerX.Infrastructure.StartUp
                 .AddSingleton<IQuartzManager, QuartzManager>()
                 .AddSingleton<JobHistoryPlugin>()                
                 .AddSingleton<IJobFactory, QuartzJobFactory>()                
-                .AddScoped<IQuartzJobCreater, QuartzJobCreater>()
-                .AddSingleton<IRestClientManager>(new RestClientManager("http://google.com", null))
+                .AddScoped<IQuartzJobCreater, QuartzJobCreater>()                
+                .AddSingleton<IFootballApiManager, FootballApiManager>()
                 .AddScoped<IQuartzJobCreaterExtension, QuartzJobCreater>();
 
 
