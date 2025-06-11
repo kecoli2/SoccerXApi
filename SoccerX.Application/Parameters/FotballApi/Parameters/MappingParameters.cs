@@ -1,11 +1,14 @@
 using SoccerX.Application.Interfaces.FootballApiManager;
 
-public class MappingParameters : IFotballApiParameters
+namespace SoccerX.Application.Parameters.FotballApi.Parameters
 {
-    /// <summary>
-    /// Zorunlu ❌ integer Sayfa numarası (Varsayılan: 1)
-    /// </summary>
-    public string? Page { get; set; }
+    public class MappingParameters : IFotballApiParameters
+    {
+        /// <summary>
+        /// Zorunlu ❌ integer Sayfa numarası (Varsayılan: 1)
+        /// </summary>
+        public int? Page { get; set; }
 
-    public bool IsValid() => true; // TODO: Add validation logic
+        public bool IsValid() => true; // TODO: Add validation logic
+    }
 }

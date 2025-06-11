@@ -8,14 +8,17 @@ namespace SoccerX.Application.Parameters.FotballApi.Parameters
         /// integer İstenen maçın benzersiz ID'si. Örn: ?fixture=12345
         /// </summary>
         public int Fixture { get; set; }
+
         /// <summary>
         /// integer Filtreleme için takım ID'si. Örn: &team=541 (Real Madrid)
         /// </summary>
         public int? Team { get; set; }
+
         /// <summary>
         /// integer Belirli bir oyuncunun kadroda olup olmadığını kontrol için ID. Örn: &player=276 (Courtois)
         /// </summary>
         public int? Player { get; set; }
+
         /// <summary>
         /// string Özel veri türü filtresi. Örn: &type=formation (sadece diziliş bilgisi)
         /// </summary>

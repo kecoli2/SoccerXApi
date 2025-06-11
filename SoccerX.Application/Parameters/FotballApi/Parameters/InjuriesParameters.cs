@@ -1,8 +1,4 @@
 using SoccerX.Application.Interfaces.FootballApiManager;
-using SoccerX.Domain.Entities;
-using static System.Net.Mime.MediaTypeNames;
-using System.Collections.Generic;
-using System;
 
 namespace SoccerX.Application.Parameters.FotballApi.Parameters
 {
