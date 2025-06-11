@@ -15,7 +15,7 @@
         /// The job store type to use for Quartz.
         /// Options: "Memory", "Database".
         /// </summary>
-        public string JobStoreType { get; set; } = "Memory";
+        public string JobStoreType { get; set; } = "Database";
 
         /// <summary>
         /// Determines whether Quartz should start jobs automatically on application startup.
@@ -37,11 +37,6 @@
         /// Maximum number of concurrent jobs allowed.
         /// </summary>
         public int MaxConcurrency { get; set; } = 5;
-        
-        /// <summary>
-        /// Database ConnectionString
-        /// </summary>
-        public string ConnectionString { get; set; } = string.Empty;
         #endregion
 
         #region Constructors

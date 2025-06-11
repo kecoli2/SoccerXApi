@@ -1,7 +1,7 @@
 ﻿namespace SoccerX.Application.Interfaces.FootballApiManager
 {
-    public interface IFootballApiManager
+    internal interface IFotballApiParameters
     {
-        
+        bool IsValid();
     }
 }
