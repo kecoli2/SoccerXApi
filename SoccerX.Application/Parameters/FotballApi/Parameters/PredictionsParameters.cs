@@ -1,11 +1,21 @@
 using SoccerX.Application.Interfaces.FootballApiManager;
 
-public class PredictionsParameters : IFotballApiParameters
+namespace SoccerX.Application.Parameters.FotballApi.Parameters
 {
-    /// <summary>
-    /// Integer  Tahmini alınacak karşılaşmanın ID’si
-    /// </summary>
-    public string? Fixture { get; set; }
+    public class PredictionsParameters : IFotballApiParameters
+    {
+        /// <summary>
+        /// Integer  Tahmini alınacak karşılaşmanın ID’si
+        /// </summary>
+        public int Fixture { get; set; }
 
-    public bool IsValid() => true; // TODO: Add validation logic
+        public bool IsValid()
+        {
+            if (Fixture == 0)
+            {
+                throw new System.Exception("Fixture Boş Geçilemez");
+            }
+            return true;
+        }
+    }
 }

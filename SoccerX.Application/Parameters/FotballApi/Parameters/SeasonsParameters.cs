@@ -1,11 +1,14 @@
 using SoccerX.Application.Interfaces.FootballApiManager;
 
-public class SeasonsParameters : IFotballApiParameters
+namespace SoccerX.Application.Parameters.FotballApi.Parameters
 {
-    /// <summary>
-    /// integer Oyuncunun benzersiz ID numarası
-    /// </summary>
-    public string? Player { get; set; }
+    public class SeasonsParameters : IFotballApiParameters
+    {
+        /// <summary>
+        /// integer Oyuncunun benzersiz ID numarası
+        /// </summary>
+        public int? Player { get; set; }
 
-    public bool IsValid() => true; // TODO: Add validation logic
+        public bool IsValid() => true; // TODO: Add validation logic
+    }
 }

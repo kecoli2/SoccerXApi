@@ -1,15 +1,25 @@
 using SoccerX.Application.Interfaces.FootballApiManager;
 
-public class SquadsParameters : IFotballApiParameters
+namespace SoccerX.Application.Parameters.FotballApi.Parameters
 {
-    /// <summary>
-    /// integer       Takımın kimlik numarası
-    /// </summary>
-    public string? Team { get; set; }
-    /// <summary>
-    /// integer Oyuncunun kimlik numarası
-    /// </summary>
-    public string? Player { get; set; }
+    public class SquadsParameters : IFotballApiParameters
+    {
+        /// <summary>
+        /// integer Takımın ID numarası
+        /// </summary>
+        public int? Team { get; set; }
+        /// <summary>
+        /// integer Oyuncunun ID numarası
+        /// </summary>
+        public int? Player { get; set; }
 
-    public bool IsValid() => true; // TODO: Add validation logic
+        public bool IsValid()
+        {
+            if(Team == null && Player == null)
+            {
+                throw new System.Exception("En az bir parametre girilmelidir");
+            }
+            return true;
+        }
+    }
 }
