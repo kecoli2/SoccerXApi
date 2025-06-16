@@ -1,11 +1,21 @@
 using SoccerX.Application.Interfaces.FootballApiManager;
 
-public class TeamParameters : IFotballApiParameters
+namespace SoccerX.Application.Parameters.FotballApi.Parameters
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public string? Player { get; set; }
+    public class TeamParameters : IFotballApiParameters
+    {
+        /// <summary>
+        /// Oyuncu Ýd'si. Zorunlu parametre.
+        /// </summary>
+        public int Player { get; set; }
 
-    public bool IsValid() => true; // TODO: Add validation logic
+        public bool IsValid()
+        {
+            if (Player == 0)
+            {
+                throw new System.Exception("Player parametresi zorunludur");
+            }
+            return true;
+        }
+    }
 }

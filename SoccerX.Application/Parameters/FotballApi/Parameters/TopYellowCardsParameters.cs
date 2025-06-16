@@ -1,15 +1,30 @@
 using SoccerX.Application.Interfaces.FootballApiManager;
 
-public class TopYellowCardsParameters : IFotballApiParameters
+namespace SoccerX.Application.Parameters.FotballApi.Parameters
 {
-    /// <summary>
-    /// Zorunlu ✅ integer Ligin veya kupanın ID’si
-    /// </summary>
-    public string? League { get; set; }
-    /// <summary>
-    /// Zorunlu ✅ integer (YYYY formatında 4 hane) İlgili sezon yılı (örnek: 2024)
-    /// </summary>
-    public string? Season { get; set; }
+    public class TopYellowCardsParameters : IFotballApiParameters
+    {
+        /// <summary>
+        /// Zorunlu ✅ integer Ligin veya kupanın ID’si
+        /// </summary>
+        public int League { get; set; }
 
-    public bool IsValid() => true; // TODO: Add validation logic
+        /// <summary>
+        /// Zorunlu ✅ integer (YYYY formatında 4 hane) İlgili sezon yılı (örnek: 2024)
+        /// </summary>
+        public int Season { get; set; }
+
+        public bool IsValid()
+        {
+            if (League <= 0)
+            {
+                throw new System.Exception("League parameter must be a positive integer greater than zero.");
+            }
+            if (Season <= 0 || Season.ToString().Length != 4)
+            {
+                throw new System.Exception("Season parameter must be a valid year in YYYY format.");
+            }
+            return true;
+        }
+    }
 }

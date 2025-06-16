@@ -1,11 +1,22 @@
 using SoccerX.Application.Interfaces.FootballApiManager;
 
-public class TeamsSeasonsParameters : IFotballApiParameters
+namespace SoccerX.Application.Parameters.FotballApi.Parameters
 {
-    /// <summary>
-    /// integer Takımın benzersiz ID numarası
-    /// </summary>
-    public string? Team { get; set; }
+    public class TeamsSeasonsParameters : IFotballApiParameters
+    {
+        /// <summary>
+        /// integer Takımın benzersiz ID numarası
+        /// </summary>
+        public int Team { get; set; }
 
-    public bool IsValid() => true; // TODO: Add validation logic
+        public bool IsValid()
+        {
+            if (Team <= 0)
+            {
+                throw new System.Exception("Team parameter must be a positive integer greater than zero.");
+            }
+
+            return true;
+        }
+    }
 }
