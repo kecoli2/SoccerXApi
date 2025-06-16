@@ -17,20 +17,26 @@ namespace SoccerX.Infrastructure.Jobs.Base
 
         #region Public Method
         public abstract Task Executing();
-        public Task Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
             JobContext = context;
-
-            if (JobContext?.JobDetail.JobDataMap[QuartzConstant.JobCriteria] != null)
+            try
             {
-                JobCriteria = (T)Convert.ChangeType(JobContext.JobDetail.JobDataMap[QuartzConstant.JobCriteria], typeof(T));
-            }
+                if (JobContext?.JobDetail.JobDataMap[QuartzConstant.JobCriteria] != null)
+                {
+                    JobCriteria = (T)Convert.ChangeType(JobContext.JobDetail.JobDataMap[QuartzConstant.JobCriteria], typeof(T));
+                }
 
-            if (JobContext?.JobDetail.JobDataMap[QuartzConstant.JobCulture] != null)
-            {
-                Culture = (string)Convert.ChangeType(JobContext.JobDetail.JobDataMap[QuartzConstant.JobCulture], typeof(string));
+                if (JobContext?.JobDetail.JobDataMap[QuartzConstant.JobCulture] != null)
+                {
+                    Culture = (string)Convert.ChangeType(JobContext.JobDetail.JobDataMap[QuartzConstant.JobCulture], typeof(string));
+                }
+                await Executing();
             }
-            return Executing();
+            catch (Exception ex)
+            {
+                throw new JobExecutionException("Job excetution error", ex, false);
+            }            
         }
         #endregion
 

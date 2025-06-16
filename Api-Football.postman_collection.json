@@ -1,0 +1,2357 @@
+{
+	"info": {
+		"_postman_id": "f25e9d8e-df06-4279-ab5b-45f792eccfe0",
+		"name": "Api-Football",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1726415"
+	},
+	"item": [
+		{
+			"name": "Contry",
+			"item": [
+				{
+					"name": "Countries",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "e34594a69707d1935cebedcf80ed6677",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "e34594a69707d1935cebedcf80ed6677",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/countries",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"countries"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "",
+									"description": "The name of the country",
+									"disabled": true
+								},
+								{
+									"key": "code",
+									"value": "",
+									"description": "[ 2 .. 6 ] characters FR, GB-ENG, IT…\nThe Alpha code of the country",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "",
+									"description": "Search Country",
+									"disabled": true
+								}
+							]
+						},
+						"description": "### Ligler Endpointi için Mevcut Ülkeler Listesi\n\n**Kullanım Bilgileri:**\n\n1. **Ülke Listesi Alma**  \n    Ligler endpointi için kullanılabilecek ülkelerin listesini alın.\n    \n2. **Filtreleme Özelliği**\n    \n    - `name` (ülke adı)\n        \n    - `code` (ülke kodu)  \n        Bu alanlar diğer endpoint'lerde filtre olarak kullanılabilir.\n        \n3. **Bayrak Görselleri**  \n    Bir ülkenin bayrağını görüntülemek için:  \n    `https://media.api-sports.io/flags/{country_code}.svg`  \n    Örnek: `https://media.api-sports.io/flags/tr.svg` (Türkiye bayrağı)\n    \n4. **Örnek Kullanımlar**  \n    \"Request Samples\" bölümündeki \"Use Cases\" kısmında örnekleri inceleyebilirsiniz.\n    \n5. **Parametre Uyumu**  \n    Bu endpoint'in tüm parametreleri birlikte kullanılabilir.\n    \n\n**Sistem Bilgisi:**\n\n- **Güncelleme Sıklığı:** API'nin kapsamadığı yeni bir ülkeden lig eklendiğinde güncellenir\n    \n- **Önerilen Çağrı Sıklığı:** Günde 1 kez sorgulama yapılması tavsiye edilir\n    \n\n**Önemli Not:**  \nÜlke kodları (örneğin TR, EN, DE) diğer endpoint'lerde filtreleme yaparken kullanılabilir. Bayrak görsellerine erişmek için her zaman küçük harfli kod kullanılmalıdır (tr.svg gibi)."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Leagues",
+			"item": [
+				{
+					"name": "Leagues",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `\r",
+									"<style type=\"text/css\">\r",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+									"    .tftable tr {background-color:#ffffff;}\r",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+									"    .tftable tr:hover {background-color:#e0ffff;}\r",
+									"</style>\r",
+									"\r",
+									"<table class=\"tftable\" border=\"1\">\r",
+									"    <tr>\r",
+									"        <th>ID</th>\r",
+									"        <th>Name</th>\r",
+									"        <th>Type</th>\r",
+									"        <th>Country</th>\r",
+									"        <th>Season Year</th>\r",
+									"        <th>Start</th>\r",
+									"        <th>End</th>\r",
+									"        <th>Current</th>\r",
+									"    </tr>\r",
+									"    \r",
+									"    {{#each response}}\r",
+									"        <tr>\r",
+									"            <td>{{league.id}}</td>\r",
+									"            <td>{{league.name}}</td>\r",
+									"            <td>{{league.type}}</td>\r",
+									"            <td>{{country.name}}</td>\r",
+									"            <td>{{seasons.[0].year}}</td>\r",
+									"            <td>{{seasons.[0].start}}</td>\r",
+									"            <td>{{seasons.[0].end}}</td>\r",
+									"            <td>{{seasons.[0].current}}</td>\r",
+									"        </tr>\r",
+									"    {{/each}}\r",
+									"</table>\r",
+									"`;\r",
+									"\r",
+									"function constructVisualizerPayload() {\r",
+									"    return {response: pm.response.json().response}\r",
+									"}\r",
+									"\r",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/leagues",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"leagues"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "integer\nLigin benzersiz ID numarası.",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "",
+									"description": "string\nLigin adı.",
+									"disabled": true
+								},
+								{
+									"key": "country",
+									"value": "GERMANY",
+									"description": "string\nLigin bulunduğu ülkenin adı.",
+									"disabled": true
+								},
+								{
+									"key": "code",
+									"value": "DE",
+									"description": "string [2..6 karakter]\nÜlkenin alfa kodu (Örnek: FR, GB-ENG, IT…).",
+									"disabled": true
+								},
+								{
+									"key": "season",
+									"value": "",
+									"description": "integer (4 karakter, YYYY formatında)\nLigin sezonu.",
+									"disabled": true
+								},
+								{
+									"key": "team",
+									"value": "",
+									"description": "integer\nTakımın ID numarası.",
+									"disabled": true
+								},
+								{
+									"key": "type",
+									"value": "",
+									"description": "string\nEnum: \"league\" | \"cup\"\nLigin türü (lig veya kupa).",
+									"disabled": true
+								},
+								{
+									"key": "current",
+									"value": "",
+									"description": "string\nEnum: \"true\" | \"false\"\nLigin aktif sezonlarını mı yoksa son sezonunu mu listeleneceğini belirtir.",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "",
+									"description": "string (en az 3 karakter)\nLig veya ülke adına göre arama yapmayı sağlar.",
+									"disabled": true
+								},
+								{
+									"key": "last",
+									"value": "",
+									"description": "integer (en fazla 2 karakter)\nAPI'ye en son eklenen X lig/kupa listesini getirir.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "StartFragment\n\n**Mevcut lig ve kupaların listesini alın.**\n\n- Lig ID'leri, API'de benzersizdir ve ligler bu ID'leri tüm sezonlar boyunca korur.\n    \n- Bir yarışmanın logosunu almak için şu URL'yi kullanmalısınız:  \n    `https://media.api-sports.io/football/leagues/{league_id}.png`\n    \n\nBu endpoint, aynı zamanda her yarışmanın kapsam bilgisini de döndürür. Böylece, lig veya kupa için hangi verilerin mevcut olduğunu görebilirsiniz.\n\nKapsam (coverage) tarafından döndürülen değerler, API'yi çağırdığınız anda erişilebilir olan verileri gösterir. Dolayısıyla, henüz başlamamış bir yarışma için tüm özelliklerin `False` olarak ayarlanması normaldir. Yarışma başladıktan sonra bu bilgiler güncellenecektir.\n\nEndFragment\n\nStartFragment\n\n**Example :**\n\n``` csharp\n\"coverage\": {\n  \"fixtures\": {\n      \"events\": true,\n      \"lineups\": true,\n      \"statistics_fixtures\": false,\n      \"statistics_players\": false\n  },\n  \"standings\": true,\n  \"players\": true,\n  \"top_scorers\": true,\n  \"top_assists\": true,\n  \"top_cards\": true,\n  \"injuries\": true,\n  \"predictions\": true,\n  \"odds\": false\n}\n\n ```\n\nStartFragment\n\n**Bu örnekte, aşağıdaki özelliklerin mevcut olmadığını görebiliriz:**  \n`statistics_fixtures`, `statistics_players`, `odds` çünkü değerler `False` olarak ayarlanmış.\n\n- Bir yarışmanın kapsamı (coverage), sezondan sezona değişebilir ve `True` olarak ayarlanan değerler bile \u00100 veri erişilebilirliği garanti etmez.\n    \n- Dostluk maçları (friendlies) gibi bazı yarışmalar, ligler endpoint'inde belirtilen kapsamın dışında kalabilir. Bu tür maçlarda mevcut veriler (livescore, olaylar, kadrolar, istatistikler ve oyuncular) maça göre farklılık gösterebilir.\n    \n- Yarışmalar, API tarafından yeni bir sezon başladığında otomatik olarak güncellenir. Resmi takvimin açıklanması ile API'de verilerin erişilebilir olması arasında bir gecikme olabilir.\n    \n- Kupa yarışmalarında, maçlar (fixtures) katılımcı takımlar belli olduğunda otomatik olarak eklenir. Örneğin, şu anki aşama son 16 ise, çeyrek finaller, bu aşamada hangi takımların oynayacağı belli olduktan sonra sisteme dahil edilir.\n    \n\n**Örnek kullanımlar:** \"Request samples\" bölümündeki \"Use Cases\" kısmını inceleyebilirsiniz.\n\n- Bu endpoint'in çoğu parametresi birlikte kullanılabilir.\n    \n\n**Güncelleme sıklığı:** Bu endpoint günde birkaç kez güncellenir.  \n**Önerilen çağrı sıklığı:** Saatte 1 çağrı.\n\nStartFragment\n\n### Açıklamalar:\n\n- **\"current\" parametresi**, liglerin aktif sezonlarını veya en son sezonunu döndürür.\n    \n- **\"search\" parametresi**, lig adı veya ülke adına göre filtreleme yapmak için kullanılır (en az 3 karakter gerekli).\n    \n- **\"last\" parametresi**, API'ye yeni eklenen lig/kupaları görmek için kullanılır (örneğin, son 5 ekleneni getirmek için `last=5`)."
+					},
+					"response": []
+				},
+				{
+					"name": "Seasons",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/leagues/seasons",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"leagues",
+								"seasons"
+							]
+						},
+						"description": "StartFragment\n\n**Mevcut Sezonların Listesini Alın**\n\n- Tüm sezonlar yalnızca 4 haneli sayılardan oluşur. Örneğin, İngiltere Premier Ligi (EPL) gibi 2018-2019 sezonu olan bir lig için API'de bu sezon **2018** olarak gösterilir.\n    \n- Tüm sezonlar, diğer endpoint'lerde filtre olarak kullanılabilir.\n    \n- Bu endpoint herhangi bir parametre gerektirmez.\n    \n\n**Güncelleme Sıklığı:**  \nYeni bir lig eklendiğinde bu endpoint güncellenir.\n\n**Önerilen Çağrı Sıklığı:**  \nGünde 1 çağrı.\n\nStartFragment\n\n### Ek Açıklamalar:\n\n- Sezon bilgileri yıl bazında tutulduğu için 2018-2019 gibi çift yıllı sezonlar **ilk yıl (2018)** ile temsil edilir.\n    \n- Sezon verileri, maç istatistikleri veya lig sıralamaları gibi diğer verileri filtrelemek için kullanılabilir.\n    \n- Sistemde yeni bir lig tanımlandığında otomatik olarak güncellenir, bu nedenle sık sorgu yapmaya gerek yoktur."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Teams",
+			"item": [
+				{
+					"name": "Teams information",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "e34594a69707d1935cebedcf80ed6677",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "e34594a69707d1935cebedcf80ed6677",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/teams",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"teams"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "integer\nTakımın benzersiz kimlik numarası",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": null,
+									"description": "string\nTakımın tam adı",
+									"disabled": true
+								},
+								{
+									"key": "league",
+									"value": null,
+									"description": "integer\nTakımın yer aldığı ligin ID numarası",
+									"disabled": true
+								},
+								{
+									"key": "season",
+									"value": null,
+									"description": "integer (4 haneli YYYY formatında)\nİlgili sezon bilgisi (örn. 2023)",
+									"disabled": true
+								},
+								{
+									"key": "country",
+									"value": null,
+									"description": "string\nTakımın bağlı olduğu ülke adı",
+									"disabled": true
+								},
+								{
+									"key": "code",
+									"value": null,
+									"description": "string (3 karakter)\nTakımın kısa kodu (örn. MUFC, FCB)",
+									"disabled": true
+								},
+								{
+									"key": "venue",
+									"value": null,
+									"description": "integer\nTakımın saha/stadyum bilgisi ID'si",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": null,
+									"description": "string (minimum 3 karakter)\nTakım adı veya ülke adına göre arama yapmayı sağlar",
+									"disabled": true
+								}
+							]
+						},
+						"description": "StartFragment\n\n### Takım Listesini Alma\n\n**Mevcut takımların listesini alın**\n\n- Takım ID'leri API içinde benzersizdir ve takımlar bu ID'yi katıldıkları tüm lig/kupalarda korur.\n    \n- Bir takımın logosunu almak için şu URL'yi kullanmalısınız:  \n    `https://media.api-sports.io/football/teams/{team_id}.png`\n    \n- Tüm takım ID'lerini Dashboard'ımızda bulabilirsiniz.\n    \n\n**Örnek Kullanımlar:**  \n\"Request samples\" bölümündeki \"Use Cases\" kısmını inceleyebilirsiniz.\n\n**Parametre Kullanımı:**\n\n- Bu endpoint'in tüm parametreleri birlikte kullanılabilir.\n    \n- En az bir parametre girilmesi zorunludur.\n    \n\n**Güncelleme Sıklığı:**  \nBu endpoint haftada birkaç kez güncellenir.\n\n**Önerilen Çağrı Sıklığı:**  \nGünde 1 çağrı.\n\nStartFragment\n\n### **Kullanım Notları:**\n\n- **ID parametresi** tüm API'de takımlar için benzersizdir ve tüm ligler/kupalar boyunca sabit kalır\n    \n- **Sezon bilgisi** 4 haneli yıl formatında girilmelidir (2023 gibi)\n    \n- **Arama (search)** işlemi için en az 3 karakter girmek zorunludur\n    \n- **Ülke kodu** 3 harfli standart kodlarla çalışır (TUR, ENG, ESP gibi)\n    \n- Stadyum bilgileri için venue ID'si kullanılarak ek detaylar alınabilir\n    \n\nÖrnek sorgu:  \n`/teams?country=Turkey&season=2023&search=Galatasaray`  \nBu sorgu 2023 sezonunda Türkiye'de bulunan ve adında \"Galatasaray\" geçen takımları listeler."
+					},
+					"response": []
+				},
+				{
+					"name": "Teams statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/teams/statistics",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"teams",
+								"statistics"
+							],
+							"query": [
+								{
+									"key": "league",
+									"value": null,
+									"description": "integer\nLigin ID'si (API'de benzersiz)",
+									"disabled": true
+								},
+								{
+									"key": "season",
+									"value": null,
+									"description": "integer\nSezon bilgisi (YYYY formatında)\n",
+									"disabled": true
+								},
+								{
+									"key": "team",
+									"value": null,
+									"description": "integer\nTakımın ID'si",
+									"disabled": true
+								},
+								{
+									"key": "date",
+									"value": null,
+									"description": "string\nİstatistiklerin hesaplanacağı son tarih\nYYYY-MM-DD = 2023-11-20\n",
+									"disabled": true
+								}
+							]
+						},
+						"description": "### Takım İstatistikleri Endpoint'i\n\n**Açıklama:**  \nBu endpoint, belirli bir lig ve sezon için bir takımın istatistiklerini döndürür.\n\n**Temel Özellikler:**\n\n- **Lig ve Sezon Bazında Analiz:** Takım performansını belirli bir lig ve sezon için gösterir\n    \n- **Tarih Filtresi:** İsteğe bağlı `date` parametresi eklenerek, sezon başından belirtilen tarihe kadar olan istatistikler hesaplanabilir\n    \n- **Varsayılan Davranış:** Parametre belirtilmezse, takımın ilgili sezonda oynadığı tüm maçların istatistikleri döndürülür\n    \n\n**Güncelleme Bilgileri:**\n\n- **Güncelleme Sıklığı:** Günde 2 kez güncellenir\n    \n- **Önerilen Çağrı Sıklığı:**\n    \n    - Gün içinde maçı olan takımlar için: Günde 1 çağrı\n        \n    - Maçı olmayan takımlar için: Haftada 1 çağrı\n        \n\n**Kullanım Önerileri:**\n\n1. Güncel performans analizi için `date` parametresini kullanabilirsiniz\n    \n2. Sezon geneli istatistikler için parametre kullanmadan çağrı yapabilirsiniz\n    \n3. Veri tazeliği için güncelleme saatlerini dikkate alın\n    \n\n**Örnek Kullanım:**  \n`/teams/statistics?team=85&league=39&season=2023&date=2023-11-20`  \nBu sorgu, 85 ID'li takımın Premier Lig'deki 2023 sezonu 20 Kasım 2023 tarihine kadar olan istatistiklerini getirir.\n\n### **Takım İstatistikleri Parametreleri**\n\n#### **Zorunlu Parametreler**\n\n| Parametre | Tip | Açıklama | Örnek Değer |\n| --- | --- | --- | --- |\n| **league** | integer | Ligin ID'si (API'de benzersiz) | `39` (Premier Lig) |\n| **season** | integer | Sezon bilgisi (YYYY formatında) | `2023` |\n| **team** | integer | Takımın ID'si | `85` (Manchester United) |\n\n#### **Opsiyonel Parametre**\n\n| Parametre | Tip | Açıklama | Format | Örnek Değer |\n| --- | --- | --- | --- | --- |\n| **date** | string | İstatistiklerin hesaplanacağı son tarih | `YYYY-MM-DD` | `2023-11-20` |\n\n---\n\n### **Kullanım Notları**\n\n✔ **Zorunlu Alanlar:** `league`, `season`, ve `team` mutlaka belirtilmelidir.  \n✔ **Tarih Filtresi (****`date`****):**\n\n- Belirtilirse, sezon başından bu tarihe kadar olan istatistikler hesaplanır.\n    \n- Belirtilmezse, sezonun **tüm maçları** dahil edilir.  \n    ✔ **Formatlar:**\n    \n- `season` **4 haneli yıl** olmalı (`2023`, `2024` gibi).\n    \n- `date` **YYYY-MM-DD** şeklinde girilmeli (`2023-12-01` gibi).\n    \n\n---\n\n### **Örnek API Sorguları**\n\n1️⃣ **Sezon Geneli İstatistikler:**\n\n``` http\nGET /teams/statistics?league=39&season=2023&team=85\n\n ```\n\n→ 2023 sezonunda Premier Lig'de Manchester United'ın **tüm maç** istatistikleri.\n\n2️⃣ **Belirli Bir Tarihe Kadar İstatistikler:**\n\n``` http\nGET /teams/statistics?league=39&season=2023&team=85&date=2023-11-20\n\n ```\n\n→ 2023 sezonunda 20 Kasım'a kadar olan Manchester United istatistikleri.\n\n---\n\n### **Önemli Bilgiler**\n\n📌 **Güncelleme Sıklığı:** Günde **2 kez** güncellenir.  \n📌 **Önerilen Çağrı Sıklığı:**\n\n- **Maç günlerinde:** Günde 1 kez\n    \n- **Maç yoksa:** Haftada 1 kez\n    \n\nBu endpoint, takım performansını detaylı analiz etmek için idealdir! ⚽📊"
+					},
+					"response": []
+				},
+				{
+					"name": "Teams seasons",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/teams/seasons?team=85",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"teams",
+								"seasons"
+							],
+							"query": [
+								{
+									"key": "team",
+									"value": "85",
+									"description": "integer\nTakımın benzersiz ID numarası\n"
+								}
+							]
+						},
+						"description": "### **Takım Sezonları Endpoint'i**\n\n#### **Açıklama**\n\nBelirli bir takımın katıldığı **tüm sezonların listesini** döndürür.\n\n---\n\n### **Kullanım Bilgileri**\n\n✅ **Zorunlu Parametre:**  \nEn az **1 parametre** belirtilmelidir (örneğin `team` ID'si).\n\n✅ **Örnek Kullanımlar:**  \n`Request samples` bölümündeki **\"Use Cases\"** kısmından örnekleri inceleyebilirsiniz.\n\n✅ **Güncelleme Sıklığı:**  \nHaftada **birkaç kez** güncellenir.\n\n✅ **Önerilen Çağrı Sıklığı:**  \nGünde **1 kez** sorgulama yapılması yeterlidir.\n\n---\n\n### **Örnek API Sorgusu**\n\n``` http\nGET /teams/seasons?team=85\n\n ```\n\n→ **85 ID'li takımın** (örneğin Manchester United) tüm sezonlarını listeler.\n\n---\n\n### **Önemli Notlar**\n\n🔹 Takımın **tarih boyunca hangi sezonlarda yer aldığını** görmek için kullanılır.  \n🔹 **Yeni sezon eklendiğinde** otomatik olarak güncellenir.  \n🔹 Diğer endpoint'lerde filtreleme yaparken bu sezon bilgilerini kullanabilirsiniz.\n\n**⚽ Kullanışlı senaryo:**  \n_\"Takım X, 2010'dan beri hangi sezonlarda Premier Lig'de oynadı?\"_ sorusuna yanıt verir!\n\n### **Takım Sezonları Endpoint Parametreleri**\n\n#### **Zorunlu Parametre**\n\n| Parametre | Veri Tipi | Açıklama | Örnek Değer |\n| --- | --- | --- | --- |\n| **team** | integer | Takımın benzersiz ID numarası | `85` (Manchester United) |\n\n#### **Kullanım Notları**\n\n- ✅ **Sadece takım ID'si zorunludur** - diğer parametreler opsiyoneldir\n    \n- 🔍 Takım ID'lerini `/teams` endpointinden veya Dashboard'dan öğrenebilirsiniz\n    \n- 📅 Dönen sezon listesi 4 haneli yıl formatındadır (Örn: 2023)\n    \n\n#### **Örnek Sorgu**\n\n``` http\nGET /teams/seasons?team=85\n\n ```\n\n**Response Örneği:**\n\n``` json\n{\n  \"team\": {\n    \"id\": 85,\n    \"name\": \"Manchester United\"\n  },\n  \"seasons\": [2018, 2019, 2020, 2021, 2022, 2023]\n}\n\n ```\n\n#### **Önemli Bilgiler**\n\n- 🔄 **Güncelleme:** Haftada birkaç kez otomatik güncellenir\n    \n- ⏱ **Çağrı Sıklığı:** Günde 1 kez yeterlidir\n    \n- 🔗 **İlişkili Endpoint'ler:** Bu sezon bilgileri `/fixtures` ve `/statistics` endpointlerinde filtre olarak kullanılabilir\n    \n\n#### **Kullanım Senaryoları**\n\n1. Takımın tarihsel katılımını analiz etme\n    \n2. Belirli sezon verilerini çekmek için ön filtreleme\n    \n3. Takımın ligdeki geçmiş yıllarını görüntüleme\n    \n\n> 💡 **İpucu:** Takım ID'sini öğrenmek için önce `/teams?search={takım_adı}` sorgusunu kullanabilirsiniz."
+					},
+					"response": []
+				},
+				{
+					"name": "Teams countries",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/teams/countries",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"teams",
+								"countries"
+							]
+						},
+						"description": "### **Takımlar için Ülke Listesi Endpoint'i**\n\n#### **Açıklama**\n\n`/teams` endpointi için kullanılabilecek **ülkelerin listesini** döndürür.\n\n---\n\n### **Temel Bilgiler**\n\n📌 **Güncelleme Sıklığı:**  \nHaftada **birkaç kez** otomatik güncellenir.\n\n📌 **Önerilen Çağrı Sıklığı:**  \nGünde **1 kez** sorgulama yeterlidir.\n\n---\n\n### **Kullanım Özellikleri**\n\n✔ **Ülke Filtresi:**  \nDiğer endpoint'lerde `country` parametresi olarak kullanılabilir.\n\n✔ **Bayrak Görselleri:**  \nÜlke bayraklarını görüntülemek için:  \n`https://media.api-sports.io/flags/{country_code}.svg`  \n(Örn: `tr.svg` → Türkiye bayrağı)\n\n---\n\n### **Örnek API Sorgusu**\n\n``` http\nGET /teams/countries\n\n ```\n\n**Response Örneği:**\n\n``` json\n[\n  {\n    \"name\": \"Turkey\",\n    \"code\": \"TR\"\n  },\n  {\n    \"name\": \"England\",\n    \"code\": \"ENG\"\n  }\n]\n\n ```\n\n---\n\n### **Kullanım Senaryoları**\n\n1. GET /teams?country=TR&season=2023\n    \n    → Sadece Türkiye'deki takımları listeler.\n    \n2. **Frontend Uygulamaları:**  \n    Ülke seçim dropdown'ları oluşturmak için ideal.\n    \n\n---\n\n### **Önemli Notlar**\n\n🔹 Ülke kodları **2-3 karakter** arasında değişir (TR, ENG, ESP gibi).  \n🔹 Yeni ülkeler eklendiğinde otomatik güncellenir.  \n🔹 `country` parametresi, `/teams`, `/leagues` gibi endpoint'lerde kullanılabilir.\n\n**⚡ Verimli Kullanım İçin:**\n\n- Ülke listesini **local storage'da önbelleğe alarak** performansı artırabilirsiniz.\n    \n- Günde 1'den fazla çağrı yapmaya gerek yoktur."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Venues",
+			"item": [
+				{
+					"name": "Venues",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/venues?id=20423",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"venues"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "20423",
+									"description": "integer\nStadyum ID'si (zorunlu değil)\n20423 (Tüpraş Stadyumu)"
+								},
+								{
+									"key": "name",
+									"value": null,
+									"description": "string\nStadyum adı (arama için)\n\"Ali Sami Yen\"\n",
+									"disabled": true
+								},
+								{
+									"key": "city",
+									"value": null,
+									"description": "string\nŞehir filtresi\n\"İstanbul\"\n",
+									"disabled": true
+								},
+								{
+									"key": "country",
+									"value": "Turkey",
+									"description": "string\nÜlke filtresi\n\"Turkey\"\n",
+									"disabled": true
+								}
+							]
+						},
+						"description": "### **Stadyum Bilgileri Endpoint'i**\n\n#### **Açıklama**\n\nFutbol stadyumlarına ait **temel bilgilerin listesini** döndürür.\n\n---\n\n### **Temel Özellikler**\n\n✅ **Benzersiz ID:**  \nHer stadyumun API genelinde **tekil bir ID'si** vardır.\n\n🖼️ **Stadyum Görseli:**  \n`https://media.api-sports.io/football/venues/{venue_id}.png`  \n(Örn: `556.png` → Vodafone Park görseli)\n\n---\n\n### **Parametreler**\n\n| Parametre | Tip | Açıklama | Örnek Değer |\n| --- | --- | --- | --- |\n| **id** | integer | Stadyum ID'si (zorunlu değil) | `556` (Vodafone Park) |\n| **name** | string | Stadyum adı (arama için) | \"Ali Sami Yen\" |\n| **city** | string | Şehir filtresi | \"İstanbul\" |\n| **country** | string | Ülke filtresi | \"Turkey\" |\n\n🔹 **Not:** En az **1 parametre** kullanılmalıdır.\n\n---\n\n### **Örnek Sorgular**\n\n1️⃣ **ID ile Sorgulama:**\n\n``` http\nGET /venues?id=556\n\n ```\n\n→ Sadece Vodafone Park bilgilerini getirir.\n\n2️⃣ **Şehir Filtresi:**\n\n``` http\nGET /venues?city=İstanbul\n\n ```\n\n→ İstanbul'daki tüm stadyumları listeler.\n\n---\n\n### **Sistem Bilgileri**\n\n🔄 **Güncelleme Sıklığı:** Haftada **birkaç kez**  \n⏱ **Önerilen Çağrı:** Günde **1 kez**\n\n---\n\n### **Kullanım Senaryoları**\n\n- **Maç konumu detayları** göstermek için\n    \n- **Stadyum kapasite** karşılaştırmaları yapmak için\n    \n- Takım sayfalarında **ev sahibi stadyum** bilgisi eklemek için\n    \n\n---\n\n### **Örnek Response**\n\n``` json\n{\n  \"id\": 556,\n  \"name\": \"Vodafone Park\",\n  \"city\": \"İstanbul\",\n  \"country\": \"Turkey\",\n  \"capacity\": 41903\n}\n\n ```\n\n> 💡 **İpucu:** Görseller için `venue_id`'yi URL'ye eklemeyi unutmayın!"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Standings",
+			"item": [
+				{
+					"name": "Standings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/standings?league=39&season=2023",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"standings"
+							],
+							"query": [
+								{
+									"key": "league",
+									"value": "39",
+									"description": "integer\nLig ID'si (API'de benzersiz)\n39 (Premier Lig)"
+								},
+								{
+									"key": "season",
+									"value": "2023"
+								},
+								{
+									"key": "team",
+									"value": null,
+									"description": "integer\nTakım ID'si (belirli bir takımın sıralamasını getirir)\n40 (Liverpool)",
+									"disabled": true
+								}
+							]
+						},
+						"description": "### **Sıralamalar Endpoint'i**\n\n#### **Temel Bilgiler**\n\n- Lig veya takım sıralamalarını gösterir\n    \n- Bazı liglerde birden fazla sıralama olabilir (grup aşaması, açılış/kapanış vb.)\n    \n\n### **Sıralamalar (Standings) Endpoint Parametreleri**\n\n#### **Zorunlu Parametreler**\n\n| Parametre | Tip | Açıklama | Örnek Değer |\n| --- | --- | --- | --- |\n| **league** | integer | Lig ID'si (API'de benzersiz) | `39` (Premier Lig) |\n| **season** | integer | 4 haneli sezon yılı (YYYY) | `2023` |\n\n#### **Opsiyonel Parametre**\n\n| Parametre | Tip | Açıklama | Örnek Değer |\n| --- | --- | --- | --- |\n| **team** | integer | Takım ID'si (belirli bir takımın sıralamasını getirir) | `40` (Liverpool) |\n\n---\n\n### **Kullanım Notları**\n\n✔ **Minimum Gereksinim:**  \n`league` ve `season` parametreleri **zorunludur**\n\n✔ **Takım Filtresi:**  \nSadece belirli bir takımın sıralamasını görmek isterseniz `team` ID'sini ekleyin\n\n✔ **Sezon Formatı:**  \nHer zaman 4 haneli yıl olmalıdır (`2022`, `2023` gibi)\n\n---\n\n### **Örnek Sorgular**\n\n1️⃣ **Lig Genel Sıralaması:**\n\n``` http\nGET /standings?league=39&season=2023\n\n ```\n\n2️⃣ **Belirli Takım Sıralaması:**\n\n``` http\nGET /standings?league=39&season=2023&team=40\n\n ```\n\n---\n\n### **Önemli Bilgiler**\n\n- Bazı liglerde birden fazla sıralama tablosu olabilir (gruplar, açılış/kapanış aşamaları gibi)\n    \n- Veriler **saatte bir** güncellenir\n    \n- Maç günlerinde daha sık sorgulama yapabilirsiniz\n    \n\n#### **Güncelleme**\n\n- **Sıklık:** Saatte 1 kez\n    \n- **Önerilen çağrı:**\n    \n    - Maç günlerinde: Saatte 1\n        \n    - Normalde: Günde 1\n        \n\n#### **Örnek Kullanım**\n\n``` http\nGET /standings?league=39&season=2023\n\n ```\n\n#### **Önemli Notlar**\n\n- Çoklu lig formatlarında farklı sıralamalar dönebilir\n    \n- Maç saatlerinde daha sık güncellenir\n    \n- Tüm parametreler birlikte kullanılabilir\n    \n\n> ⚽ Premier League, Champions League gibi ligler için ideal"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Fixtures",
+			"item": [
+				{
+					"name": "Rounds",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/fixtures/rounds?league=39&season=2023",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"fixtures",
+								"rounds"
+							],
+							"query": [
+								{
+									"key": "league",
+									"value": "39",
+									"description": "integer\nLigin ID'si"
+								},
+								{
+									"key": "season",
+									"value": "2023",
+									"description": "integer (4 karakter, YYYY formatında)\nLigin sezonu"
+								},
+								{
+									"key": "current",
+									"value": null,
+									"description": "boolean (Değerler: \"true\" veya \"false\")\nHer turun tarihlerini yanıta ekler",
+									"disabled": true
+								},
+								{
+									"key": "timezone",
+									"value": null,
+									"description": "string\nTimezone endpoint'inden geçerli bir zaman dilimi",
+									"disabled": true
+								}
+							]
+						},
+						"description": "### **Tur Bilgisi**\n\nBir lig veya kupa için turları (rounds) alın.\n\nTur bilgisi, **fikstür** (maç programı) endpoint'inde filtre olarak kullanılabilir.\n\n**Örnekler**, **İstek Örnekleri (\"Kullanım Senaryoları\")** bölümünde mevcuttur.\n\n**Güncelleme Sıklığı**: Bu endpoint her gün güncellenir.\n\n**Önerilen Çağrı Sayısı**: Günde 1 çağrı.\n\n### **Sorgu Parametreleri**\n\n| Parametre | Zorunlu | Tip | Açıklama |\n| --- | --- | --- | --- |\n| **league** | Evet | integer | Ligin ID'si |\n| **season** | Evet | integer (4 karakter, YYYY formatında) | Ligin sezonu |\n| **current** | Hayır | boolean (Değerler: \"true\" veya \"false\") | Sadece mevcut turu getirir |\n| **dates** | Hayır (Varsayılan: false) | boolean (Değerler: \"true\" veya \"false\") | Her turun tarihlerini yanıta ekler |\n| **timezone** | Hayır | string | **Timezone** endpoint'inden geçerli bir zaman dilimi |\n\n---\n\n### **Not:**\n\n- **Boolean parametreler**, \"true\" veya \"false\" değerleri alır.\n    \n- **Timezone**, desteklenen zaman dilimlerinden biri olmalıdır.\n    \n- Sezon bilgisi **4 haneli yıl (YYYY)** formatında girilmelidir."
+					},
+					"response": []
+				},
+				{
+					"name": "Fixtures",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/fixtures?live=all",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"fixtures"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "integer\nMaçın benzersiz ID'si\n\"id\" (örnek: 12345)",
+									"disabled": true
+								},
+								{
+									"key": "ids",
+									"value": "",
+									"description": "string\nEn fazla 20 maç ID'si (birden fazla ID için tire - ile ayrılır)\n\"id-id-id\" (örnek: 123-456-789)",
+									"disabled": true
+								},
+								{
+									"key": "live",
+									"value": "all",
+									"description": "Tüm canlı maçlar veya belirli liglerdeki canlı maçlar\n\"all\" veya \"ligID1-ligID2\""
+								},
+								{
+									"key": "date",
+									"value": null,
+									"description": "Belirli bir tarihteki maçlar\nYYYY-MM-DD (örnek: 2023-10-15)",
+									"disabled": true
+								},
+								{
+									"key": "league",
+									"value": null,
+									"description": "integer\nLig ID'si\nGeçerli bir lig ID'si",
+									"disabled": true
+								},
+								{
+									"key": "season",
+									"value": "2023",
+									"description": "integer\nLig sezonu\n4 haneli yıl (YYYY) (örnek: 2023)",
+									"disabled": true
+								},
+								{
+									"key": "team",
+									"value": null,
+									"description": "integer\nTakım ID'si\nGeçerli bir takım ID'si\n",
+									"disabled": true
+								},
+								{
+									"key": "last",
+									"value": null,
+									"description": "integer (≤ 2 karakter)\nTakımın son X maçı\n1 ile 99 arasında değer",
+									"disabled": true
+								},
+								{
+									"key": "next",
+									"value": null,
+									"description": "integer (≤ 2 karakter)\nTakımın sonraki X maçı\n1 ile 99 arasında değer",
+									"disabled": true
+								},
+								{
+									"key": "from",
+									"value": null,
+									"description": "string\nBaşlangıç tarihi (tarih aralığı)\nYYYY-MM-DD",
+									"disabled": true
+								},
+								{
+									"key": "to",
+									"value": null,
+									"description": "string\nBitiş tarihi (tarih aralığı)\nYYYY-MM-DD",
+									"disabled": true
+								},
+								{
+									"key": "round",
+									"value": null,
+									"description": "string\nMaçın tur bilgisi\nLig/kupa tur adı (örnek: \"Group Stage\")",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": null,
+									"description": "string\nMaçın durumu (kısa kod)\n\"NS\", \"FT\", \"NS-PST-FT\" (birden fazla durum için tire - ile ayrılır)",
+									"disabled": true
+								},
+								{
+									"key": "venue",
+									"value": null,
+									"description": "integer\nStadyum ID'si\nGeçerli bir stadyum ID'si",
+									"disabled": true
+								},
+								{
+									"key": "timezone",
+									"value": null,
+									"description": "string\nZaman dilimi\nTimezone endpoint'inden geçerli bir zaman dilimi (örnek: \"Europe/Istanbul\")",
+									"disabled": true
+								}
+							]
+						},
+						"description": "### **Maçlar (Fixtures)**\n\nTüm maç isteklerinde, maç listesini istediğiniz zaman diliminde (örneğin **\"Europe/London\"**) almak için **timezone** sorgu parametresini ekleyebilirsiniz.\n\nKullanılabilir zaman dilimlerinin listesini görmek için **timezone** endpoint'ini kullanmalısınız.\n\n---\n\n### **Mevcut Maç Durumları**\n\n| **Kısa** | **Uzun** | **Tür** | **Açıklama** |\n| --- | --- | --- | --- |\n| **TBD** | Time To Be Defined | Scheduled | Maç planlandı ancak tarih ve saat belli değil |\n| **NS** | Not Started | Scheduled | Maç başlamadı |\n| **1H** | First Half, Kick Off | In Play | İlk yarı devam ediyor |\n| **HT** | Halftime | In Play | Devre arası |\n| **2H** | Second Half, 2nd Half Started | In Play | İkinci yarı devam ediyor |\n| **ET** | Extra Time | In Play | Uzatma devreleri devam ediyor |\n| **BT** | Break Time | In Play | Uzatma devre arası |\n| **P** | Penalty In Progress | In Play | Penaltılar devam ediyor |\n| **SUSP** | Match Suspended | In Play | Hakem kararıyla durduruldu, başka bir güne ertelenebilir |\n| **INT** | Match Interrupted | In Play | Hakem kararıyla kesintiye uğradı, birkaç dakika içinde devam etmeli |\n| **FT** | Match Finished | Finished | Normal sürede tamamlandı |\n| **AET** | Match Finished | Finished | Uzatmalarda tamamlandı (penaltısız) |\n| **PEN** | Match Finished | Finished | Penaltılar sonucunda tamamlandı |\n| **PST** | Match Postponed | Postponed | Başka bir güne ertelendi, yeni tarih belli olduğunda durum \"Not Started\" olarak güncellenir |\n| **CANC** | Match Cancelled | Cancelled | İptal edildi, maç oynanmayacak |\n| **ABD** | Match Abandoned | Abandoned | Çeşitli nedenlerle yarıda kaldı (kötü hava, güvenlik, ışık sorunu, oyuncu/hakem eksikliği). Yeniden planlanabilir veya planlanmayabilir. |\n| **AWD** | Technical Loss | Not Played | Teknik yenilgi |\n| **WO** | WalkOver | Not Played | Rakibin çekilmesi veya hükmen galibiyet |\n| **LIVE** | In Progress | In Play | Çok nadir durumlarda kullanılır. Maçın devam ettiğini gösterir ancak devre veya geçen süre bilgisi yoktur |\n\n---\n\n### **Önemli Notlar:**\n\n- **TBD** durumundaki maçlar, tarih/saat henüz kesinleşmediği için yanlış bilgi içerebilir. Bu maçlar her gün kontrol edilir ve güncellenir. Aynı durum **PST** ve **CANC** durumları için de geçerlidir.\n    \n- **Maç ID'leri benzersizdir** ve asla değişmez.\n    \n- Tüm liglerde canlı skor (livescore) bulunmayabilir, sadece sonuç bilgisi olabilir. Bu durumda maç durumu **NS** olarak kalır ve maçtan sonraki dakika/saatlerde (en fazla 48 saat içinde) güncellenir.\n    \n- Veriler her **15 saniyede bir** güncellenir, ancak lige göre gerçek zamanlı veride gecikme olabilir.\n    \n\n---\n\n### **Güncelleme Sıklığı:**\n\nBu endpoint **her 15 saniyede bir** güncellenir.\n\n### **Önerilen Çağrı Sıklığı:**\n\n- **Devam eden maçlar** için: Dakikada **1 çağrı**\n    \n- **Diğer durumlarda (planlanmış/bitmiş maçlar):** Günde **1 çağrı**\n    \n\n---\n\n**Not:** Bazı liglerde veri güncellemelerinde gecikme olabilir.\n\n### **Sorgu Parametreleri**\n\n| **Parametre** | **Tip** | **Açıklama** | **Değer Formatı** |\n| --- | --- | --- | --- |\n| **id** | integer | Maçın benzersiz ID'si | `\"id\"` (örnek: `12345`) |\n| **ids** | string | En fazla **20 maç ID'si** (birden fazla ID için tire `-` ile ayrılır) | `\"id-id-id\"` (örnek: `123-456-789`) |\n| **live** | string | Tüm canlı maçlar veya belirli liglerdeki canlı maçlar | `\"all\"` veya `\"ligID1-ligID2\"` |\n| **date** | string | Belirli bir tarihteki maçlar | `YYYY-MM-DD` (örnek: `2023-10-15`) |\n| **league** | integer | Lig ID'si | Geçerli bir lig ID'si |\n| **season** | integer | Lig sezonu | `4 haneli yıl (YYYY)` (örnek: `2023`) |\n| **team** | integer | Takım ID'si | Geçerli bir takım ID'si |\n| **last** | integer (≤ 2 karakter) | Takımın son **X** maçı | `1` ile `99` arasında değer |\n| **next** | integer (≤ 2 karakter) | Takımın sonraki **X** maçı | `1` ile `99` arasında değer |\n| **from** | string | Başlangıç tarihi (tarih aralığı) | `YYYY-MM-DD` |\n| **to** | string | Bitiş tarihi (tarih aralığı) | `YYYY-MM-DD` |\n| **round** | string | Maçın tur bilgisi | Lig/kupa tur adı (örnek: `\"Group Stage\"`) |\n| **status** | string | Maçın durumu (kısa kod) | `\"NS\"`, `\"FT\"`, `\"NS-PST-FT\"` (birden fazla durum için tire `-` ile ayrılır) |\n| **venue** | integer | Stadyum ID'si | Geçerli bir stadyum ID'si |\n| **timezone** | string | Zaman dilimi | `Timezone` endpoint'inden geçerli bir zaman dilimi (örnek: `\"Europe/Istanbul\"`) |\n\n---\n\n### **Önemli Notlar:**\n\n- **`ids`** parametresi ile **en fazla 20 maç** sorgulanabilir.\n    \n- **`live=\"all\"`**, tüm canlı maçları getirir.\n    \n- **`last`** **ve** **`next`**, takımın son/gelecek maçlarını filtreler (örnek: `last=5` son 5 maçı getirir).\n    \n- **Tarih aralığı** için `from` ve `to` birlikte kullanılır.\n    \n- **`status`** parametresinde birden fazla durum sorgulamak için **tire (****`-`****)** kullanılır (örnek: `NS-FT-PEN`).\n    \n- **`timezone`**, maç saatlerini belirtilen zaman dilimine göre gösterir.\n    \n\n---\n\n**Örnek Kullanımlar:**\n\n- `?league=39&season=2023` → Premier League 2023 maçları.\n    \n- `?team=33&last=5` → ID'si 33 olan takımın son 5 maçı.\n    \n- `?date=2023-10-20&timezone=Europe/Istanbul` → 20 Ekim 2023 maçları (İstanbul saat diliminde).\n    \n- `?status=NS-FT&league=140` → ID'si 140 olan ligdeki \"başlamamış\" ve \"bitmiş\" maçlar."
+					},
+					"response": []
+				},
+				{
+					"name": "Head To Head",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/fixtures/headtohead?h2h",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"fixtures",
+								"headtohead"
+							],
+							"query": [
+								{
+									"key": "h2h",
+									"value": null,
+									"description": "string\nİki takımın ID'si (tire - ile ayrılır)"
+								},
+								{
+									"key": "league",
+									"value": null,
+									"description": "integer\nLig ID'si (belirli bir ligdeki karşılaşmalar için)",
+									"disabled": true
+								},
+								{
+									"key": "season",
+									"value": null,
+									"description": "integer\nSezon bilgisi (YYYY formatında)",
+									"disabled": true
+								},
+								{
+									"key": "last",
+									"value": null,
+									"description": "integer\nSon X karşılaşmayı getirir (örnek: 5)",
+									"disabled": true
+								},
+								{
+									"key": "date",
+									"value": null,
+									"description": "string\nBelirli bir tarihteki karşılaşmalar (YYYY-MM-DD)",
+									"disabled": true
+								},
+								{
+									"key": "venue",
+									"value": null,
+									"description": "integer\nStadyum ID'si (belirli bir sahada oynanan maçlar)",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": null,
+									"description": "string\nMaç durumu (örnek: FT, NS, PEN)",
+									"disabled": true
+								},
+								{
+									"key": "timezone",
+									"value": null,
+									"description": "string\nZaman dilimi (örnek: Europe/Istanbul)",
+									"disabled": true
+								}
+							]
+						},
+						"description": "### **Takımlar Arası Karşılaşmalar (Head to Head)**\n\nİki takım arasındaki geçmiş maçları ve istatistikleri getirir.\n\n**Güncelleme Sıklığı:** Bu endpoint **her 15 saniyede bir** güncellenir.\n\n**Önerilen Çağrı Sıklığı:**\n\n- **Devam eden maç varsa:** Dakikada **1 çağrı**\n    \n- **Devam eden maç yoksa:** Günde **1 çağrı**\n    \n\n---\n\n### **Sorgu Parametreleri**\n\n| **Parametre** | **Tip** | **Açıklama** | **Zorunlu Mu?** |\n| --- | --- | --- | --- |\n| **h2h** | string | İki takımın ID'si (tire `-` ile ayrılır) | **Evet** |\n| **league** | integer | Lig ID'si (belirli bir ligdeki karşılaşmalar için) | Hayır |\n| **season** | integer | Sezon bilgisi (YYYY formatında) | Hayır |\n| **last** | integer | Son X karşılaşmayı getirir (örnek: `5`) | Hayır |\n| **date** | string | Belirli bir tarihteki karşılaşmalar (YYYY-MM-DD) | Hayır |\n| **venue** | integer | Stadyum ID'si (belirli bir sahada oynanan maçlar) | Hayır |\n| **status** | string | Maç durumu (örnek: `FT`, `NS`, `PEN`) | Hayır |\n| **timezone** | string | Zaman dilimi (örnek: `Europe/Istanbul`) | Hayır |\n\n---\n\n### **Örnek Kullanımlar**\n\n1. **İki takımın tüm karşılaşmaları:**  \n    `?h2h=33-34` → ID'si 33 ve 34 olan takımların tüm maçları.\n    \n2. **Belirli bir ligdeki karşılaşmalar:**  \n    `?h2h=40-50&league=39` → Premier League'deki (ID:39) 40 ve 50 ID'li takımların maçları.\n    \n3. **Son 5 maç:**  \n    `?h2h=10-20&last=5` → 10 ve 20 ID'li takımların son 5 karşılaşması.\n    \n4. **2023 sezonundaki maçlar:**  \n    `?h2h=55-66&season=2023` → 2023'te oynanan maçlar.\n    \n5. **Belirli bir tarihteki maçlar:**  \n    `?h2h=12-24&date=2023-08-15` → 15 Ağustos 2023'teki maç.\n    \n6. **Sadece biten maçlar:**  \n    `?h2h=70-80&status=FT` → Sadece tamamlanmış maçlar.\n    \n\n---\n\n### **Dönen Yanıt İçeriği**\n\n- **Maç detayları** (tarih, skor, lig, tur)\n    \n- **İstatistikler** (galibiyet/beraberlik/yenilgi sayıları, gol ortalamaları)\n    \n- **Canlı maç varsa** güncel durum bilgisi\n    \n\n---\n\n**Not:**\n\n- **`h2h`** **parametresi zorunludur**, diğerleri filtreleme için opsiyoneldir.\n    \n- **`timezone`** parametresi, maç saatlerini istenen dilime göre ayarlar.\n    \n- Eğer iki takım hiç karşılaşmadıysa, boş bir dizi döner."
+					},
+					"response": []
+				},
+				{
+					"name": "Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/fixtures/statistics?fixture",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"fixtures",
+								"statistics"
+							],
+							"query": [
+								{
+									"key": "fixture",
+									"value": null,
+									"description": "integer\nMaçın benzersiz ID'si\nGeçerli maç ID'si"
+								},
+								{
+									"key": "team",
+									"value": null,
+									"description": "integer\nBelirli bir takımın istatistiklerini filtreler\nTakım ID'si",
+									"disabled": true
+								},
+								{
+									"key": "type",
+									"value": null,
+									"description": "string\nİstatistik türü (varsayılan: tüm istatistikler)\nÖzel istatistik tipi",
+									"disabled": true
+								},
+								{
+									"key": "half",
+									"value": null,
+									"description": "boolean\nDevre arası istatistiklerini ekler (2024 sezonundan itibaren)",
+									"disabled": true
+								}
+							]
+						},
+						"description": "### **İstatistikler**\n\nBir maçın istatistiklerini getirir.\n\n**Güncelleme Sıklığı:** Bu endpoint **her dakika** güncellenir.\n\n**Önerilen Çağrı Sıklığı:**\n\n- **Devam eden maç varsa:** Dakikada **1 çağrı**\n    \n- **Devam eden maç yoksa:** Günde **1 çağrı**\n    \n\n---\n\n### **Mevcut İstatistikler**\n\n| **İstatistik** | **Açıklama** |\n| --- | --- |\n| **Shots on Goal** | Kaleyi bulan şutlar |\n| **Shots off Goal** | Kaleyi ıskalayan şutlar |\n| **Shots insidebox** | Ceza sahası içinden şutlar |\n| **Shots outsidebox** | Ceza sahası dışından şutlar |\n| **Total Shots** | Toplam şut sayısı |\n| **Blocked Shots** | Bloke edilen şutlar |\n| **Fouls** | Yapılan fauller |\n| **Corner Kicks** | Köşe vuruşları |\n| **Offsides** | Ofsaytlar |\n| **Ball Possession** | Top hakimiyeti (%) |\n| **Yellow Cards** | Sarı kartlar |\n| **Red Cards** | Kırmızı kartlar |\n| **Goalkeeper Saves** | Kaleci kurtarışları |\n| **Total passes** | Toplam pas sayısı |\n| **Passes accurate** | İsabetli paslar |\n| **Passes %** | Pas isabet yüzdesi |\n\n---\n\nStartFragment\n\n### **İstatistikler Sorgu Parametreleri**\n\n| Parametre | Zorunlu | Tip | Açıklama | Değerler/Format |\n| --- | --- | --- | --- | --- |\n| **fixture** | Evet | integer | Maçın benzersiz ID'si | Geçerli maç ID'si |\n| team | Hayır | integer | Belirli bir takımın istatistiklerini filtreler | Takım ID'si |\n| type | Hayır | string | İstatistik türü (varsayılan: tüm istatistikler) | Özel istatistik tipi |\n| half | Hayır | boolean | Devre arası istatistiklerini ekler (2024 sezonundan itibaren) |  |\n\nEndFragment\n\n---\n\n### **Dönen Yanıt İçeriği**\n\n- **Takım bazında** tüm istatistikler\n    \n- **Detaylı şut/pas/kart** verileri\n    \n- **Canlı maçlarda** gerçek zamanlı güncellenen veriler\n    \n\n---\n\n**Not:**\n\n- **`fixture`** **parametresi zorunludur**, diğerleri opsiyonel filtreleme için kullanılır.\n    \n- Canlı maçlarda veriler **dakikada bir** yenilenir.\n    \n- Pas yüzdesi ve top hakimiyeti gibi veriler **% formatında** döner."
+					},
+					"response": []
+				},
+				{
+					"name": "Events",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/fixtures/events?fixture=",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"fixtures",
+								"events"
+							],
+							"query": [
+								{
+									"key": "fixture",
+									"value": "",
+									"description": "integer\nMaçın/fikstürün benzersiz ID'si"
+								},
+								{
+									"key": "team",
+									"value": null,
+									"description": "integer Takımın benzersiz ID'si",
+									"disabled": true
+								},
+								{
+									"key": "player",
+									"value": "integer",
+									"description": "Oyuncunun benzersiz ID'si",
+									"disabled": true
+								},
+								{
+									"key": "type",
+									"value": null,
+									"description": "string \nTür bilgisi (istatistik/kategori)",
+									"disabled": true
+								}
+							]
+						},
+						"description": "### **Maç Olayları (Events) Endpointi**\n\n#### **Temel Bilgiler**\n\n- **Amacı:** Bir maçta gerçekleşen tüm olayları (goller, kartlar, oyuncu değişiklikleri vb.) getirir\n    \n- **Güncelleme Sıklığı:** 15 saniyede bir güncellenir\n    \n- **Önerilen Çağrı Sıklığı:**\n    \n    - Devam eden maçlar için: Dakikada 1 çağrı\n        \n    - Tamamlanmış maçlar için: Günde 1 çağrı\n        \n\n#### **Desteklenen Olay Türleri**\n\n| Ana Kategori | Alt Türler | Açıklama |\n| --- | --- | --- |\n| **Goal** | Normal Goal, Own Goal, Penalty, Missed Penalty | Gol çeşitleri |\n| **Card** | Yellow Card, Red Card | Kartlar |\n| **Subst** | Substitution \\[1, 2, 3...\\] | Oyuncu değişiklikleri |\n| **Var** | Goal cancelled, Penalty confirmed | VAR kararları (2020-2021 sezonundan itibaren) |\n\n#### **Önemli Notlar**\n\n- VAR verileri sadece 2020-2021 sezonu ve sonrası için mevcuttur\n    \n- Oyuncu değişikliklerinde köşeli parantez içindeki numaralar değişiklik sırasını gösterir\n    \n- Zaman dilimi parametresi, olay saatlerini istenen dilime göre ayarlar\n    \n\nİşte sorgu parametrelerini tablo olarak gösteriyorum:\n\n| Parametre | Tür | Zorunlu | Açıklama |\n| --- | --- | --- | --- |\n| fixture | integer | Evet | Maçın/fikstürün benzersiz ID'si |\n| team | integer | Hayır | Takımın benzersiz ID'si |\n| player | integer | Hayır | Oyuncunun benzersiz ID'si |\n| type | string | Hayır | Tür bilgisi (istatistik/kategori) |\n\n### Not:\n\n- **fixture** parametresi zorunlu (required), diğerleri opsiyonel.\n    \n- **type** parametresi metin (string) formatında bir değer alır (örneğin: \"goals\", \"passes\", \"cards\" gibi)."
+					},
+					"response": []
+				},
+				{
+					"name": "Lineups",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/fixtures/lineups?fixture",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"fixtures",
+								"lineups"
+							],
+							"query": [
+								{
+									"key": "fixture",
+									"value": null,
+									"description": "integer\nİstenen maçın benzersiz ID'si. Örn: ?fixture=12345"
+								},
+								{
+									"key": "team",
+									"value": "",
+									"description": "integer\nFiltreleme için takım ID'si. Örn: &team=541 (Real Madrid)",
+									"disabled": true
+								},
+								{
+									"key": "player",
+									"value": null,
+									"description": "integer\nBelirli bir oyuncunun kadroda olup olmadığını kontrol için ID. Örn: &player=276 (Courtois)",
+									"disabled": true
+								},
+								{
+									"key": "type",
+									"value": null,
+									"description": "string\nÖzel veri türü filtresi. Örn: &type=formation (sadece diziliş bilgisi)",
+									"disabled": true
+								}
+							]
+						},
+						"description": "### **Lineups (Kadrolar)**\n\nBir maçın başlangıç kadrosunu ve yedek oyuncularını getirir.\n\n#### **Bilgi:**\n\n- Kadro bilgileri, maç başlamadan **20-40 dakika önce** açıklanır (eğer lig bu özelliği destekliyorsa).\n    \n- Liglerin kadro bilgisi yayınlayıp yayınlamadığını kontrol etmek için `leagues` endpoint'ini ve `coverage` alanını kullanabilirsiniz.\n    \n- Bazı küçük liglerde kadro bilgisi maç öncesi **açıklanmayabilir**.\n    \n\n---\n\n### **Mevcut Veriler:**\n\n| Veri | Açıklama |\n| --- | --- |\n| **Formation** | Takımın oyun dizilişi (ör: \"4-3-3\") |\n| **Coach** | Teknik direktör bilgisi |\n| **Start XI** | İlk 11 oyuncu listesi |\n| **Substitutes** | Yedek oyuncular |\n| **Players' positions (X:Y)** | Oyuncuların pozisyonları (grid üzerinde) |\n\n#### **Oyuncu Pozisyonları (X:Y) Sistemi:**\n\n- **X (Satır):** Kaleye en yakın oyuncu **X=1** ile başlar, her satır ilerledikçe artar.\n    \n- **Y (Sütun):** Sol taraftan sağa doğru artar (örneğin sol bek **Y=1**, sağ bek **Y=2** gibi).\n    \n\n> ⚠ **Yeni Özellik Uyarısı:** Bazı düzensizlikler olabilir, bunları [Public Roadmap](https://example.com/roadmap) üzerinden bildirebilirsiniz. \n  \n\n---\n\n### **Lineups (Kadrolar) Endpoint - Sorgu Parametreleri Tablosu**\n\n| Parametre | Tür | Zorunlu | Açıklama |\n| --- | --- | --- | --- |\n| `fixture` | integer | **Evet** | İstenen maçın benzersiz ID'si. Örn: `?fixture=12345` |\n| `team` | integer | Hayır | Filtreleme için takım ID'si. Örn: `&team=541` (Real Madrid) |\n| `player` | integer | Hayır | Belirli bir oyuncunun kadroda olup olmadığını kontrol için ID. Örn: `&player=276` (Courtois) |\n| `type` | string | Hayır | Özel veri türü filtresi. Örn: `&type=formation` (sadece diziliş bilgisi) |\n\n---\n\n### **Önemli Kurallar:**\n\n1. **`fixture`** **parametresi her zaman zorunludur.**\n    \n2. Diğer parametreler **isteğe bağlı** olarak kombinlenebilir:\n    \n    - `team` + `player`: Bir takımda belirli bir oyuncu.\n        \n    - `type`: Sadece teknik direktör veya diziliş gibi spesifik veri.\n        \n3. **Grid pozisyonları** (X:Y) yalnızca ilk 11 oyuncuları için mevcuttur.\n    \n\n### **Güncelleme Sıklığı:**\n\n- **15 dakikada bir** güncellenir.\n    \n\n### **Önerilen Çağrı Sıklığı:**\n\n- **Maç devam ediyorsa:** 15 dakikada 1 çağrı.\n    \n- **Maç başlamamış/bitmişse:** Günde 1 çağrı yeterli."
+					},
+					"response": []
+				},
+				{
+					"name": "Players statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/fixtures/players?fixture",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"fixtures",
+								"players"
+							],
+							"query": [
+								{
+									"key": "fixture",
+									"value": null,
+									"description": "Integer\nİstatistikleri alınacak karşılaşmanın ID’si"
+								},
+								{
+									"key": "team",
+									"value": null,
+									"description": "Integer\nBelirli bir takıma ait oyuncu istatistiklerini filtrelemek için takım ID’si",
+									"disabled": true
+								}
+							]
+						},
+						"description": "StartFragment\n\nAnladım! İşte sadece açıklama, güncelleme sıklığı ve önerilen çağrı sıklığı içeren sade ama teknik dökümantasyon formatında hazırlanmış versiyonu:\n\n---\n\n## 📊 Oyuncu İstatistikleri\n\n### Açıklama\n\nBu uç nokta, belirli bir karşılaşmadaki oyunculara ait detaylı istatistiksel verileri sağlar. Oyuncu performans analizleri, canlı maç takibi ve geçmiş maç değerlendirmeleri için kullanılabilir.\n\n---\n\n### 🔁 Güncelleme Sıklığı\n\n- Bu uç nokta **her dakika** güncellenmektedir.\n    \n    Canlı maçlardaki gelişmeler (gol, kart, oyuncu değişikliği vb.) en kısa sürede yansıtılır.\n    \n\n---\n\n### 📅 Önerilen Çağrı Sıklığı\n\n- **Devam eden karşılaşmalar**: Dakikada 1 çağrı\n    \n- **Tamamlanmış veya başlamamış karşılaşmalar**: Günde 1 çağrı\n    \n\nBu öneriler, veri tazeliği ile sistem kaynaklarının verimli kullanımı arasında denge sağlamak amacıyla belirlenmiştir.\n\n---\n\n### 🔍 Sorgu Parametreleri\n\n| Parametre | Zorunlu | Tür | Açıklama |\n| --- | --- | --- | --- |\n| `fixture` | Evet | Integer | İstatistikleri alınacak karşılaşmanın ID’si |\n| `team` | Hayır | Integer | Belirli bir takıma ait oyuncu istatistiklerini filtrelemek için takım ID’si |"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Injuries",
+			"item": [
+				{
+					"name": "Injuries",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/injuries",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"injuries"
+							],
+							"query": [
+								{
+									"key": "league",
+									"value": null,
+									"description": "Integer\nLig ID’si",
+									"disabled": true
+								},
+								{
+									"key": "season",
+									"value": null,
+									"description": "Integer (YYYY)\nLig sezonu. league, team, veya player parametreleriyle birlikte kullanılması zorunludur.",
+									"disabled": true
+								},
+								{
+									"key": "fixture",
+									"value": null,
+									"description": "Integer Karşılaşma ID’si",
+									"disabled": true
+								},
+								{
+									"key": "team",
+									"value": null,
+									"description": "IntegerTakım ID’si",
+									"disabled": true
+								},
+								{
+									"key": "player",
+									"value": null,
+									"description": "Integer Oyuncu ID’si",
+									"disabled": true
+								},
+								{
+									"key": "date",
+									"value": null,
+									"description": "String (YYYY-MM-DD) \nGeçerli bir tarih",
+									"disabled": true
+								},
+								{
+									"key": "ids",
+									"value": null,
+									"description": "String (Maks. 20 fixture ID)\nBir veya birden fazla karşılaşma ID’si, \"id-id-id\" formatında",
+									"disabled": true
+								},
+								{
+									"key": "timezone",
+									"value": null,
+									"description": "String\nGeçerli bir saat dilimi (Timezone uç noktasından alınabilir)",
+									"disabled": true
+								}
+							]
+						},
+						"description": "## 🚑 Sakatlıklar ve Kadro Dışı Oyuncular\n\n### Açıklama\n\nBu uç nokta, belirli nedenlerle (örneğin sakatlık, kart cezası, hastalık) maç kadrosunda yer almayacak oyuncuların listesini sağlar.\n\nYeni bir uç nokta olduğundan, veriler yalnızca **Nisan 2021** itibarıyla mevcuttur.\n\n---\n\n### 📂 Bilgi Türleri\n\n- **Missing Fixture**: Oyuncu, karşılaşmada kesin olarak forma giymeyecek.\n    \n- **Questionable**: Oyuncunun durumu netleşmemiştir; oynama ihtimali vardır.\n    \n\n**Not:** Kullanım örnekleri ve senaryolar için \"Request samples > Use Cases\" kısmına başvurabilirsiniz.\n\n---\n\n### 📥 Parametre Kullanımı\n\nBu uç noktadaki tüm parametreler birlikte kullanılabilir.\n\nAncak, **en az bir parametrenin girilmesi zorunludur.**\n\n---\n\n### 🔁 Güncelleme Sıklığı\n\n- Bu uç nokta **her 4 saatte bir** güncellenmektedir.\n    \n\n---\n\n### 📅 Önerilen Çağrı Sıklığı\n\n- **Günde 1 çağrı** önerilir.\n    \n\n---\n\n### 🔍 Sorgu Parametreleri\n\n| Parametre | Tür | Zorunlu | Açıklama |\n| --- | --- | --- | --- |\n| `league` | Integer | Hayır | Lig ID’si |\n| `season` | Integer (YYYY) | Hayır | Lig sezonu. `league`, `team`, veya `player` parametreleriyle birlikte kullanılması zorunludur. |\n| `fixture` | Integer | Hayır | Karşılaşma ID’si |\n| `team` | Integer | Hayır | Takım ID’si |\n| `player` | Integer | Hayır | Oyuncu ID’si |\n| `date` | String (YYYY-MM-DD) | Hayır | Geçerli bir tarih |\n| `ids` | String (Maks. 20 fixture ID) | Hayır | Bir veya birden fazla karşılaşma ID’si, `\"id-id-id\"` formatında |\n| `timezone` | String | Hayır | Geçerli bir saat dilimi (Timezone uç noktasından alınabilir) |\n\n---"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Predictions",
+			"item": [
+				{
+					"name": "Predictions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/predictions?fixture",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"predictions"
+							],
+							"query": [
+								{
+									"key": "fixture",
+									"value": null,
+									"description": "Integer \nTahmini alınacak karşılaşmanın ID’si"
+								}
+							]
+						},
+						"description": "## 🔮 Maç Tahminleri\n\n### Açıklama\n\nBu uç nokta, belirli bir karşılaşmaya ilişkin çeşitli algoritmalara dayalı tahminleri sağlar.\n\nKullanılan yöntemler arasında **Poisson dağılımı**, **takım istatistiklerinin karşılaştırılması**, **son maç performansları**, **oyuncu katkıları** gibi unsurlar bulunmaktadır.\n\n⚠️ **Not:** Bu tahminlerde **bahis oranları kullanılmaz.**\n\nUç nokta ayrıca, takımlar arasında bazı karşılaştırmalı istatistiksel bilgiler de sunar.\n\n---\n\n### 🔁 Güncelleme Sıklığı\n\n- Bu uç nokta **saatte 1 kez** güncellenmektedir.\n    \n\n---\n\n### 📅 Önerilen Çağrı Sıklığı\n\n- **Devam eden karşılaşmalar**: Saatte 1 çağrı\n    \n- **Diğer durumlar**: Günde 1 çağrı\n    \n\n---\n\n### 📈 Sağlanan Tahmin Türleri\n\n| Tahmin Türü | Açıklama |\n| --- | --- |\n| **Maç Galibi** | Maçı kazanma ihtimali olan takımın ID’si |\n| **Kazanç veya Beraberlik** | Belirtilen takımın maçı kazanma veya berabere kalma ihtimali varsa `True` döner |\n| **Alt / Üst Gol Tahminleri** | \\-1.5 / -2.5 / -3.5 / -4.5 / +1.5 / +2.5 / +3.5 / +4.5 şeklinde ifade edilir. |\n| **Ev Sahibi Gol Tahminleri** | Ev sahibi takım için gol sayısı tahminleri (örneğin -2.5: 2’den az gol) |\n| **Deplasman Gol Tahminleri** | Deplasman takımı için gol tahminleri |\n| **Tavsiye (Advice)** | Örnek: \"Deportivo Santani ya da beraberlik ve -3.5 gol\" gibi özet öneriler |\n\n🔍 _Örnek: \"-1.5\", karşılaşmada maksimum 1 gol olacağı anlamına gelir (1.5 gol altı)._\n\n---\n\nİstersen bu uç nokta için de parametre tablosunu ve kullanım örneklerini dahil etmeden sade ve odaklı şekilde dokümantasyon hazırlamaya devam edebilirim. Diğer uç noktaları da bir araya getirip tam bir API dökümanı olarak toparlamamı ister misin?\n\n### 🔍 Sorgu Parametreleri\n\n| Parametre | Tür | Zorunlu | Açıklama |\n| --- | --- | --- | --- |\n| `fixture` | Integer | Evet | Tahmini alınacak karşılaşmanın ID’si |\n\n---"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Coachs",
+			"item": [
+				{
+					"name": "Coachs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/coachs",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"coachs"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "integer\nAntrenörün benzersiz ID’si",
+									"disabled": true
+								},
+								{
+									"key": "team",
+									"value": "",
+									"description": "integer\nAntrenörün görev yaptığı takımın ID’si",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "",
+									"description": "Antrenörün adıyla arama yapılır\nEn az 3 karakter olmalı",
+									"disabled": true
+								}
+							]
+						},
+						"description": "StartFragment\n\n## 🧑‍🏫 **Antrenörler Endpoint’i (Coachs)**\n\nBu endpoint, tüm antrenörler hakkında detaylı bilgileri ve kariyer geçmişlerini getirir.\n\n---\n\n### 🖼️ **Antrenör Fotoğrafı**\n\nBir antrenörün fotoğrafını almak için aşağıdaki URL yapısını kullanabilirsiniz\n\nÖrnek: `https://media.api-sports.io/football/coachs/123.png`\n\n---\n\n### 🔄 **Güncelleme Sıklığı**\n\n- Bu endpoint **her gün** otomatik olarak güncellenmektedir.\n    \n\n---\n\n### 📊 **Önerilen Çağrı Sıklığı**\n\n- Günde **1 kez** sorgulama yapılması tavsiye edilir.\n    \n\n---\n\n## 🔍 **Sorgu Parametreleri (Query Parameters)**\n\n| Parametre | Tip | Açıklama | Zorunlu | Kurallar |\n| --- | --- | --- | --- | --- |\n| `id` | integer | Antrenörün benzersiz ID’si | Hayır | \\- |\n| `team` | integer | Antrenörün görev yaptığı takımın ID’si | Hayır | \\- |\n| `search` | string | Antrenörün adıyla arama yapılır | Hayır | En az 3 karakter olmalı |"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Players",
+			"item": [
+				{
+					"name": "Seasons",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/players/seasons",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"players",
+								"seasons"
+							],
+							"query": [
+								{
+									"key": "player",
+									"value": null,
+									"description": "integer\nOyuncunun benzersiz ID numarası",
+									"disabled": true
+								}
+							]
+						},
+						"description": "## 📅 **Sezonlar Endpoint’i (Seasons)**\n\nBu endpoint, **oyuncu istatistikleri** için kullanılabilir tüm sezonların listesini getirir.\n\n---\n\n### 🔄 **Güncelleme Sıklığı**\n\n- Bu endpoint **her gün** güncellenmektedir.\n    \n\n---\n\n### 📊 **Önerilen Çağrı Sıklığı**\n\n- Günde **1 kez** sorgulama yapılması önerilir.\n    \n\n---\n\n## 🔍 **Sorgu Parametreleri (Query Parameters)**\n\n| Parametre | Tip | Açıklama | Zorunlu |\n| --- | --- | --- | --- |\n| `player` | integer | Oyuncunun benzersiz ID numarası | Hayır |\n\n> &lt;p &gt;Bu parametre belirtilirse, sadece ilgili oyuncunun istatistiği bulunan sezonlar döner.&lt;/p&gt;"
+					},
+					"response": []
+				},
+				{
+					"name": "Profiles",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/players/profiles",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"players",
+								"profiles"
+							],
+							"query": [
+								{
+									"key": "player",
+									"value": "",
+									"description": "integer\nOyuncunun benzersiz ID numarası",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": null,
+									"description": "string\nEn az 3 karakterlik soyadı ile oyuncu aramak için kullanılır.",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": null,
+									"description": "integer\nSayfalama için kullanılır. Varsayılan olarak 1. sayfa döner.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "## 🎯 Endpoint: Tüm Oyuncuları Listele\n\nBu uç nokta, sistemde mevcut olan tüm futbolcuların listesini döndürür.\n\n---\n\n### 🧾 Açıklama\n\n- Bu endpoint, tüm oyuncuların listesini döner.\n    \n- Parametre olmadan da çağrılabilir, ancak sonuçlar sayfalama sistemiyle sunulduğu için tüm oyunculara ulaşmak için `page` parametresiyle gezilmelidir.\n    \n- Oyuncuların fotoğraflarına erişmek için her oyuncunun ID’si kullanılarak aşağıdaki formatta bir URL çağrısı yapılabilir:\n    \n\n```\nhttps://media.api-sports.io/football/players/{player_id}.png\n\n ```\n\n---\n\n### 🔄 Sayfalama (Pagination)\n\n- **Varsayılan Sonuç Sayısı:** 250 sonuç/sayfa\n    \n- **Parametre:** `page`\n    \n- **Kullanımı:** Sayfalar arasında gezinmek için `page` parametresi belirtilmelidir.\n    \n- **Varsayılan Değer:** `1`\n    \n\n---\n\n### 🔁 Güncelleme Sıklığı\n\n- Bu endpoint haftada birkaç kez güncellenmektedir.\n    \n\n---\n\n### ✅ Önerilen Çağrı Sıklığı\n\n- Sunucu yükünü azaltmak adına haftada 1 kez sorgu yapılması tavsiye edilir.\n    \n\n---\n\n### 🔍 Sorgu Parametreleri\n\n| Parametre | Tür | Zorunlu | Açıklama |\n| --- | --- | --- | --- |\n| `player` | integer | Hayır | Belirli bir oyuncunun ID’si. Sadece o oyuncuya ait veri döner. |\n| `search` | string | Hayır | En az 3 karakterlik soyadı ile oyuncu aramak için kullanılır. |\n| `page` | integer | Hayır | Sayfalama için kullanılır. Varsayılan olarak 1. sayfa döner. |\n\n---\n\n### 📸 Oyuncu Fotoğrafı\n\nBir oyuncunun fotoğrafını almak için şu URL formatını kullanın:\n\n```\nhttps://media.api-sports.io/football/players/{player_id}.png\n\n ```\n\n---\n\nHerhangi bir geliştirici bu dokümantasyonu kullanarak doğru ve verimli şekilde API’yi entegre edebilir. Eğer istersen bu dokümantasyonu Markdown, HTML veya PDF formatında da oluşturabilirim."
+					},
+					"response": []
+				},
+				{
+					"name": "Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/players?team=33&page=2&season=2021",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"players"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "integer\nBelirli bir oyuncunun ID’si.",
+									"disabled": true
+								},
+								{
+									"key": "team",
+									"value": "33",
+									"description": "integer\n\n\n\n\n\n\nTakım ID’si. Oyuncu istatistiklerini takım özelinde filtreler."
+								},
+								{
+									"key": "league",
+									"value": null,
+									"description": "integer\nLig ID’si. Sezon ve takım ile birlikte daha kesin sonuçlar alınabilir.",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": null,
+									"description": "string\nEn az 4 karakter. Oyuncunun ismi. Lig veya Takım parametresi gerektirir.",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"description": "integer\nSayfalama için kullanılır. Varsayılan değer: 1.\n"
+								},
+								{
+									"key": "season",
+									"value": "2021"
+								}
+							]
+						},
+						"description": "## 📊 Endpoint: Oyuncu İstatistiklerini Getir\n\nBu uç nokta, profili ve istatistik verisi mevcut olan oyuncuların listesini döner. Oyuncunun aynı sezon içinde birden fazla takımda forma giymesi durumunda (örneğin transfer sonucu), birden fazla takım için istatistikleri olabilir.\n\n---\n\n### 📥 İstek (Request)\n\n**HTTP Yöntemi:** `GET`  \n**URL:** `/players/statistics`  \n**Base URL Örneği:** `https://api-sports.io/football/players/statistics`\n\n---\n\n### 🧾 Açıklama\n\n- Oyuncu istatistikleri, `takım ID`, `lig ID` ve `sezon` bilgilerine göre hesaplanır.\n    \n- Oyuncuların benzersiz bir `id`’si vardır ve bu ID, tüm takımlar arasında sabittir.\n    \n- Bir oyuncunun fotoğrafına erişmek için şu URL formatı kullanılır:\n    \n\n```\nhttps://media.api-sports.io/football/players/{player_id}.png\n\n ```\n\n- Oyuncunun **rating** (puan) bilgisi de bu uç noktada yer alır. Bu puanlar, oyuncunun pozisyonuna (örneğin forvet, defans, kaleci) göre performansı değerlendirilerek hesaplanır.\n    \n- Bu değerlendirmede çeşitli algoritmalar kullanılır ve oyuncunun pozisyonuna göre puanlama yapılır.\n    \n\n---\n\n### 📅 Ek Uç Noktalar\n\n- **Sezon Listesi Almak İçin:**  \n    `/players/seasons`\n    \n- **Takımların Kadrolarını Almak İçin:**  \n    `/players/squads`\n    \n\n---\n\n### 🔄 Sayfalama (Pagination)\n\n- **Sonuç Sayısı:** Sayfa başına 20 sonuç\n    \n- **Parametre:** `page`\n    \n- **Varsayılan:** 1\n    \n\n---\n\n### 🔁 Güncelleme Sıklığı\n\n- Bu uç nokta haftada birkaç kez güncellenmektedir.\n    \n\n---\n\n### ✅ Önerilen Çağrı Sıklığı\n\n- Günde 1 kez çağrılması önerilir.\n    \n\n---\n\n### 📘 Eğitim Başlıkları\n\n- **Nasıl yapılır:** Bir lig ID’si ile tüm takımlar ve oyuncular nasıl alınır?\n    \n\n---\n\n### 🔍 Sorgu Parametreleri\n\n| Parametre | Tür | Zorunlu | Açıklama |\n| --- | --- | --- | --- |\n| `id` | integer | Hayır | Belirli bir oyuncunun ID’si. |\n| `team` | integer | Hayır | Takım ID’si. Oyuncu istatistiklerini takım özelinde filtreler. |\n| `league` | integer | Hayır | Lig ID’si. Sezon ve takım ile birlikte daha kesin sonuçlar alınabilir. |\n| `season` | integer | Evet | Dört haneli yıl formatında sezon (`YYYY`). ID, League veya Team ile birlikte gerekir. |\n| `search` | string | Hayır | En az 4 karakter. Oyuncunun ismi. Lig veya Takım parametresi gerektirir. |\n| `page` | integer | Hayır | Sayfalama için kullanılır. Varsayılan değer: `1`. |\n\n---\n\nBu dökümantasyon, API’nin `players/statistics` uç noktasını Türkçe ve yapılandırılmış biçimde anlamanızı sağlar. İstersen bunu Markdown, PDF ya da HTML formatında da hazırlayabilirim."
+					},
+					"response": []
+				},
+				{
+					"name": "Squads",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/players/squads",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"players",
+								"squads"
+							],
+							"query": [
+								{
+									"key": "team",
+									"value": "",
+									"description": "integer\n\n\n\n\n\n\nTakımın kimlik numarası",
+									"disabled": true
+								},
+								{
+									"key": "player",
+									"value": null,
+									"description": "integer\nOyuncunun kimlik numarası",
+									"disabled": true
+								}
+							]
+						},
+						"description": "## 🧑‍🤝‍🧑 Kadrolar (Squads)\n\nBu uç nokta, parametreye bağlı olarak farklı bilgiler döner:\n\n- 📌 **`team`** **(takım)** parametresi kullanıldığında, ilgili takımın mevcut **kadrosu** döner.\n    \n- 🎯 **`player`** **(oyuncu)** parametresi kullanıldığında, ilgili oyuncunun yer aldığı **takımlar** listelenir.\n    \n\n➡️ Gönderilen parametre ne olursa olsun, **dönüş formatı** aynıdır.\n\n---\n\n### ⚠️ Gereklilikler\n\n🔹 Bu uç noktanın kullanılabilmesi için **en az bir parametre** (`team` veya `player`) sağlanmalıdır.\n\n---\n\n### 🔄 Güncellenme Sıklığı\n\n🗓️ Bu uç nokta, **haftada birkaç kez** güncellenmektedir.\n\n---\n\n### 📅 Önerilen Çağrı Sıklığı\n\n✅ Bu uç nokta için **haftada 1 kez çağrı** yapılması önerilir.\n\n---\n\n### 🧾 Sorgu Parametreleri\n\n| 🔑 Parametre | 🧮 Tür | 📘 Açıklama |\n| --- | --- | --- |\n| `team` | integer | Takımın kimlik numarası |\n| `player` | integer | Oyuncunun kimlik numarası |\n\n---\n\nİstersen bu formatı PDF, HTML ya da başka bir belge türüne dönüştürebilirim. Yardımcı olayım mı?"
+					},
+					"response": []
+				},
+				{
+					"name": "Team",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/players/teams",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"players",
+								"teams"
+							],
+							"query": [
+								{
+									"key": "player",
+									"value": null,
+									"disabled": true
+								}
+							]
+						},
+						"description": "StartFragment\n\nİşte başlıklarına ikonlar eklenmiş ve Türkçeleştirilmiş şekilde “Teams” uç noktasının dokümantasyonu:\n\n---\n\n## 🏟️ Takımlar (Teams)\n\nBu uç nokta, bir oyuncunun kariyeri boyunca **oynadığı takımların ve sezonların** listesini döner.\n\n➡️ Bu bilgiler, yalnızca oyuncuya ait veriler üzerinden getirilir.\n\n---\n\n### ⚠️ Gereklilikler\n\n🔹 Bu uç noktanın çalışabilmesi için **en az bir parametre gereklidir**.  \n  \n🔸 `player` parametresi **zorunludur**.\n\n---\n\n### 🔄 Güncellenme Sıklığı\n\n🗓️ Bu uç nokta **haftada birkaç kez** güncellenmektedir.\n\n---\n\n### 📅 Önerilen Çağrı Sıklığı\n\n✅ Bu uç nokta için **haftada 1 kez çağrı** yapılması önerilir.\n\n---\n\n### 🧾 Sorgu Parametreleri\n\n| 🔑 Parametre | 🧮 Tür | 📘 Açıklama |\n| --- | --- | --- |\n| `player` | integer | Oyuncunun kimlik numarası (**zorunlu**) |\n\n---\n\nİstersen bu dokümantasyonu diğer uç noktalarla birleştirerek tek bir belge hâline getirebilirim. Nasıl ilerleyelim?\n\nEndFragment"
+					},
+					"response": []
+				},
+				{
+					"name": "TopScorers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/players/topscorers?league=41&season=2021",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"players",
+								"topscorers"
+							],
+							"query": [
+								{
+									"key": "league",
+									"value": "41",
+									"description": "integer\nLigin kimlik numarası (zorunlu)"
+								},
+								{
+									"key": "season",
+									"value": "2021",
+									"description": "integer\nLigin sezon yılı – 4 haneli (YYYY) (zorunlu)"
+								}
+							]
+						},
+						"description": "## 🥇 En Golcü Oyuncular (Top Scorers)\n\nBu uç nokta, bir **lig** veya **kupa** için en iyi 20 oyuncuyu döner.\n\n---\n\n### 📊 Sıralama Nasıl Hesaplanır?\n\nOyuncular aşağıdaki öncelik sırasına göre sıralanır:\n\n1 En fazla gol atan oyuncu\n\n2 En az penaltı golü atan oyuncu\n\n3 En fazla asist yapan oyuncu\n\n4 Gollerini en fazla farklı maçta atan oyuncu\n\n5 En az dakika oynayan oyuncu\n\n6 Takımı lig sıralamasında daha üstte olan oyuncu\n\n7 En az kırmızı kart gören oyuncu\n\n8 En az sarı kart gören oyuncu\n\n---\n\n### ⚠️ Gereklilikler\n\n🔹 Bu uç noktanın çalışabilmesi için **iki zorunlu parametre** sağlanmalıdır: `league` ve `season`.\n\n---\n\n### 🔄 Güncellenme Sıklığı\n\n🗓️ Bu uç nokta **haftada birkaç kez** güncellenmektedir.\n\n---\n\n### 📅 Önerilen Çağrı Sıklığı\n\n✅ **Günde 1 kez çağrı** yapılması önerilir.\n\n---\n\n### 🧾 Sorgu Parametreleri\n\n| 🔑 Parametre | 🧮 Tür | 📘 Açıklama |\n| --- | --- | --- |\n| `league` | integer | Ligin kimlik numarası (**zorunlu**) |\n| `season` | integer | Ligin sezon yılı – 4 haneli (`YYYY`) (**zorunlu**) |\n\n---\n\nİstersen bu dokümantasyonu PDF, Markdown ya da API kılavuzu formatında dışa aktarabilirim. Format tercihin var mı?"
+					},
+					"response": []
+				},
+				{
+					"name": "Top Assists",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/players/topassists?league=-1&season",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"players",
+								"topassists"
+							],
+							"query": [
+								{
+									"key": "league",
+									"value": "-1",
+									"description": "Zorunlu ✅\ninteger\nLigin veya kupanın ID’si"
+								},
+								{
+									"key": "season",
+									"value": null,
+									"description": "Zorunlu ✅\ninteger (YYYY formatında 4 hane)\nİlgili sezon yılı (örneğin: 2024)"
+								}
+							]
+						},
+						"description": "# 📊 **En İyi Asist Yapan Oyuncular – Endpoint Dökümantasyonu**\n\n## 🔍 Açıklama\n\nBu endpoint, belirli bir **lig** veya **kupa** ve sezon için **en çok asist yapan 20 oyuncuyu** getirir.\n\n---\n\n## 🧮 **Sıralama Kriterleri**\n\nOyuncular aşağıdaki çok kademeli sıralama kurallarına göre listelenir:\n\n1. ✅ **Toplam Asist Sayısı**: En fazla gol pası (asist) yapan oyuncular önceliklidir.\n    \n2. ⚽ **Gol Sayısı**: Asist sayısı eşit olan oyuncular arasında daha fazla gol atan üst sırada yer alır.\n    \n3. ❌ **Penaltı Golü Sayısı**: Daha az penaltı golü atan oyuncular öne çıkar.\n    \n4. 📅 **Asist Yapılan Maç Sayısı**: Daha fazla maçta asist yapan oyuncular üst sıralarda olur.\n    \n5. ⏱️ **Oynanan Dakika**: Aynı başarıyı daha az sürede sağlayan oyuncular daha üstte sıralanır.\n    \n6. 🟥 **Kırmızı Kart Sayısı**: Daha az kırmızı kart gören oyuncular tercih edilir.\n    \n7. 🟨 **Sarı Kart Sayısı**: Daha az sarı kart gören oyuncular üstte yer alır.\n    \n\n---\n\n## 🔁 **Güncellenme Sıklığı**\n\n- **Haftada birkaç kez** güncellenir\n    \n- En son maç istatistiklerini yansıtır\n    \n\n---\n\n## 📞 **Önerilen Kullanım Sıklığı**\n\n- **Günde 1 kez** çağrı yapılması önerilir\n    \n\n---\n\n## 🔍 Sorgu Parametreleri\n\n| Parametre | Zorunlu | Tip | Açıklama |\n| --- | --- | --- | --- |\n| `league` | ✅ | integer | Ligin veya kupanın ID’si |\n| `season` | ✅ | integer (YYYY formatında 4 hane) | İlgili sezon yılı (örneğin: `2024`) |\n\n---\n\nİstersen bu dökümantasyonu Markdown, Notion ya da PDF formatına da uygun şekilde hazırlayabilirim. Nasıl devam edelim?"
+					},
+					"response": []
+				},
+				{
+					"name": "Top Yellow Cards",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/players/topyellowcards?league&season=2024",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"players",
+								"topyellowcards"
+							],
+							"query": [
+								{
+									"key": "league",
+									"value": null,
+									"description": "Zorunlu ✅\ninteger\nLigin veya kupanın ID’si"
+								},
+								{
+									"key": "season",
+									"value": "2024",
+									"description": "Zorunlu ✅\ninteger (YYYY formatında 4 hane)\nİlgili sezon yılı (örnek: 2024)\n"
+								}
+							]
+						},
+						"description": "# 🟨 **En Çok Sarı Kart Gören Oyuncular – Endpoint Dökümantasyonu**\n\n## 🔍 Açıklama\n\nBu endpoint, belirli bir **lig** veya **kupa** ve sezon için **en çok sarı kart gören 20 oyuncuyu** listeler.\n\n---\n\n## 🧮 **Sıralama Kriterleri**\n\nOyuncular aşağıdaki kurallara göre sıralanır:\n\n1. 🟨 **Sarı Kart Sayısı**: En fazla sarı kart gören oyuncular önceliklidir.\n    \n2. 🟥 **Kırmızı Kart Sayısı**: Sarı kart sayısı eşit olan oyuncular arasında daha fazla kırmızı kart gören üst sırada yer alır.\n    \n3. 🤝 **Asist Yapılan Maç Sayısı**: Daha fazla maçta asist yapan oyuncular daha üstte yer alır.\n    \n4. ⏱️ **Oynanan Dakika**: Aynı başarıyı daha az sürede sağlayan oyuncular üst sıralarda gösterilir.\n    \n\n---\n\n## 🔁 **Güncellenme Sıklığı**\n\n- **Haftada birkaç kez** güncellenir\n    \n- Son maç verilerini içerir\n    \n\n---\n\n## 📞 **Önerilen Kullanım Sıklığı**\n\n- **Günde 1 kez** çağrı yapılması tavsiye edilir\n    \n\n---\n\n## 🔍 Sorgu Parametreleri\n\n| Parametre | Zorunlu | Tip | Açıklama |\n| --- | --- | --- | --- |\n| `league` | ✅ | integer | Ligin veya kupanın ID’si |\n| `season` | ✅ | integer (YYYY formatında 4 hane) | İlgili sezon yılı (örnek: `2024`) |\n\n---"
+					},
+					"response": []
+				},
+				{
+					"name": "Top Red Cards",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/players/topredcards?league=&season=",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"players",
+								"topredcards"
+							],
+							"query": [
+								{
+									"key": "league",
+									"value": "",
+									"description": "Zorunlu ✅\ninteger\nLigin veya kupanın ID’si\n"
+								},
+								{
+									"key": "season",
+									"value": "",
+									"description": "Zorunlu ✅\ninteger (YYYY formatında 4 hane)\nİlgili sezon yılı (örnek: 2024)\n"
+								}
+							]
+						},
+						"description": "# 🟥 **En Çok Kırmızı Kart Gören Oyuncular – Endpoint Dökümantasyonu**\n\n## 🔍 Açıklama\n\nBu endpoint, seçilen bir **lig** veya **kupa** ve belirli bir sezon için **en çok kırmızı kart gören 20 oyuncuyu** getirir.\n\n---\n\n## 🧮 **Sıralama Kriterleri**\n\nOyuncular aşağıdaki kriterlere göre sıralanır:\n\n1. 🟥 **Kırmızı Kart Sayısı**: En fazla kırmızı kart gören oyuncular önceliklidir.\n    \n2. 🟨 **Sarı Kart Sayısı**: Kırmızı kart sayısı eşit olanlar arasında daha fazla sarı kart görenler üst sıraya yerleştirilir.\n    \n3. 🤝 **Asist Yapılan Maç Sayısı**: Daha fazla maçta asist yapan oyuncular daha üstte yer alır.\n    \n4. ⏱️ **Oynanan Dakika**: Aynı değerlerde, daha az sürede bu sonuçları alan oyuncular önceliklidir.\n    \n\n---\n\n## 🔁 **Güncellenme Sıklığı**\n\n- **Haftada birkaç kez** güncellenir\n    \n- Son maçlardan gelen güncel veriler yansıtılır\n    \n\n---\n\n## 📞 **Önerilen Kullanım Sıklığı**\n\n- **Günde 1 kez** çağrı yapılması önerilir\n    \n\n---\n\n## 🔍 Sorgu Parametreleri\n\n| Parametre | Zorunlu | Tip | Açıklama |\n| --- | --- | --- | --- |\n| `league` | ✅ | integer | Ligin veya kupanın ID’si |\n| `season` | ✅ | integer (YYYY formatında 4 hane) | İlgili sezon yılı (örnek: `2024`) |\n\n---\n\nBu yapının tamamını dilersen tüm API endpoint’lerini içeren merkezi bir dökümantasyon olarak da toparlayabilirim (örneğin: `Top Stats API`). İstersen başlayayım."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transfers",
+			"item": [
+				{
+					"name": "Transfers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/transfers?team=41",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"transfers"
+							],
+							"query": [
+								{
+									"key": "player",
+									"value": null,
+									"description": "Zorunlu ❌\ninteger\nTransfer bilgisi istenen oyuncunun ID’si",
+									"disabled": true
+								},
+								{
+									"key": "team",
+									"value": "41",
+									"description": "Zorunlu ❌\ninteger\nTransfer bilgisi istenen takımın ID’si"
+								}
+							]
+						},
+						"description": "# 🔁 **Transfer Bilgileri – Endpoint Dökümantasyonu**\n\n## 🔍 Açıklama\n\nBu endpoint, seçilen **oyuncu** veya **takım** için mevcut tüm **transfer hareketlerini** getirir.  \n  \nHem gelen (transfer-in) hem de giden (transfer-out) işlemleri döner.\n\n---\n\n## 🔁 **Güncellenme Sıklığı**\n\n- **Haftada birkaç kez** güncellenir\n    \n- Gerçekleşen transferlere göre sistem güncellenir\n    \n\n---\n\n## 📞 **Önerilen Kullanım Sıklığı**\n\n- **Günde 1 kez** çağrı yapılması önerilir\n    \n\n---\n\n## 🔍 Sorgu Parametreleri\n\n| Parametre | Zorunlu | Tip | Açıklama |\n| --- | --- | --- | --- |\n| `player` | ❌ | integer | Transfer bilgisi istenen oyuncunun ID’si |\n| `team` | ❌ | integer | Transfer bilgisi istenen takımın ID’si |\n\n> \n\n⚠️ Not: En az bir parametre (`player` veya `team`) girilmesi tavsiye edilir. Aksi halde sonuç döndürülmeyebilir veya sistem yükü artabilir.\n\n \n  \n\n---"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Trophies",
+			"item": [
+				{
+					"name": "Trophies",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/trophies",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"trophies"
+							],
+							"query": [
+								{
+									"key": "player",
+									"value": null,
+									"description": "Zorunlu ❌\ninteger\nTek bir oyuncunun ID’si",
+									"disabled": true
+								},
+								{
+									"key": "players",
+									"value": null,
+									"description": "Zorunlu ❌\nstring \nBirden fazla oyuncu ID’si (En fazla 20 adet, \"id-id-id\" formatında)",
+									"disabled": true
+								},
+								{
+									"key": "coach",
+									"value": null,
+									"description": "Zorunlu ❌\ninteger\nTek bir teknik direktörün ID’si",
+									"disabled": true
+								},
+								{
+									"key": "coachs",
+									"value": null,
+									"description": "Zorunlu ❌\nstring\nBirden fazla teknik direktör ID’si (En fazla 20 adet, \"id-id-id\" formatında)",
+									"disabled": true
+								}
+							]
+						},
+						"description": "# 🏆 **Kazanılan Kupalar – Endpoint Dökümantasyonu**\n\n## 🔍 Açıklama\n\nBu endpoint, seçilen bir **oyuncu** veya **teknik direktör** için kazanılmış tüm **kupaları** getirir.  \n  \nAyrıca birden fazla oyuncu veya antrenör için toplu istek yapılmasına da olanak tanır.\n\n---\n\n## 🔁 **Güncellenme Sıklığı**\n\n- **Haftada birkaç kez** güncellenir\n    \n- Resmi turnuva sonuçları doğrultusunda güncellemeler yapılır\n    \n\n---\n\n## 📞 **Önerilen Kullanım Sıklığı**\n\n- **Günde 1 kez** çağrı yapılması tavsiye edilir\n    \n\n---\n\n## 🔍 Sorgu Parametreleri\n\n| Parametre | Zorunlu | Tip | Açıklama |\n| --- | --- | --- | --- |\n| `player` | ❌ | integer | Tek bir oyuncunun ID’si |\n| `players` | ❌ | string | Birden fazla oyuncu ID’si (En fazla 20 adet, `\"id-id-id\"` formatında) |\n| `coach` | ❌ | integer | Tek bir teknik direktörün ID’si |\n| `coachs` | ❌ | string | Birden fazla teknik direktör ID’si (En fazla 20 adet, `\"id-id-id\"` formatında) |\n\n> \n\n⚠️ Not: `player` ve `players` parametreleri birlikte kullanılmamalıdır. Aynı şekilde `coach` ile `coachs` aynı anda gönderilmemelidir.\n\n \n  \n\n---"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sidelined",
+			"item": [
+				{
+					"name": "Sidelined",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/sidelined",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"sidelined"
+							],
+							"query": [
+								{
+									"key": "player",
+									"value": null,
+									"description": "Zorunlu ❌\ninteger\nTek bir oyuncunun ID’si",
+									"disabled": true
+								},
+								{
+									"key": "players",
+									"value": null,
+									"description": "Zorunlu ❌\nstring\nBirden fazla oyuncu ID’si (En fazla 20 adet, \"id-id-id\" formatında)",
+									"disabled": true
+								},
+								{
+									"key": "coach",
+									"value": null,
+									"description": "Zorunlu ❌\ninteger\nTek bir teknik direktörün ID’si",
+									"disabled": true
+								},
+								{
+									"key": "coachs",
+									"value": null,
+									"description": "Zorunlu ❌\nstring\nBirden fazla teknik direktör ID’si (En fazla 20 adet, \"id-id-id\" formatında)",
+									"disabled": true
+								}
+							]
+						},
+						"description": "# 🚑 **Sakatlık & Cezalı Bilgileri – Endpoint Dökümantasyonu**\n\n## 🔍 Açıklama\n\nBu endpoint, belirtilen bir **oyuncu** veya **teknik direktör** için mevcut **sakatlık**, **ceza**, **karantina** veya diğer sahalardan uzak kalma (sidelined) durumlarını listeler.\n\nAyrıca toplu istek ile birden fazla kişi için veri alınabilir.\n\n---\n\n## 🔁 **Güncellenme Sıklığı**\n\n- **Haftada birkaç kez** güncellenir\n    \n- Resmi açıklamalar ve kulüp duyurularına göre güncellenir\n    \n\n---\n\n## 📞 **Önerilen Kullanım Sıklığı**\n\n- **Günde 1 kez** çağrı yapılması tavsiye edilir\n    \n\n---\n\n## 🔍 Sorgu Parametreleri\n\n| Parametre | Zorunlu | Tip | Açıklama |\n| --- | --- | --- | --- |\n| `player` | ❌ | integer | Tek bir oyuncunun ID’si |\n| `players` | ❌ | string | Birden fazla oyuncu ID’si (En fazla 20 adet, `\"id-id-id\"` formatında) |\n| `coach` | Zorunlu ❌ | integer | Tek bir teknik direktörün ID’si |\n| `coachs` | Zorunlu ❌ | string | Birden fazla teknik direktör ID’si (En fazla 20 adet, `\"id-id-id\"` formatında) |\n\n⚠️ Not: `player` ile `players` veya `coach` ile `coachs` aynı istekte birlikte kullanılmamalıdır."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Odds",
+			"item": [
+				{
+					"name": "Odds (In-Play)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/odds/live",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"odds",
+								"live"
+							],
+							"query": [
+								{
+									"key": "fixture",
+									"value": null,
+									"description": "Zorunlu ❌\ninteger\nMaça ait fixture ID’si",
+									"disabled": true
+								},
+								{
+									"key": "league",
+									"value": null,
+									"description": "Zorunlu ❌\ninteger\nLig ID’si (Not: Bu endpoint’te season parametresi yerine geçer)",
+									"disabled": true
+								},
+								{
+									"key": "bet",
+									"value": null,
+									"description": "Zorunlu ❌\ninteger\nBahis türü ID’si (örneğin: Maç Sonucu, Alt/Üst, Handikap)",
+									"disabled": true
+								}
+							]
+						},
+						"description": "# 🎯 **Canlı Oranlar – Endpoint Dökümantasyonu**\n\n## 🔍 Açıklama\n\nBu endpoint, **devam eden maçlara** (in-play fixtures) ait **canlı bahis oranlarını** döner.\n\n- Maçlar, başlama saatinden **15 ile 5 dakika önce** bu endpoint’e dahil edilir.\n    \n- Maç sona erdikten **5 ila 20 dakika içinde** endpoint’ten çıkarılır.\n    \n- **Geçmiş veriler saklanmaz.**\n    \n    Bu nedenle bu endpoint sadece:\n    \n    - Başlamak üzere olan maçları\n        \n    - Devam eden maçları\n        \n    - Henüz bitmiş olan maçları içerir.\n        \n\n---\n\n## 🔁 **Güncellenme Sıklığı**\n\n- ⚠️ Güncelleme süresi sistemsel olarak 5 ile 60 saniye arasında değişebilir.\n    \n\n---\n\n## ⚠️ Maç Durumu Bilgisi\n\n``` json\n\"status\": {\n    \"stopped\": false,  // Hakem tarafından geçici olarak durdurulmuşsa true\n    \"blocked\": false,  // Bahisler geçici olarak durdurulmuşsa true\n    \"finished\": false  // Maç başlamadıysa veya bitti ise true\n}\n\n ```\n\n---\n\n## 🧮 Bahis Değerleri ve “Main” Alanı\n\nAynı bahis için birden fazla değer varsa, yalnızca **bir tanesi** `main: true` olarak işaretlenir — bu **öncelikli bahis değeridir**.\n\nÖrnek:\n\n``` json\n\"id\": 36,\n\"name\": \"Over/Under Line\",\n\"values\": [\n    {\n        \"value\": \"Over\",\n        \"odd\": \"1.975\",\n        \"handicap\": \"2\",\n        \"main\": true,        // Dikkate alınması gereken oran\n        \"suspended\": false   // Geçici olarak durdurulmuşsa true\n    },\n    {\n        \"value\": \"Over\",\n        \"odd\": \"3.45\",\n        \"handicap\": \"2\",\n        \"main\": false,       // Dikkate alınmamalı\n        \"suspended\": false\n    }\n]\n\n ```\n\nEğer yalnızca tek bir değer varsa, `main` alanı `false` veya `null` olur.\n\n---\n\n## 🔍 Sorgu Parametreleri\n\n| Parametre | Zorunlu | Tip | Açıklama |\n| --- | --- | --- | --- |\n| `fixture` | Zorunlu ❌ | integer | Maça ait fixture ID’si |\n| `league` | Zorunlu ❌ | integer | Lig ID’si _(Not: Bu endpoint’te season parametresi yerine geçer)_ |\n| `bet` | Zorunlu ❌ | integer | Bahis türü ID’si (örneğin: Maç Sonucu, Alt/Üst, Handikap) |\n\n---"
+					},
+					"response": []
+				},
+				{
+					"name": "Odds/live/bets",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/odds/live/bets",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"odds",
+								"live",
+								"bets"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Zorunlu ❌\ninteger\nBahis adının ID’si (tekil sorgu için)",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "",
+									"description": "Zorunlu ❌\nstring (en az 3 karakter)\nBahis adını aramak için kullanılır",
+									"disabled": true
+								}
+							]
+						},
+						"description": "# 🧾 **Canlı Bahis Türleri – Endpoint Dökümantasyonu**\n\n## 🔍 Açıklama\n\nBu endpoint, **canlı oranlar (in-play odds)** için mevcut olan tüm **bahis türlerini** listeler.\n\nHer bahis türü bir **ID** ile tanımlanır ve bu ID'ler, `odds/live` endpoint’inde **filtre** olarak kullanılabilir.\n\n⚠️ Not: Bu ID'ler yalnızca **canlı bahis (in-play)** için geçerlidir. **Maç öncesi oranlar (pre-match odds)** ile **uyumlu değildir.**\n\n---\n\n## 🔁 **Güncellenme Sıklığı**\n\n- Her **60 saniyede bir** güncellenir.\n    \n\n---\n\n## 🔍 Sorgu Parametreleri\n\n| Parametre | Zorunlu | Tip | Açıklama |\n| --- | --- | --- | --- |\n| `id` | Zorunlu ❌ | integer | Bahis adının ID’si (tekil sorgu için) |\n| `search` | Zorunlu ❌ | string (en az 3 karakter) | Bahis adını aramak için kullanılır |\n\n---\n\n## 📘 Kullanım Örnekleri\n\n### 🔎 Belirli bir bahis ID’sine göre filtreleme:\n\n``` http\nGET /odds/live/bets?id=36\n\n ```\n\n### 🔍 Arama ile bahis adı filtreleme:\n\n``` http\nGET /odds/live/bets?search=over\n\n ```\n\n> &lt;p &gt;Bu örnek, “Over/Under”, “Over Goals” vb. isim içeren tüm bahis türlerini dönecektir.&lt;/p&gt;"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Odds (Pre-Match)",
+			"item": [
+				{
+					"name": "Odds",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/odds",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"odds"
+							],
+							"query": [
+								{
+									"key": "fixture",
+									"value": null,
+									"description": "Zorunlu ❌\ninteger\nOranları alınacak maçın (fixture) ID’si",
+									"disabled": true
+								},
+								{
+									"key": "league",
+									"value": null,
+									"description": "Zorunlu ❌\ninteger\nİlgili ligin ID’si",
+									"disabled": true
+								},
+								{
+									"key": "season",
+									"value": null,
+									"description": "Zorunlu ❌\n\ninteger\nSezon yılı (YYYY formatında, örn: 2024)",
+									"disabled": true
+								},
+								{
+									"key": "date",
+									"value": null,
+									"description": "Zorunlu ❌\nstring\nTarih (YYYY-MM-DD formatında)",
+									"disabled": true
+								},
+								{
+									"key": "timezone",
+									"value": null,
+									"description": "Zorunlu ❌\nstring\nSaat dilimi (Timezones endpoint’inden alınmalı)",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": null,
+									"description": "Zorunlu ❌\ninteger\nSayfa numarası (Varsayılan: 1)",
+									"disabled": true
+								},
+								{
+									"key": "bookmaker",
+									"value": null,
+									"description": "Zorunlu ❌\ninteger\nBahis sağlayıcısının ID’si",
+									"disabled": true
+								},
+								{
+									"key": "bet",
+									"value": null,
+									"description": "Zorunlu ❌\ninteger\nBahis türü ID’si",
+									"disabled": true
+								}
+							]
+						},
+						"description": "# 🎯 **Maç Öncesi Bahis Oranları – Endpoint Dökümantasyonu**\n\n## 🔍 Açıklama\n\nBu endpoint, belirli bir **maç (fixture)**, **lig**, **sezon** veya **tarih** için geçerli olan **maç öncesi (pre-match) bahis oranlarını** sağlar.\n\n- Oranlar, maçtan **1 ila 14 gün önce** yayınlanmaya başlanır.\n    \n- **7 günlük oran geçmişi** saklanır.\n    \n\n> &lt;p &gt;Ancak geçmiş oranların erişilebilirliği; lig, sezon, maç ve bahis sağlayıcısına göre değişebilir.&lt;/p&gt; \n  \n\n---\n\n## 📦 **Sayfalama (Pagination)**\n\n- Sonuçlar sayfalar halinde döner.\n    \n- **Her sayfa: 10 sonuç** içerir\n    \n- Sayfa numarası için `page` parametresi kullanılır (Varsayılan: `1`)\n    \n\n---\n\n## 🔁 **Güncellenme Sıklığı**\n\n- Her **3 saatte bir** güncellenir\n    \n\n---\n\n## 📞 **Önerilen Çağrı Sıklığı**\n\n- **3 saatte bir çağrı** yapılması önerilir\n    \n\n---\n\n## 🔍 Sorgu Parametreleri\n\n| Parametre | Zorunlu | Tip | Açıklama |\n| --- | --- | --- | --- |\n| `fixture` | Zorunlu ❌ | integer | Oranları alınacak maçın (fixture) ID’si |\n| `league` | Zorunlu ❌ | integer | İlgili ligin ID’si |\n| `season` | Zorunlu ❌ | integer | Sezon yılı (YYYY formatında, örn: `2024`) |\n| `date` | Zorunlu ❌ | string | Tarih (`YYYY-MM-DD` formatında) |\n| `timezone` | Zorunlu ❌ | string | Saat dilimi (Timezones endpoint’inden alınmalı) |\n| `page` | Zorunlu ❌ | integer | Sayfa numarası (Varsayılan: `1`) |\n| `bookmaker` | Zorunlu ❌ | integer | Bahis sağlayıcısının ID’si |\n| `bet` | Zorunlu ❌ | integer | Bahis türü ID’si |\n\n---\n\n## 📝 Notlar\n\n- Bu endpoint yalnızca **maç öncesi oranlar** içindir.  \n      \n    Canlı maç oranları için `odds/live` endpoint’i kullanılmalıdır.\n    \n- Aynı lig/sezon kombinasyonunda farklı **bookmaker** sağlayıcılarına ait oranlar da alınabilir."
+					},
+					"response": []
+				},
+				{
+					"name": "Mapping",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/odds/mapping",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"odds",
+								"mapping"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "3",
+									"description": "Zorunlu ❌\ninteger\nSayfa numarası (Varsayılan: 1)",
+									"disabled": true
+								}
+							]
+						},
+						"description": "# 🗺️ **Oran Eşleştirme – Mapping Endpoint Dökümantasyonu**\n\n## 🔍 Açıklama\n\nBu endpoint, `odds` endpoint’inde kullanılabilecek **maç ID’lerini (fixture id)**, **lig ID’lerini** ve **tarih bilgilerini** sağlar.\n\nBu değerler, `odds` endpoint'inde filtre olarak kullanılmak üzere referans listesidir.\n\n---\n\n## 📦 **Sayfalama (Pagination)**\n\n- Her sayfa **100 sonuç** içerir\n    \n- `page` parametresi ile sayfalar arasında gezilebilir\n    \n- Varsayılan sayfa: `1`\n    \n\n---\n\n## 🔁 **Güncellenme Sıklığı**\n\n- Her **günlük olarak** güncellenir\n    \n\n---\n\n## 📞 **Önerilen Çağrı Sıklığı**\n\n- **Günde 1 kez** çağrı yapılması tavsiye edilir\n    \n\n---\n\n## 🔍 Sorgu Parametreleri\n\n| Parametre | Zorunlu | Tip | Açıklama |\n| --- | --- | --- | --- |\n| `page` | Zorunlu ❌ | integer | Sayfa numarası (Varsayılan: `1`) |\n\n---\n\n## 📘 Kullanım Amacı\n\nBu endpoint'ten gelen **fixture ID**, **league ID** ve **date** değerleri şuralarda kullanılabilir:\n\n- 🔗 `odds` (maç öncesi oranlar)\n    \n- 🎯 Doğru ID’lerle filtreleme yapılmasını sağlar\n    \n- 📅 Tarih bazlı oran erişimi için doğruluk sağlar"
+					},
+					"response": []
+				},
+				{
+					"name": "Bookmakers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/odds/bookmakers",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"odds",
+								"bookmakers"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": null,
+									"description": "Zorunlu ❌\ninteger\nBelirli bir bahis sağlayıcının ID’si",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": null,
+									"description": "Zorunlu ❌\nstring (min. 3 karakter)\nSağlayıcı adına göre arama yapmak için",
+									"disabled": true
+								}
+							]
+						},
+						"description": "# 🏦 **Bahis Sağlayıcıları (Bookmakers) – Endpoint Dökümantasyonu**\n\n## 🔍 Açıklama\n\nBu endpoint, sistemde tanımlı olan tüm **bahis sağlayıcılarını (bookmakers)** listeler.\n\nBu sağlayıcıların ID’leri, `odds` endpoint’inde **filtreleme yapmak** amacıyla kullanılabilir.\n\n---\n\n## 🔁 **Güncellenme Sıklığı**\n\n- **Haftada birkaç kez** güncellenir\n    \n\n---\n\n## 📞 **Önerilen Çağrı Sıklığı**\n\n- **Günde 1 kez** çağrı yapılması önerilir\n    \n\n---\n\n## 🔍 Sorgu Parametreleri\n\n| Parametre | Zorunlu | Tip | Açıklama |\n| --- | --- | --- | --- |\n| `id` | Zorunlu ❌ | integer | Belirli bir bahis sağlayıcının ID’si |\n| `search` | Zorunlu ❌ | string (min. 3 karakter) | Sağlayıcı adına göre arama yapmak için |\n\n---\n\n## 📘 Kullanım Senaryosu\n\n- Bahis sağlayıcılarının listesini alarak:\n    \n    - `odds` endpoint’inde `bookmaker` parametresine ID olarak geçebilirsiniz.\n        \n    - API ile hangi firmaların oran sağladığını öğrenebilirsiniz.\n        \n    - Arama ile (örn. `\"bet\"`, `\"365\"` gibi) sağlayıcıları filtreleyebilirsiniz."
+					},
+					"response": []
+				},
+				{
+					"name": "Bets",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-rapidapi-host",
+								"value": "test",
+								"description": "dsdsadas",
+								"type": "text"
+							},
+							{
+								"key": "x-rapidapi-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							},
+							{
+								"key": "x-apisports-key",
+								"value": "{{fotbol-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/odds/bets",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"odds",
+								"bets"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Zorunlu ❌\nstring\nBelirli bir bahis türünün ID’si",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "",
+									"description": "Zorunlu ❌\nstring (min. 3 karakter)\nBahis adı ile arama yapmak için",
+									"disabled": true
+								}
+							]
+						},
+						"description": "# 🎲 **Maç Öncesi Bahis Türleri – Endpoint Dökümantasyonu**\n\n## 🔍 Açıklama\n\nBu endpoint, **maç öncesi oranlar (pre-match odds)** için kullanılabilen tüm **bahis türlerini** listeler.\n\nHer bahis türü bir **ID** ile tanımlanır ve bu ID'ler `odds` endpoint’inde filtre olarak kullanılabilir.\n\n⚠️ **Not:** Bu ID’ler sadece **maç öncesi oranlar** için geçerlidir.  \n**Canlı oranlar (****`odds/live`****) ile uyumlu değildir.**\n\n---\n\n## 🔁 **Güncellenme Sıklığı**\n\n- **Haftada birkaç kez** güncellenir\n    \n\n---\n\n## 📞 **Önerilen Çağrı Sıklığı**\n\n- **Günde 1 kez** çağrı yapılması önerilir\n    \n\n---\n\n## 🔍 Sorgu Parametreleri\n\n| Parametre | Zorunlu | Tip | Açıklama |\n| --- | --- | --- | --- |\n| `id` | Zorunlu ❌ | string | Belirli bir bahis türünün ID’si |\n| `search` | Zorunlu ❌ | string (min. 3 karakter) | Bahis adı ile arama yapmak için |\n\n---\n\n## 📘 Kullanım Örneği\n\n### Belirli bir bahis türünü ID ile çekmek:\n\n``` http\nGET /bets?id=1\n\n ```\n\n### Belirli bir bahis adını aramak:\n\n``` http\nGET /bets?search=draw\n\n ```"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BaseUrl",
+			"value": "https://v3.football.api-sports.io/",
+			"type": "string"
+		},
+		{
+			"key": "Accept-Language",
+			"value": "tr-TR",
+			"type": "string"
+		},
+		{
+			"key": "fotbol-api-key",
+			"value": "e34594a69707d1935cebedcf80ed6677",
+			"type": "string"
+		}
+	]
+}

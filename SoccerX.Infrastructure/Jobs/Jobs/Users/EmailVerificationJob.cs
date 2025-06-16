@@ -6,7 +6,7 @@ using SoccerX.Common.Enums;
 using SoccerX.Domain.Entities;
 using SoccerX.Infrastructure.Jobs.Base;
 
-namespace SoccerX.Infrastructure.Jobs.Jobs.Test
+namespace SoccerX.Infrastructure.Jobs.Jobs.Users
 {
     [JobAttributes(JobKeyEnum.SendVerificationMail, JobCategoryEnum.PublicJob,"SendMail","SendMailDesc",typeof(SendEmailVerifcationCriteria), false, null)]
     public class EmailVerificationJob: BaseJob<SendEmailVerifcationCriteria>
