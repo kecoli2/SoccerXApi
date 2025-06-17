@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using SoccerX.Application.Commands.UserCommand;
 using SoccerX.Application.Interfaces.Transaction;
@@ -43,9 +42,7 @@ namespace SoccerX.Application.StartUp
             return service
                 .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
                 .AddValidatorsFromAssemblyContaining<UserCreateDtoValidator>()
-                .AddValidatorsFromAssemblyContaining<ChangePasswordValidator>()
-                .AddFluentValidationAutoValidation()
-                .AddFluentValidationClientsideAdapters();
+                .AddValidatorsFromAssemblyContaining<ChangePasswordValidator>();
         }
         #endregion
     }

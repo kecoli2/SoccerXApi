@@ -13,15 +13,15 @@ namespace SoccerX.Application.Handler.UserHandler
         #region Constructor
         #endregion
         #region Public Method
-        public async Task<bool> Handle(UserBalaceChangeCommand request, CancellationToken cancellationToken)
+        public Task<bool> Handle(UserBalaceChangeCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                return true;
+                return Task.FromResult(true);
             }
             catch (Exception)
             {
-                return false;
+                return Task.FromResult(false);
             }
         }
         #endregion

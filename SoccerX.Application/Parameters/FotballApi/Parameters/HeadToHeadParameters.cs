@@ -7,7 +7,7 @@ namespace SoccerX.Application.Parameters.FotballApi.Parameters
         /// <summary>
         /// string İki takımın ID'si (tire - ile ayrılır)
         /// </summary>
-        public string H2H { get; set; }
+        public string? H2H { get; set; }
 
         /// <summary>
         /// integer Lig ID'si (belirli bir ligdeki karşılaşmalar için)

@@ -153,26 +153,26 @@ namespace SoccerX.Tests.Testing.Integration
         }
 
         //[Fact]
-        public async Task Register_ShouldReturnBadRequest_WhenMissingFields()
-        {
-            // Arrange
-            var request = new UserCreateDto
-            {
-                Email = "", // eksik alan
-                Password = "",
-                Username = "",
-                Address = "",
-                Name = "Test",
-                Phonenumber = "",
-                Surname = "",
-            };
+        //public async Task RegisterShouldReturnBadRequestWhenMissingFields()
+        //{
+        //    // Arrange
+        //    var request = new UserCreateDto
+        //    {
+        //        Email = "", // eksik alan
+        //        Password = "",
+        //        Username = "",
+        //        Address = "",
+        //        Name = "Test",
+        //        Phonenumber = "",
+        //        Surname = "",
+        //    };
 
-            // Act
-            var response = await _client.PostAsJsonAsync(SoccerXConstants.User_Register_Admin, request);
+        //    // Act
+        //    var response = await _client.PostAsJsonAsync(SoccerXConstants.User_Register_Admin, request);
 
-            // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        }
+        //    // Assert
+        //    response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        //}
         #endregion
 
         #region Private Method

@@ -10,6 +10,7 @@ using SoccerX.Common.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using SoccerX.API.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -102,7 +103,10 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 });
 LogProvider.SetCurrentLogProvider(new ConsoleLogProviderQuartz());
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ValidationFilter>(); // Global validation filter
+});
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
