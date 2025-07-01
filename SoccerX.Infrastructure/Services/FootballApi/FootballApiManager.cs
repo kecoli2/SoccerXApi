@@ -10,7 +10,6 @@ namespace SoccerX.Infrastructure.Services.FootballApi
     {
         #region Field
         private readonly IRestClientManager _restClientManager;
-        private readonly ApplicationSettings applicationSettings;
         #endregion
 
         #region Constructor
@@ -24,11 +23,14 @@ namespace SoccerX.Infrastructure.Services.FootballApi
                     { SoccerXConstants.RapidApisportsKey, applicationSettings.FootballApiSettings.RapidApisportsKey },
                 }
              );
-            this.applicationSettings = applicationSettings;
         }
         #endregion
 
         #region Public Method
+        public IRestClientManager GetClient()
+        {
+            return _restClientManager;
+        }
         #endregion
 
         #region Private Method

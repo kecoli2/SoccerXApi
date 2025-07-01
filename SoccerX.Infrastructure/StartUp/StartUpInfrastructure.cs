@@ -4,10 +4,10 @@ using Quartz.Spi;
 using SoccerX.Application.Interfaces.Cache.Memory;
 using SoccerX.Application.Interfaces.Cache.Redis;
 using SoccerX.Application.Interfaces.FootballApiManager;
+using SoccerX.Application.Interfaces.FootballApiManager.Services;
 using SoccerX.Application.Interfaces.Polly;
 using SoccerX.Application.Interfaces.Quartz;
 using SoccerX.Application.Interfaces.Resources;
-using SoccerX.Application.Interfaces.RestSharp;
 using SoccerX.Application.Interfaces.Security;
 using SoccerX.Application.Services.Email;
 using SoccerX.Infrastructure.Jobs.Base;
@@ -16,9 +16,9 @@ using SoccerX.Infrastructure.Services.Caching;
 using SoccerX.Infrastructure.Services.Caching.Memory;
 using SoccerX.Infrastructure.Services.Email;
 using SoccerX.Infrastructure.Services.FootballApi;
+using SoccerX.Infrastructure.Services.FootballApi.Services;
 using SoccerX.Infrastructure.Services.Polly;
 using SoccerX.Infrastructure.Services.Resources;
-using SoccerX.Infrastructure.Services.RestSharp;
 using SoccerX.Infrastructure.Services.Security;
 
 namespace SoccerX.Infrastructure.StartUp
@@ -33,6 +33,7 @@ namespace SoccerX.Infrastructure.StartUp
             return service
                 .RegisterRedis()
                 .RegisterQuartz()
+                .RegisterFootBallApi()
                 .AddScoped<IResourceManager, SoccerXResources>()
                 .AddScoped<IEmailService, EmailService>()
                 .AddScoped<ITokenService, TokenService>()
@@ -48,8 +49,7 @@ namespace SoccerX.Infrastructure.StartUp
                 .AddSingleton<IQuartzManager, QuartzManager>()
                 .AddSingleton<JobHistoryPlugin>()                
                 .AddSingleton<IJobFactory, QuartzJobFactory>()                
-                .AddScoped<IQuartzJobCreater, QuartzJobCreater>()                
-                .AddSingleton<IFootballApiManager, FootballApiManager>()
+                .AddScoped<IQuartzJobCreater, QuartzJobCreater>()                                
                 .AddScoped<IQuartzJobCreaterExtension, QuartzJobCreater>();
 
 
@@ -71,6 +71,26 @@ namespace SoccerX.Infrastructure.StartUp
         private static IServiceCollection RegisterRedis(this IServiceCollection service)
         {
             return service.AddSingleton<IRedisCacheService, RedisCacheService>();
+        }
+
+        private static IServiceCollection RegisterFootBallApi(this IServiceCollection service)
+        {
+            return service.AddTransient<IFootballApiManager, FootballApiManager>()
+                .AddTransient<IFootballApiCoachsService, FootballApiCoachsService>()
+                .AddTransient<IFootballApiCountriesService, FootballApiCountriesService>()
+                .AddTransient<IFootballApiFixturesService, FootballApiFixturesService>()
+                .AddTransient<IFootballApiInjuriesService, FootballApiInjuriesService>()
+                .AddTransient<IFootballApiLeaguesService, FootballApiLeaguesService>()
+                .AddTransient<IFootballApiOddsPreMatchService, FootballApiOddsPreMatchService>()
+                .AddTransient<IFootballApiOddsService, FootballApiOddsService>()
+                .AddTransient<IFootballApiPlayersService, FootballApiPlayersService>()
+                .AddTransient<IFootballApiPredictionsService, FootballApiPredictionsService>()
+                .AddTransient<IFootballApiSidelinedService, FootballApiSidelinedService>()
+                .AddTransient<IFootballApiStandingsService, FootballApiStandingsService>()
+                .AddTransient<IFootballApiTeamsService, FootballApiTeamsService>()
+                .AddTransient<IFootballApiTransfersService, FootballApiTransfersService>()
+                .AddTransient<IFootballApiTrophiesService, FootballApiTrophiesService>()
+                .AddTransient<IFootballApiVenuesService, FootballApiVenuesService>();
         }
         #endregion
 

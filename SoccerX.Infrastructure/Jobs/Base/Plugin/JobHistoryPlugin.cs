@@ -1,5 +1,4 @@
 ﻿using Quartz;
-using SoccerX.Application.Interfaces.Repository;
 
 namespace SoccerX.Infrastructure.Jobs.Base.Plugin
 {
