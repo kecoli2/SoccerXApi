@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 
-namespace SoccerX.DTO.Responses.SoccerResponseGeneric
+namespace SoccerX.DTO.Responses.FootballApi
 {
-    public class RootResponse<T>
+    public class FootBallApiResponse<T>
     {
         #region Field
         public string? Get { get; set; }
         public Dictionary<string, string>? Parameters { get; set; }
         public List<string>? Errors { get; set; }
         public int Results { get; set; }
-        public Paging Paging { get; set; }
+        public Paging Paging { get; set; } = new();
         public List<T>? Response { get; set; }
         #endregion
 
