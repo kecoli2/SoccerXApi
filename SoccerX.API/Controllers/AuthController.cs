@@ -64,7 +64,7 @@ namespace SoccerX.API.Controllers
         {
             try
             {
-                var dto = await _footballApiCountriesService.GetCountriesAsync(new Application.Parameters.FotballApi.Parameters.CountriesParameters { Name = "türkiye"});
+                var dto = await _footballApiCountriesService.GetCountriesAsync(new Application.Parameters.FotballApi.Parameters.CountriesParameters { Code = "tr"});
                 return OkResult(dto);
             }
             catch (Exception ex)
