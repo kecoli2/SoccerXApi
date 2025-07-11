@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using SoccerX.Common.Util;
+using System.Collections.Generic;
+
 
 namespace SoccerX.DTO.Responses.FootballApi
 {
@@ -6,8 +9,12 @@ namespace SoccerX.DTO.Responses.FootballApi
     {
         #region Field
         public string? Get { get; set; }
+
+        [JsonConverter(typeof(FlexibleDictionaryConverter))]
         public Dictionary<string, string>? Parameters { get; set; }
-        public List<string>? Errors { get; set; }
+
+        [JsonConverter(typeof(FlexibleDictionaryConverter))]
+        public Dictionary<string, string>? Errors { get; set; }
         public int Results { get; set; }
         public Paging Paging { get; set; } = new();
         public List<T>? Response { get; set; }

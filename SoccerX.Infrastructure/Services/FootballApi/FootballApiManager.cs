@@ -27,8 +27,9 @@ namespace SoccerX.Infrastructure.Services.FootballApi
         #endregion
 
         #region Public Method
-        public IRestClientManager GetClient()
+        public IRestClientManager GetClient(IFotballApiParameters? parameters)
         {
+            parameters?.IsValid();
             return _restClientManager;
         }
         #endregion

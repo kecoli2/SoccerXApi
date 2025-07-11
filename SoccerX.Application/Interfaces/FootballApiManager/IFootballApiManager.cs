@@ -4,6 +4,6 @@ namespace SoccerX.Application.Interfaces.FootballApiManager
 {
     public interface IFootballApiManager
     {
-        IRestClientManager GetClient();
+        IRestClientManager GetClient(IFotballApiParameters? parameters);
     }
 }

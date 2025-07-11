@@ -17,7 +17,8 @@ namespace SoccerX.Infrastructure.Services.FootballApi.Services
         #region Public Method
         public async Task<FootBallApiResponse<FootBallApiCountriesResponse>?> GetCountriesAsync(CountriesParameters? parameters = null)
         {
-            var response = await footballApiManager.GetClient().GetAsync<FootBallApiResponse<FootBallApiCountriesResponse>>(FootballApiConstant.FootballApi_Countries, parameters);
+            parameters?.IsValid();
+            var response = await footballApiManager.GetClient(parameters).GetAsync<FootBallApiResponse<FootBallApiCountriesResponse>>(FootballApiConstant.FootballApi_Countries, parameters);
             if(response != null && response.IsSuccess)
             {
                return response.Data;
@@ -25,10 +26,7 @@ namespace SoccerX.Infrastructure.Services.FootballApi.Services
 
             return new FootBallApiResponse<FootBallApiCountriesResponse>
             {
-                Errors = new List<string>
-                {
-                   response?.ErrorMessage ?? "An error occurred while fetching countries."
-                },
+                
             };
         }
         #endregion

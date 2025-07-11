@@ -1,9 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Polly;
 using Polly.Retry;
 using RestSharp;
 using SoccerX.Application.Interfaces.RestSharp;
+using SoccerX.Common.Attributes;
 using SoccerX.Common.Shared.Model;
+using SoccerX.DTO.Responses.FootballApi;
+using System.Reflection;
 
 namespace SoccerX.Infrastructure.Services.RestSharp
 {
@@ -119,7 +124,13 @@ namespace SoccerX.Infrastructure.Services.RestSharp
                 {
                     foreach (var prop in queryParams.GetType().GetProperties())
                     {
-                        request.AddQueryParameter(prop.Name, prop.GetValue(queryParams)?.ToString());                        
+                        var attr = prop.GetCustomAttribute<QueryNameAttribute>();
+                        var key = attr?.Name ?? prop.Name;
+                        var value = prop.GetValue(queryParams)?.ToString();
+                        if (!string.IsNullOrWhiteSpace(value))
+                        {
+                            request.AddQueryParameter(key, value);
+                        }
                     }
                 }
 
@@ -146,15 +157,56 @@ namespace SoccerX.Infrastructure.Services.RestSharp
                     request.AddJsonBody(body);
                 }
 
-                var response = await _retryPolicy.ExecuteAsync(async () => await _client.ExecuteAsync<T>(request));
+                var response = await _retryPolicy.ExecuteAsync(async () => await _client.ExecuteAsync(request));
+
+                bool isLogicalSuccess = true;
+                string? logicalErrorMessage = null;
+
+                T? deserializedData = default;
+
+                try
+                {
+                    // JSON'u önce JObject olarak oku
+                    var jObj = JObject.Parse(response.Content);
+
+                    // "errors" varsa yakala
+                    if (jObj.TryGetValue("errors", out var errorsToken) && errorsToken.Type == JTokenType.Object)
+                    {
+                        var errorsDict = errorsToken.ToObject<Dictionary<string, string>>();
+                        if (errorsDict?.Count > 0)
+                        {
+                            isLogicalSuccess = false;
+                            logicalErrorMessage = string.Join(" | ", errorsDict.Select(e => $"{e.Key}: {e.Value}"));
+                        }
+                    }
+
+                    // Sonra asıl data'yı deserialize et
+                    deserializedData = JsonConvert.DeserializeObject<T>(response.Content);
+                }
+                catch (Exception ex)
+                {
+                    _logger?.LogError(ex, "Deserialization or error parsing failed");
+                    isLogicalSuccess = false;
+                    logicalErrorMessage = ex.Message;
+                }
 
                 return new RestClientApiResponse<T>
                 {
-                    IsSuccess = response.IsSuccessful,
-                    Data = response.Data,
-                    ErrorMessage = response.ErrorMessage ?? response.Content,
+                    IsSuccess = response.IsSuccessful && isLogicalSuccess,
+                    Data = deserializedData,
+                    ErrorMessage = logicalErrorMessage ?? response.ErrorMessage ?? response.Content,
                     StatusCode = (int)response.StatusCode
                 };
+
+                //var response = await _retryPolicy.ExecuteAsync(async () => await _client.ExecuteAsync<T>(request));
+
+                //return new RestClientApiResponse<T>
+                //{
+                //    IsSuccess = response.IsSuccessful,
+                //    Data = response.Data,
+                //    ErrorMessage = response.ErrorMessage ?? response.Content,
+                //    StatusCode = (int)response.StatusCode
+                //};
             }
             catch (Exception ex)
             {

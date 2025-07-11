@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SoccerX.API.Controllers.Base;
 using SoccerX.Application.Commands.Security;
+using SoccerX.Application.Interfaces.FootballApiManager.Services;
 using SoccerX.Common.Constants;
 using SoccerX.Common.Enums;
 using SoccerX.DTO.Requests.Security;
@@ -13,9 +14,14 @@ namespace SoccerX.API.Controllers
     public class AuthController : BaseApiController
     {
         #region Field
+        private readonly IFootballApiCountriesService _footballApiCountriesService;
         #endregion
 
         #region Constructor
+        public AuthController(IFootballApiCountriesService footballApiCountriesService)
+        {
+            _footballApiCountriesService = footballApiCountriesService;
+        }
         #endregion
 
         #region Actions
@@ -50,6 +56,24 @@ namespace SoccerX.API.Controllers
                 throw;
             }
         }
+
+
+        [HttpGet("test")]
+        [SwaggerResponse(200, type: typeof(AuthResponseDto))]
+        public async Task<IActionResult> test()
+        {
+            try
+            {
+                var dto = await _footballApiCountriesService.GetCountriesAsync(new Application.Parameters.FotballApi.Parameters.CountriesParameters { Name = "türkiye"});
+                return OkResult(dto);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Unhandled exception in action SocialLogin");
+                throw;
+            }
+        }
+
         #endregion
 
         #region Private Method

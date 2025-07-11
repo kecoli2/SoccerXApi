@@ -60,12 +60,14 @@ var applicationSettings = new ApplicationSettings
         FromName = "Salih Yücel",
         Password = "mgnz oztv nhpz yrlq",
         Username = "kecoli2@gmail.com"
-    }
+    },
+    FootballApiSettings = new FootballApiSettings()
 };
 
 //DI Tanimlamalari
 builder.Services.AddDependcyCollectionWebApi(applicationSettings);
 builder.Services.AddHostedService<QuartzHostedService>();
+builder.Services.AddHttpContextAccessor();
 // Add services to the container.
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
