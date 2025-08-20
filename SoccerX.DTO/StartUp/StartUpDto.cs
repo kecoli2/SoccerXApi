@@ -15,7 +15,7 @@ namespace SoccerX.DTO.StartUp
 
         public static IServiceCollection AddDependcyCollectionDto(this IServiceCollection service)
         {
-            return service.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            return service.AddAutoMapper(cfg => { } ,AppDomain.CurrentDomain.GetAssemblies());
         }
         #endregion
 
